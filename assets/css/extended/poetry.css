@@ -1,0 +1,12 @@
+.post-content p {
+    line-height: 1.6;
+}
+/* Şiir bölümleri için özel mizanpaj */
+.poetry-content {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    white-space: pre-line;
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    border-left: 1px solid #444;
+}

@@ -5,5 +5,18 @@ theme = 'PaperMod'
 
 [params]
     env = "production"
-    description = "Literary criticism and poetry by Literaconite."
+    description = "Literary criticism and poetry by Emre Can Koc."
     author = "Emre Can Koc"
+    defaultTheme = "dark"
+    disableThemeToggle = true
+    ShowReadingTime = true
+    ShowShareButtons = true
+
+[[menu.main]]
+    name = "Poetry"
+    url = "poetry/"
+    weight = 10
+[[menu.main]]
+    name = "Reviews"
+    url = "review/"
+    weight = 20
