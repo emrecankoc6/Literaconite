@@ -7,12 +7,7 @@ theme = 'PaperMod'
     env = "production"
     defaultTheme = "dark"
     disableThemeToggle = true
-    # Ana sayfada poetry ve review klasörlerini listeler
     mainSections = ["poetry", "review"]
-
-[permalinks]
-    poetry = "/poetry/:title/"
-    review = "/review/:title/"
 
 [[menu.main]]
     name = "Poetry"
