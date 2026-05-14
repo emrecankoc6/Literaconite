@@ -1,0 +1,9 @@
+baseURL = 'https://emrecankoc.github.io/'
+languageCode = 'en-us'
+title = 'Literaconite'
+theme = 'PaperMod'
+
+[params]
+    env = "production"
+    description = "Literary criticism and poetry by Literaconite."
+    author = "Emre Can Koc"
