@@ -9,8 +9,8 @@ theme = 'PaperMod'
     author = "Emre Can Koc"
     defaultTheme = "dark"
     disableThemeToggle = true
-    ShowReadingTime = true
-    ShowShareButtons = true
+    # Ana sayfada tüm yazıları göster
+    mainSections = ["poetry", "review"]
 
 [[menu.main]]
     name = "Poetry"
