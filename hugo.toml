@@ -5,12 +5,14 @@ theme = 'PaperMod'
 
 [params]
     env = "production"
-    description = "Literary criticism and poetry by Emre Can Koc."
-    author = "Emre Can Koc"
     defaultTheme = "dark"
     disableThemeToggle = true
-    # Ana sayfada tüm yazıları göster
+    # Ana sayfada poetry ve review klasörlerini listeler
     mainSections = ["poetry", "review"]
+
+[permalinks]
+    poetry = "/poetry/:title/"
+    review = "/review/:title/"
 
 [[menu.main]]
     name = "Poetry"
