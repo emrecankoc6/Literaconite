@@ -1,8 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=UnifrakturMaguntia&display=swap');
-:root { --theme: #0a0a0a; --entry: #121212; --primary: #8b0000; --content: #d3d3d3; }
-body.dark { background-color: var(--theme); color: var(--content); font-family: 'Crimson Text', serif; font-size: 1.15rem; }
-.post-title, .logo a { font-family: 'UnifrakturMaguntia', cursive !important; color: var(--primary) !important; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-weight: normal; font-size: 2.8rem; }
-.post-content { line-height: 1.8; font-style: italic; }
-.nav { border-bottom: 1px solid #330000; background-color: #050505; }
-.menu a { color: var(--primary) !important; text-transform: uppercase; letter-spacing: 2px; }
-.post-content::after { content: ''; display: block; width: 100%; height: 10px; background: radial-gradient(circle, var(--primary) 0%, rgba(10,10,10,0) 70%); margin-top: 3rem; filter: blur(2px); }
+body.dark, body {
+    --blood: #8a0303;
+    --void: #050505;
+    --ash: #d4cfc9;
+    background-color: var(--void) !important;
+    color: var(--ash) !important;
+    font-family: 'Crimson Text', serif !important;
+}
+.post-title, .logo a, h1, h2, h3 {
+    font-family: 'UnifrakturMaguntia', cursive !important;
+    color: var(--blood) !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
+    letter-spacing: 1px;
+}
+.post-content::after {
+    content: ''; display: block; width: 100%; height: 12px;
+    background: radial-gradient(circle, var(--blood) 0%, transparent 70%) !important;
+    margin-top: 3rem; filter: blur(3px); opacity: 0.7;
+}
+.nav { background-color: var(--void) !important; border-bottom: 1px solid var(--blood) !important; }
+.menu a { color: var(--ash) !important; }
+.menu a:hover { color: var(--blood) !important; }
