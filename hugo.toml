@@ -1,19 +1,29 @@
 baseURL = 'https://emrecankoc6.github.io/Literaconite/'
-languageCode = 'en-us'
 title = 'Literaconite'
 theme = 'PaperMod'
+defaultContentLanguage = 'en'
+
+[pagination]
+  pagerSize = 10
 
 [params]
-    env = "production"
-    defaultTheme = "dark"
-    disableThemeToggle = true
-    mainSections = ["poetry", "review"]
+  env = "production"
+  defaultTheme = "dark"
+  disableThemeToggle = true
+  ShowReadingTime = true
+  ShowShareButtons = true
+  mainSections = ["poetry", "review"]
+
+[permalinks]
+  poetry = "/poetry/:slug/"
+  review = "/review/:slug/"
 
 [[menu.main]]
-    name = "Poetry"
-    url = "poetry/"
-    weight = 10
+  name = "Poetry"
+  url = "/poetry/"
+  weight = 10
+
 [[menu.main]]
-    name = "Reviews"
-    url = "review/"
-    weight = 20
+  name = "Reviews"
+  url = "/review/"
+  weight = 20
