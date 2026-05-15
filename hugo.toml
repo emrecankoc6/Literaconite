@@ -27,3 +27,6 @@ defaultContentLanguage = 'en'
   name = "Reviews"
   url = "/review/"
   weight = 20
+
+[markup.goldmark.renderer]
+  hardWraps = true
