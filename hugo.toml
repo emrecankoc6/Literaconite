@@ -4,10 +4,9 @@ theme = 'PaperMod'
 defaultContentLanguage = 'en'
 enableRobotsTXT = true
 buildDrafts = false
-buildFuture = false
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML","RSS","JSON"]
 
 [pagination]
   pagerSize = 10
@@ -19,20 +18,19 @@ buildFuture = false
   ShowReadingTime = true
   ShowShareButtons = false
   ShowPostNavLinks = true
-  ShowBreadCrumbs = true
+  ShowBreadCrumbs = false
   ShowCodeCopyButtons = true
   ShowToc = true
   TocOpen = false
-  mainSections = ["poetry", "review"]
+  mainSections = ["poetry","review"]
   description = "A literary journal of poetry and criticism — gothic in spirit, romantic in voice."
   author = "Emrecan Koç"
-  keywords = ["poetry", "literary criticism", "gothic", "romanticism", "Emrecan Koç"]
+  keywords = ["poetry","literary criticism","gothic","romanticism","Emrecan Koç"]
   DateFormat = "January 2, 2006"
-  customCSS = ["css/gothic-override.css"]
 
   [params.homeInfoParams]
     Title = "Literaconite"
-    Content = "> *\"The boundaries which divide Life from Death are at best shadowy and vague. Who shall say where the one ends, and where the other begins?\"*\n>\n> — Edgar Allan Poe\n\nA corner of the web devoted to poetry and literary reflection. Original verse and close readings of the works that haunt us."
+    Content = "> *\"The boundaries which divide Life from Death are at best shadowy and vague. Who shall say where the one ends, and where the other begins?\"*\n>\n> — Edgar Allan Poe\n\nOriginal verse and close readings of the works that haunt us."
 
   [[params.socialIcons]]
     name = "github"

@@ -1,77 +1,77 @@
 <script>
-// Reading progress bar
 (function(){
-  var bar = document.getElementById('reading-progress');
-  if (!bar) return;
-  window.addEventListener('scroll', function(){
-    var scrollTop = window.scrollY || document.documentElement.scrollTop;
-    var docH = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.width = docH > 0 ? (scrollTop / docH * 100) + '%' : '0%';
-  }, {passive:true});
-})();
-
-// Ember/ash particle system — homepage only
-(function(){
-  var canvas = document.getElementById('particle-canvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W, H, particles = [], RAF;
-  var COUNT = window.innerWidth < 600 ? 28 : 55;
-
-  function resize(){
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+  // ── Header: appear on scroll ──
+  var header = document.querySelector('.header, header');
+  if(header){
+    var onScroll = function(){
+      if(window.scrollY > 40) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
   }
+
+  // ── Reading progress ──
+  var bar = document.getElementById('reading-progress');
+  if(bar){
+    window.addEventListener('scroll', function(){
+      var s = window.scrollY, d = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = d > 0 ? (s/d*100)+'%' : '0%';
+    }, {passive:true});
+  }
+
+  // ── Scroll reveal ──
+  var reveals = document.querySelectorAll('.post-entry, .home-info > *, [data-reveal]');
+  reveals.forEach(function(el, i){
+    el.setAttribute('data-reveal','');
+    if(i < 6) el.setAttribute('data-reveal-delay', String(i+1));
+  });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}
+      });
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el);});
+  } else {
+    document.querySelectorAll('[data-reveal]').forEach(function(el){el.classList.add('revealed');});
+  }
+
+  // ── Ember particles ──
+  var canvas = document.getElementById('particle-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H, pts = [];
+  var N = window.innerWidth < 600 ? 22 : 45;
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
   resize();
   window.addEventListener('resize', resize, {passive:true});
-
-  function rand(a,b){ return a + Math.random()*(b-a); }
-
-  function Particle(){
-    this.reset();
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function P(){
+    this.x=rnd(0,W); this.y=rnd(0,H);
+    this.r=rnd(0.6,1.8); this.vx=rnd(-.25,.25); this.vy=rnd(.12,.4);
+    this.a=rnd(.08,.45); this.fade=rnd(.002,.006);
+    this.col=Math.random()>.65?'rgba(201,168,76,':'rgba(192,57,61,';
   }
-  Particle.prototype.reset = function(){
-    this.x  = rand(0, W);
-    this.y  = rand(-20, H);
-    this.r  = rand(0.8, 2.2);
-    this.vx = rand(-0.3, 0.3);
-    this.vy = rand(0.15, 0.55);
-    this.alpha = rand(0.1, 0.55);
-    this.life  = rand(0.003, 0.007);
-    this.hue   = Math.random() > 0.7 ? 'rgba(184,150,62,' : 'rgba(192,57,61,';
+  P.prototype.step=function(){
+    this.x+=this.vx+Math.sin(this.y*.018)*.25;
+    this.y+=this.vy; this.a-=this.fade;
+    if(this.a<=0||this.y>H+8) Object.call(this,P.call(this));
   };
-  Particle.prototype.update = function(){
-    this.x  += this.vx + Math.sin(this.y * 0.02) * 0.3;
-    this.y  += this.vy;
-    this.alpha -= this.life;
-    if (this.alpha <= 0 || this.y > H + 10) this.reset();
-  };
-  Particle.prototype.draw = function(){
-    ctx.save();
-    ctx.globalAlpha = Math.max(0, this.alpha);
-    ctx.fillStyle   = this.hue + this.alpha + ')';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    ctx.fill();
+  P.prototype.draw=function(){
+    ctx.save();ctx.globalAlpha=Math.max(0,this.a);
+    ctx.fillStyle=this.col+this.a+')';
+    ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();
     ctx.restore();
   };
-
-  for (var i=0; i<COUNT; i++) particles.push(new Particle());
-
+  for(var i=0;i<N;i++) pts.push(new P());
+  var raf;
   function loop(){
     ctx.clearRect(0,0,W,H);
-    for (var i=0; i<particles.length; i++){
-      particles[i].update();
-      particles[i].draw();
-    }
-    RAF = requestAnimationFrame(loop);
+    for(var i=0;i<pts.length;i++){pts[i].step();pts[i].draw();}
+    raf=requestAnimationFrame(loop);
   }
-  loop();
-
-  // Respect reduced-motion
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    cancelAnimationFrame(RAF);
-    canvas.style.display = 'none';
-  }
+  if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches) loop();
+  else canvas.style.display='none';
 })();
 </script>
