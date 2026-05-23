@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emrecankoc6.github.io/Literaconite/sitemap.xml

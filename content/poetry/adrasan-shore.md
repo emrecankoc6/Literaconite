@@ -3,11 +3,9 @@ title: "A Glimpse from the Adrasan Shore"
 date: 2026-05-15
 draft: false
 slug: "adrasan-shore"
-tags: ["Adrasan", "Gothic", "Poetry", "Gleam", "Nature"]
-categories: ["Creative"]
+tags: ["Adrasan", "Gothic", "Poetry", "Gleam", "Nature", "Turkey"]
+categories: ["Poetry"]
 description: "An original poem inspired by the Adrasan coastline, capturing its ancient, luminous beauty through Gothic and Romantic imagery."
-cover:
-  hidden: true
 ---
 
 Sinuous strings Present, aureate gets it,
@@ -24,7 +22,7 @@ Wheat field burst into sight, sole border.
 Greeting the holy cliff, which is under.
 Oh, those caves, that fresh airflow.
 
-Land where lubricate wine,
+Land where lubricate wine.
 Land where macarize mine.
 
 A total sculpture, holy mountain,
@@ -40,4 +38,3 @@ They possess what it takes,
 Trigger the blood, simply flows.
 
 Five-sided pressure, enough it is not.
-Takes a whole lot, never satisfied.

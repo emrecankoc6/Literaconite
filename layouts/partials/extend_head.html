@@ -1,14 +1,101 @@
+{{/* ── CSS ───────────────────────────────────────────────────────────────── */}}
 {{- $css := resources.Get "css/extended/gothic.css" -}}
 {{- if $css -}}
   {{- $css = $css | minify | fingerprint -}}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{- end -}}
+
+{{/* ── FAVICON & PRECONNECT ──────────────────────────────────────────────── */}}
 <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+{{/* ── CANONICAL ──────────────────────────────────────────────────────────── */}}
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{/* ── PRIMARY META ─────────────────────────────────────────────────────── */}}
+<meta name="author" content="Emrecan Koc">
+{{- with .Description }}<meta name="description" content="{{ . }}">{{ end }}
+{{- with site.Params.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+
+{{/* ── OPEN GRAPH ────────────────────────────────────────────────────────── */}}
+<meta property="og:site_name" content="Literaconite">
+<meta property="og:locale" content="en_US">
+{{- if .IsPage }}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ .Title }} | Literaconite">
+  <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{- with .Date }}<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+  {{- with .Lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+  {{- with .Params.tags }}{{ range . }}<meta property="article:tag" content="{{ . }}">{{ end }}{{ end }}
+{{- else }}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Literaconite">
+  <meta property="og:description" content="{{ site.Params.description }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+{{- end }}
+
+{{/* ── TWITTER / X CARD ──────────────────────────────────────────────────── */}}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ if .IsPage }}{{ .Title }} | Literaconite{{ else }}Literaconite{{ end }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+
+{{/* ── JSON-LD STRUCTURED DATA ───────────────────────────────────────────── */}}
+{{- if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ if eq .Section "review" }}Review{{ else }}Poem{{ end }}",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ with .Description }}{{ . | jsonify }}{{ else }}{{ site.Params.description | jsonify }}{{ end }},
+  "author": {
+    "@type": "Person",
+    "name": "Emrecan Koc",
+    "url": "https://github.com/emrecankoc6"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Literaconite",
+    "url": {{ site.BaseURL | jsonify }}
+  },
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
+  "url": {{ .Permalink | jsonify }},
+  "inLanguage": "en"
+}
+</script>
+{{- else }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Literaconite",
+  "url": {{ site.BaseURL | jsonify }},
+  "description": {{ site.Params.description | jsonify }},
+  "author": {
+    "@type": "Person",
+    "name": "Emrecan Koc",
+    "url": "https://github.com/emrecankoc6"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {{ printf "%ssearch/?q={search_term_string}" site.BaseURL | jsonify }},
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{{- end }}
+
+{{/* ── PERFORMANCE ────────────────────────────────────────────────────────── */}}
+<meta name="theme-color" content="#030000">
+<meta name="color-scheme" content="dark">
+
+{{/* ── SECTION CLASS ─────────────────────────────────────────────────────── */}}
+{{- if .IsPage }}
+<script>document.documentElement.classList.add("section-{{ .Section }}");</script>
+{{- end }}
+
+{{/* ── UI CHROME ──────────────────────────────────────────────────────────── */}}
 <div id="reading-progress" aria-hidden="true"></div>
 <canvas id="particle-canvas" aria-hidden="true"></canvas>
-{{- if .IsPage }}
-{{- $section := .Section }}
-<script>document.documentElement.classList.add("section-{{ $section }}");</script>
-{{- end }}

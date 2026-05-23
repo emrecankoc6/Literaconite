@@ -6,6 +6,7 @@ tags: ["Gothic", "Elegy", "Spirit", "Graveyard", "Love", "Loss"]
 categories: ["Poetry"]
 description: "A Gothic elegy haunted by a luminous spirit, neither dead nor alive, moving between grief, transcendence, and the graveyard's silence."
 slug: "carmilla"
+author: "Emrecan Koc"
 ---
 
 The warm welcome of the grave faces,
