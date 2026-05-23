@@ -6,6 +6,8 @@ slug: "adrasan-shore"
 tags: ["Adrasan", "Gothic", "Poetry", "Gleam", "Nature"]
 categories: ["Creative"]
 description: "An original poem inspired by the Adrasan coastline, capturing its ancient, luminous beauty through Gothic and Romantic imagery."
+cover:
+  hidden: true
 ---
 
 Sinuous strings Present, aureate gets it,
