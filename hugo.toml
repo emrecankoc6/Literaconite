@@ -1,5 +1,5 @@
 baseURL = 'https://emrecankoc6.github.io/Literaconite/'
-title = 'Literaconite'
+title = 'Literaconite — Gothic Poetry & Literary Criticism'
 theme = 'PaperMod'
 defaultContentLanguage = 'en'
 enableRobotsTXT = true
@@ -23,9 +23,8 @@ buildDrafts = false
   ShowToc = true
   TocOpen = false
   mainSections = ["poetry","review"]
-  description = "A literary journal of poetry and criticism, gothic in spirit, romantic in voice."
+  description = "Literaconite is a literary journal of original Gothic poetry and close criticism — dark, romantic, and haunted by the canon."
   author = "Emrecan Koc"
-  keywords = ["poetry","literary criticism","gothic","romanticism","Emrecan Koc"]
   DateFormat = "January 2, 2006"
 
   [params.homeInfoParams]
@@ -48,21 +47,25 @@ buildDrafts = false
   name = "Poetry"
   url = "/poetry/"
   weight = 10
+  title = "Read original Gothic and Romantic poetry"
 
 [[menu.main]]
   name = "Reviews"
   url = "/review/"
   weight = 20
+  title = "Literary criticism and close readings"
 
 [[menu.main]]
   name = "Search"
   url = "/search/"
   weight = 30
+  title = "Search all poetry and reviews"
 
 [[menu.main]]
   name = "Archive"
   url = "/archives/"
   weight = 40
+  title = "Full archive of all posts"
 
 [markup.goldmark.renderer]
   hardWraps = true
