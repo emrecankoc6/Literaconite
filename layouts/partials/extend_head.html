@@ -1,0 +1,20 @@
+{{- /* Gothic override CSS */ -}}
+{{ $css := resources.Get "css/gothic-override.css" }}
+{{ if $css }}
+  {{ $css = $css | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}
+
+{{- /* Favicon */ -}}
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon.svg" | relURL }}">
+
+{{- /* Fonts preconnect */ -}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+{{- /* Reading progress bar */ -}}
+<div id="reading-progress"></div>
+
+{{- /* Particle canvas */ -}}
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
