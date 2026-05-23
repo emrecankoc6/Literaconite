@@ -309,3 +309,48 @@ body, body.dark {
     .menu a { font-size: 0.65rem; letter-spacing: 0.15em; }
     .post-content { font-size: 1.0rem; }
 }
+
+/* ── HOME SOCIAL BUTTONS ──────────────────────────────────────────────────── */
+.home-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border: 1px solid rgba(138,3,3,0.35);
+    background: transparent;
+    color: var(--ash-light) !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    border-radius: 0;
+    transition: border-color .3s ease, color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+
+.social-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.social-btn:hover {
+    border-color: var(--blood-primary);
+    color: var(--parchment) !important;
+    box-shadow: 0 0 20px var(--blood-glow), inset 0 0 10px rgba(138,3,3,0.15);
+    transform: translateY(-2px);
+}
+
+.social-btn--letterboxd:hover {
+    border-color: #00c030;
+    box-shadow: 0 0 20px rgba(0,192,48,0.25), inset 0 0 10px rgba(0,192,48,0.08);
+}

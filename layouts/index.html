@@ -1,0 +1,43 @@
+{{- define "main" }}
+  {{- with site.Params.homeInfoParams }}
+  <article class="first-entry home-info">
+    <header class="entry-header">
+      <h1>{{ .Title | markdownify }}</h1>
+    </header>
+    <section class="entry-content">
+      {{- .Content | markdownify }}
+    </section>
+    <div class="home-social-links">
+      {{- range site.Params.socialIcons }}
+      <a href="{{ .url | safeURL }}" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--{{ .name }}" title="{{ .name | title }}">
+        {{- partial "svg_icons.html" . -}}
+        <span>{{ .name | title }}</span>
+      </a>
+      {{- end }}
+    </div>
+  </article>
+  {{- end }}
+  <div class="posts-container">
+    {{- range (where site.RegularPages "Type" "in" site.Params.mainSections) }}
+    <article class="post-entry" data-reveal data-reveal-delay="{{ mod .WordCount 6 | add 1 }}">
+      <header class="entry-header">
+        <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      </header>
+      {{- with .Description }}
+      <section class="entry-content"><p>{{ . }}</p></section>
+      {{- end }}
+      <footer class="entry-footer">
+        <span>{{ .Date.Format "January 2, 2006" }}</span>
+        <span>&middot;</span>
+        <span>{{ .ReadingTime }} min</span>
+        {{- with .Params.tags }}
+        <span>&middot;</span>
+        {{- range first 3 . }}
+        <span class="tag-pill">{{ . }}</span>
+        {{- end }}
+        {{- end }}
+      </footer>
+    </article>
+    {{- end }}
+  </div>
+{{- end }}
