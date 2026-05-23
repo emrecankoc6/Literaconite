@@ -40,10 +40,6 @@ buildDrafts = false
     name = "letterboxd"
     url = "https://letterboxd.com/scyllaborder"
 
-  [[params.socialIcons]]
-    name = "rss"
-    url = "/Literaconite/index.xml"
-
 [permalinks]
   poetry = "/poetry/:slug/"
   review = "/review/:slug/"
