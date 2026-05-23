@@ -23,25 +23,24 @@ buildDrafts = false
   ShowToc = true
   TocOpen = false
   mainSections = ["poetry","review"]
-  description = "A literary journal of poetry and criticism — gothic in spirit, romantic in voice."
-  author = "Emrecan Koç"
-  keywords = ["poetry","literary criticism","gothic","romanticism","Emrecan Koç"]
+  description = "A literary journal of poetry and criticism, gothic in spirit, romantic in voice."
+  author = "Emrecan Koc"
+  keywords = ["poetry","literary criticism","gothic","romanticism","Emrecan Koc"]
   DateFormat = "January 2, 2006"
 
   [params.homeInfoParams]
     Title = "Literaconite"
-    Content = "> *\"The boundaries which divide Life from Death are at best shadowy and vague. Who shall say where the one ends, and where the other begins?\"*\n>\n> — Edgar Allan Poe\n\nOriginal verse and close readings of the works that haunt us."
+    Content = "> *\"The boundaries which divide Life from Death are at best shadowy and vague. Who shall say where the one ends, and where the other begins?\"*\n>\n> -- Edgar Allan Poe\n\nOriginal verse and close readings of the works that haunt us."
 
   [[params.socialIcons]]
     name = "github"
     url = "https://github.com/emrecankoc6"
 
   [[params.socialIcons]]
-
-  [[params.socialIcons]]
     name = "letterboxd"
     url = "https://letterboxd.com/scyllaborder"
 
+  [[params.socialIcons]]
     name = "rss"
     url = "/Literaconite/index.xml"
 
