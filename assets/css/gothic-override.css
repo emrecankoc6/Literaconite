@@ -180,7 +180,7 @@ body::after{
 .home-info .entry-header h1,
 .home-info h1{
   font-family:var(--font-d) !important;
-  font-size:clamp(4rem,11vw,9rem) !important;
+  display:none; font-size:clamp(4rem,11vw,9rem) !important;
   font-weight:700 !important;
   font-style:italic !important;
   color:var(--text) !important;
@@ -564,3 +564,6 @@ body::after{
   .post-nav{grid-template-columns:1fr !important}
   .post-single h1.post-title{max-width:none !important}
 }
+
+/* Kill cover title overlay */
+.post-single .cover,.entry-cover,.entry-cover img,h1.entry-hint-parent{display:none}
