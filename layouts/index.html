@@ -1,11 +1,12 @@
 {{- define "main" }}
-  {{- with site.Params.homeInfoParams }}
+  {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+  {{- if site.Params.homeInfoParams }}
   <article class="first-entry home-info">
     <header class="entry-header">
-      <h1>{{ .Title | markdownify }}</h1>
+      <h1>{{ site.Params.homeInfoParams.Title | markdownify }}</h1>
     </header>
     <section class="entry-content">
-      {{- .Content | markdownify }}
+      {{- site.Params.homeInfoParams.Content | markdownify }}
     </section>
     <div class="home-social-links">
       {{- range site.Params.socialIcons }}
@@ -18,8 +19,8 @@
   </article>
   {{- end }}
   <div class="posts-container">
-    {{- range (where site.RegularPages "Type" "in" site.Params.mainSections) }}
-    <article class="post-entry" data-reveal data-reveal-delay="{{ mod .WordCount 6 | add 1 }}">
+    {{- range $pages }}
+    <article class="post-entry">
       <header class="entry-header">
         <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
       </header>
