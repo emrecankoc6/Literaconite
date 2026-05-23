@@ -1,4 +1,4 @@
-{{- $css := resources.Get "css/gothic-override.css" -}}
+{{- $css := resources.Get "css/extended/gothic.css" -}}
 {{- if $css -}}
   {{- $css = $css | minify | fingerprint -}}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
@@ -8,3 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <div id="reading-progress" aria-hidden="true"></div>
 <canvas id="particle-canvas" aria-hidden="true"></canvas>
+{{- if .IsPage }}
+{{- $section := .Section }}
+<script>document.documentElement.classList.add("section-{{ $section }}");</script>
+{{- end }}

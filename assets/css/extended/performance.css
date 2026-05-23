@@ -1,19 +1,10 @@
-/* Critical Performance Overrides: Font Display & Render Blocking */
-@font-face {
-    font-display: swap;
-}
-
-/* Optimize Backdrop Filters for Mobile/Low-End Desktop */
-.header, .post-entry {
+/* Hardware acceleration for animated elements */
+.header, .post-entry, #particle-canvas {
     will-change: transform, opacity;
-    transform: translateZ(0); /* Force hardware acceleration */
+    transform: translateZ(0);
 }
 
-/* Reduce Paint Complexity on Non-Hover States */
+/* Contain paint for card list */
 .post-entry {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-}
-
-.post-entry:hover {
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), 0 0 40px var(--blood-glow) !important;
+    contain: layout style;
 }

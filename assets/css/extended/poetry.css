@@ -1,12 +1,11 @@
-.post-content p {
-    line-height: 1.6;
+/* Poetry-specific layout (supplements gothic.css .section-poetry rules) */
+
+/* Stanza spacing — blank lines become real breathing room */
+.section-poetry .post-content p {
+    margin-bottom: 2.2rem;
 }
-/* Şiir bölümleri için özel mizanpaj */
-.poetry-content {
-    font-family: 'Crimson Text', serif;
-    font-style: italic;
-    white-space: pre-line;
-    margin-bottom: 2rem;
-    padding-left: 1rem;
-    border-left: 1px solid #444;
+
+/* Indented lines via leading whitespace in markdown */
+.section-poetry .post-content p + p {
+    margin-top: 0;
 }
