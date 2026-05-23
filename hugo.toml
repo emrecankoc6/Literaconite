@@ -37,6 +37,11 @@ buildDrafts = false
     url = "https://github.com/emrecankoc6"
 
   [[params.socialIcons]]
+
+  [[params.socialIcons]]
+    name = "letterboxd"
+    url = "https://letterboxd.com/scyllaborder"
+
     name = "rss"
     url = "/Literaconite/index.xml"
 

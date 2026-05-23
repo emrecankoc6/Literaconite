@@ -4,7 +4,7 @@ date: 2026-05-23
 draft: false
 tags: ["Gothic", "Elegy", "Spirit", "Graveyard", "Love", "Loss"]
 categories: ["Poetry"]
-description: "A Gothic elegy haunted by a luminous spirit — neither dead nor alive — moving between grief, transcendence, and the graveyard's silence."
+description: "A Gothic elegy haunted by a luminous spirit, neither dead nor alive, moving between grief, transcendence, and the graveyard's silence."
 slug: "carmilla"
 ---
 
