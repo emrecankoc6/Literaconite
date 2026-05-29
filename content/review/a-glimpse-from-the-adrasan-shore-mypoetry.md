@@ -1,6 +1,6 @@
 ---
 title: "A glimpse from the Adrasan shore #mypoetry"
-date: 2022-04-12T14:02:00+00:00
+date: 2024-02-17
 draft: false
 tags: ["Original Poetry", "Adrasan", "Creative Writing", "Gothic", "Nature", "Mediterranean"]
 description: "An early reflection on the poem A Glimpse from the Adrasan Shore, the coast that inspired it, the imagery it reaches for, and the Gothic undertow beneath what looks like a peaceful landscape."

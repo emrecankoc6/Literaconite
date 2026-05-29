@@ -1,6 +1,6 @@
 ---
 title: "A Comparison between Classical Greek Tragedy and Elizabethan Tragedy"
-date: 2022-04-12T13:33:00+00:00
+date: 2021-06-29
 draft: false
 tags: ["Greek Tragedy", "Elizabethan Drama", "Shakespeare", "Aristotle", "Sophocles", "Comparative Literature"]
 description: "Greek tragedy ends in catharsis. Elizabethan tragedy ends in bodies. This essay explores what changed between Sophocles and Shakespeare, and what stayed hauntingly the same."

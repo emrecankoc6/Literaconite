@@ -1,6 +1,6 @@
 ---
 title: "On the Relation between Poe’s The Cask of Amontillado and Vengeance as a Subject Matter"
-date: 2022-04-12T14:23:00+00:00
+date: 2023-07-20
 draft: false
 tags: ["Edgar Allan Poe", "The Cask of Amontillado", "Gothic Fiction", "Vengeance", "Unreliable Narrator", "Close Reading"]
 description: "Poe gives us a murderer and asks us to nod along. This essay unpacks how Montresor's voice seduces the reader into complicity, and what that reveals about Gothic fiction's relationship with revenge."

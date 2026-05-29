@@ -1,6 +1,6 @@
 ---
 title: "Claude Debussy’s “Clair de Lune” and Musical Impressionism"
-date: 2022-04-12T13:54:00+00:00
+date: 2020-06-04
 draft: false
 tags: ["Debussy", "Clair de Lune", "Musical Impressionism", "Piano", "Music Criticism", "Symbolism", "French Music"]
 description: "Clair de Lune doesn't describe moonlight, it becomes it. An essay on how Debussy dissolved the boundary between music and atmosphere, and why Impressionism was always more than a visual movement."

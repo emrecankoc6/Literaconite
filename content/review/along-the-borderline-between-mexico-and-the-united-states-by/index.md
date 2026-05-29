@@ -1,6 +1,6 @@
 ---
 title: "Along the borderline between Mexico and the United States by Frida Kahlo"
-date: 2022-04-12T14:13:00+00:00
+date: 2024-12-15
 draft: false
 tags: ["Frida Kahlo", "Art Criticism", "Mexican Art", "Identity", "Borderlands", "Feminism", "Surrealism"]
 description: "Frida Kahlo painted the border not as a line on a map but as a wound running through identity itself. A close reading of her 1932 canvas and what it means to exist between two worlds that refuse to hold you."

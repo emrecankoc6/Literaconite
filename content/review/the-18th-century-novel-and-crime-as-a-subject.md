@@ -1,6 +1,6 @@
 ---
 title: "The 18th Century Novel and Crime as a Subject"
-date: 2022-04-12T14:25:00+00:00
+date: 2025-05-27
 draft: false
 tags: ["18th Century Novel", "Crime Fiction", "Moll Flanders", "Defoe", "Newgate", "Literary History", "Morality"]
 description: "Before the detective novel, there was the criminal memoir. This essay examines how 18th century fiction turned crime into a moral laboratory, and why the guilty voice became the novel's most compelling narrator."

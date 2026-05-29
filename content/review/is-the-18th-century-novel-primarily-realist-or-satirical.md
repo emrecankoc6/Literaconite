@@ -1,6 +1,6 @@
 ---
 title: "Is the 18th Century Novel Primarily Realist or Satirical?"
-date: 2022-04-12T14:18:00+00:00
+date: 2020-07-27
 draft: false
 tags: ["18th Century Novel", "Realism", "Satire", "Fielding", "Swift", "Richardson", "Literary History"]
 description: "The 18th century novel had two faces, one pressed to the window of real life, one twisted into a grin. This essay argues the two modes were never in opposition but always in conversation."

@@ -1,6 +1,6 @@
 ---
 title: "A Close Reading of Arthur Miller’s Manifesto: Death of a Salesman"
-date: 2022-04-12T13:59:00+00:00
+date: 2022-01-26
 draft: false
 tags: ["Arthur Miller", "Death of a Salesman", "Close Reading", "American Dream", "Manifesto", "Tragedy"]
 description: "Miller called Death of a Salesman a manifesto, but a manifesto for what? This reading traces the argument buried inside the play's domestic tragedy."

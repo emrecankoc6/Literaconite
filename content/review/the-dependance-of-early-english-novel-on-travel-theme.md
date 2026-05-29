@@ -1,6 +1,6 @@
 ---
 title: "The Dependance of Early English Novel on Travel Theme"
-date: 2022-04-12T14:16:00+00:00
+date: 2022-09-29
 draft: false
 tags: ["18th Century Novel", "Travel Literature", "Literary History", "English Novel", "Colonial Literature", "Defoe"]
 description: "The earliest English novels rarely stayed home. This essay argues that the travel theme wasn't a genre choice but a structural necessity, the novel needed movement to discover what it was."
