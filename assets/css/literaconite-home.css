@@ -245,31 +245,31 @@ body{
   border-top:1px solid rgba(255,255,255,.06);
 }
 
-/* force top-spacing fix */
+/* top-spacing */
 .main{
-  padding-top: 0.2rem !important;
+  padding-top: 0.2rem;
 }
 
 .lc-main{
-  margin-top: -0.55rem !important;
+  margin-top: 0;
 }
 
 .lc-hero{
-  margin-bottom: 0.75rem !important;
+  margin-bottom: 0.75rem;
 }
 
 .lc-hero-title{
-  font-size: clamp(1.32rem, 2.15vw, 1.95rem) !important;
-  line-height: 1.14 !important;
-  max-width: 1000px !important;
+  font-size: clamp(1.32rem, 2.15vw, 1.95rem);
+  line-height: 1.14;
+  max-width: 1000px;
 }
 
 .lc-hero-sub{
-  margin-top: 0.18rem !important;
-  font-size: 0.72rem !important;
-  letter-spacing: 0.16em !important;
+  margin-top: 0.18rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
 }
 
 .lc-hero-line{
-  margin-top: 0.55rem !important;
+  margin-top: 0.55rem;
 }

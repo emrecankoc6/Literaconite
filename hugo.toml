@@ -29,10 +29,6 @@ buildDrafts = false
   author = "Emrecan Koc"
   DateFormat = "January 2, 2006"
 
-  [params.homeInfoParams]
-    Title = "Literaconite"
-    Content = "> *\"The boundaries which divide Life from Death are at best shadowy and vague. Who shall say where the one ends, and where the other begins?\"*\n>\n> -- Edgar Allan Poe\n\nOriginal verse and close readings of the works that haunt us."
-
   [[params.socialIcons]]
     name = "github"
     url = "https://github.com/emrecankoc6"
