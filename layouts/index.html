@@ -1,8 +1,8 @@
 {{ define "main" }}
 <main class="lc-main">
   <header class="lc-hero">
-    <p class="lc-hero-title">Literaconite</p>
-    <p class="lc-hero-sub">Gothic poetry & literary criticism</p>
+    <p class="lc-hero-title">Literaconite: Gothic Poetry and Literary Criticism</p>
+    <p class="lc-hero-sub">Gothic poetry &amp; literary criticism</p>
     <span class="lc-hero-line"></span>
   </header>
 
@@ -18,18 +18,16 @@
       <h2 class="lc-feature-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
       {{ with .Description }}<p class="lc-feature-desc">{{ . }}</p>{{ end }}
       <div class="lc-feature-meta">
-        <time>{{ .Date.Format "2 January 2006" }}</time>
+        <time>{{ .Date.Format "2 Jan 2006" }}</time>
         {{ with .Params.tags }}
-        <span class="lc-feature-tags">
-          {{ range first 3 . }}<span>#{{ . }}</span>{{ end }}
-        </span>
+        <span class="lc-feature-tags">{{ range first 3 . }}<span>#{{ . }}</span>{{ end }}</span>
         {{ end }}
       </div>
     </article>
     {{ end }}
 
     <div class="lc-stream">
-      {{ range after 1 (first 12 $pages) }}
+      {{ range after 1 (first 13 $pages) }}
       <article class="lc-stream-item">
         <span class="lc-dot lc-dot-{{ .Section }}"></span>
         <div class="lc-stream-body">

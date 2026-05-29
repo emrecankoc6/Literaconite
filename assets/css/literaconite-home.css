@@ -1,0 +1,246 @@
+:root{
+  --lc-bg:#050304;
+  --lc-bg2:#140607;
+  --lc-card:rgba(255,255,255,.03);
+  --lc-border:rgba(255,255,255,.07);
+  --lc-text:#f3e9e2;
+  --lc-muted:#b8a79e;
+  --lc-red:#a32c2c;
+  --lc-purple:#7e57c2;
+  --lc-width:1120px;
+}
+
+body{
+  background:
+    radial-gradient(circle at top, rgba(120,0,0,.16), transparent 36%),
+    linear-gradient(180deg,#120607 0%,#050304 72%);
+  color:var(--lc-text);
+}
+
+/* Header */
+.header{
+  background:rgba(5,3,4,.92);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  backdrop-filter:blur(10px);
+}
+
+.nav{
+  max-width:var(--lc-width);
+}
+
+.logo a,.logo span{
+  font-family:Georgia,serif;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  font-size:.98rem;
+  line-height:1.15;
+}
+
+#menu{
+  gap:1.1rem;
+}
+
+#menu a{
+  font-size:.76rem;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+}
+
+/* Main width */
+.main{
+  max-width:var(--lc-width);
+  padding:1.6rem 1.5rem 3.5rem;
+}
+
+.lc-main{
+  max-width:var(--lc-width);
+  margin:0 auto;
+}
+
+/* Hero */
+.lc-hero{
+  margin:0 0 1.35rem;
+}
+
+.lc-hero-title{
+  margin:0;
+  font-family:Georgia,serif;
+  font-size:clamp(1.15rem,2vw,1.7rem);
+  line-height:1.2;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  max-width:900px;
+}
+
+.lc-hero-sub{
+  margin:.38rem 0 0;
+  color:var(--lc-muted);
+  font-size:.76rem;
+  line-height:1.4;
+  letter-spacing:.20em;
+  text-transform:uppercase;
+}
+
+.lc-hero-line{
+  display:block;
+  margin-top:.9rem;
+  height:1px;
+  background:linear-gradient(90deg, rgba(163,44,44,.7), rgba(163,44,44,.14), transparent);
+}
+
+/* Layout */
+.lc-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(320px,.95fr);
+  gap:1rem;
+  align-items:start;
+}
+
+@media (max-width:860px){
+  .lc-layout{grid-template-columns:1fr}
+}
+
+/* Cards */
+.lc-feature,.lc-stream{
+  background:var(--lc-card);
+  border:1px solid var(--lc-border);
+  border-radius:18px;
+  box-shadow:0 10px 28px rgba(0,0,0,.22);
+}
+
+/* Feature */
+.lc-feature{
+  padding:1.35rem 1.3rem 1.2rem;
+  min-height:auto;
+}
+
+.lc-chip{
+  display:inline-block;
+  margin-bottom:.8rem;
+  padding:.28rem .65rem;
+  border-radius:999px;
+  border:1px solid rgba(163,44,44,.32);
+  color:#d59595;
+  font-size:.66rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.lc-feature-title{
+  margin:0 0 .65rem;
+  font-family:Georgia,serif;
+  font-size:clamp(1.7rem,2.5vw,2.35rem);
+  line-height:1.15;
+}
+
+.lc-feature-title a,
+.lc-stream-body h3 a{
+  color:var(--lc-text);
+  text-decoration:none;
+}
+
+.lc-feature-title a:hover,
+.lc-stream-body h3 a:hover{
+  color:#fff;
+}
+
+.lc-feature-desc{
+  margin:0 0 1rem;
+  color:var(--lc-muted);
+  font-size:1rem;
+  line-height:1.75;
+  max-width:38ch;
+}
+
+.lc-feature-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.65rem .95rem;
+  color:var(--lc-muted);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.lc-feature-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+}
+
+/* Stream */
+.lc-stream{
+  padding:.1rem 0;
+}
+
+.lc-stream-item{
+  display:flex;
+  gap:.75rem;
+  align-items:flex-start;
+  padding:1rem 1rem .92rem;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.lc-stream-item:last-child{
+  border-bottom:none;
+}
+
+.lc-dot{
+  width:10px;
+  height:10px;
+  margin-top:.42rem;
+  border-radius:50%;
+  flex:0 0 10px;
+}
+
+.lc-dot-poetry{
+  background:var(--lc-red);
+  box-shadow:0 0 0 3px rgba(163,44,44,.16);
+}
+
+.lc-dot-review{
+  background:var(--lc-purple);
+  box-shadow:0 0 0 3px rgba(126,87,194,.16);
+}
+
+.lc-stream-body{
+  min-width:0;
+  flex:1;
+}
+
+.lc-stream-body h3{
+  margin:0 0 .22rem;
+  font-size:1rem;
+  line-height:1.35;
+  font-weight:650;
+}
+
+.lc-stream-body time{
+  color:var(--lc-muted);
+  font-size:.76rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+/* Articles */
+.post-content{
+  font-size:1.02rem;
+  line-height:1.9;
+}
+
+.post-content p{
+  margin-bottom:1.1rem;
+}
+
+.post-content>p:first-of-type::first-letter{
+  float:left;
+  font-family:Georgia,serif;
+  font-size:3.1rem;
+  line-height:.88;
+  padding-right:.12rem;
+  color:var(--lc-red);
+}
+
+.footer{
+  border-top:1px solid rgba(255,255,255,.06);
+}
