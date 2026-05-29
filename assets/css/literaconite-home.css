@@ -1,275 +1,272 @@
-:root{
-  --lc-bg:#050304;
-  --lc-bg2:#140607;
-  --lc-card:rgba(255,255,255,.03);
-  --lc-border:rgba(255,255,255,.07);
-  --lc-text:#f3e9e2;
-  --lc-muted:#b8a79e;
-  --lc-red:#a32c2c;
-  --lc-purple:#7e57c2;
-  --lc-width:1120px;
+/* ─── Literaconite — Custom Styles ─────────────────────────────────────────── */
+
+:root {
+  --lc-bg:     #050304;
+  --lc-bg2:    #140607;
+  --lc-card:   rgba(255,255,255,.03);
+  --lc-border: rgba(255,255,255,.07);
+  --lc-text:   #f3e9e2;
+  --lc-muted:  #b8a79e;
+  --lc-red:    #a32c2c;
+  --lc-purple: #7e57c2;
+  --lc-width:  1120px;
 }
 
-body{
+/* ─── Body ──────────────────────────────────────────────────────────────────── */
+body {
   background:
     radial-gradient(circle at top, rgba(120,0,0,.16), transparent 36%),
-    linear-gradient(180deg,#120607 0%,#050304 72%);
-  color:var(--lc-text);
+    linear-gradient(180deg, #120607 0%, #050304 72%);
+  color: var(--lc-text);
 }
 
-/* Header */
-.header{
-  background:rgba(5,3,4,.92);
-  border-bottom:1px solid rgba(255,255,255,.05);
-  backdrop-filter:blur(10px);
+/* ─── Header / Nav ──────────────────────────────────────────────────────────── */
+.header {
+  background: rgba(5,3,4,.92);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  backdrop-filter: blur(10px);
 }
 
-.nav{
-  max-width:var(--lc-width);
+.header-nav {
+  max-width: var(--lc-width);
 }
 
-.logo a,.logo span{
-  font-family:Georgia,serif;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  font-size:.98rem;
-  line-height:1.15;
+/* Logo — refined, not shouty */
+.logo a {
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
 
-#menu{
-  gap:1.1rem;
+/* Nav links */
+.menu a {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .15em;
 }
 
-#menu a{
-  font-size:.76rem;
-  text-transform:uppercase;
-  letter-spacing:.16em;
+/* ─── Main container ────────────────────────────────────────────────────────── */
+.main {
+  max-width: var(--lc-width);
+  padding: 2rem 1.5rem 3.5rem;
 }
 
-/* Main width */
-.main{
-  max-width:var(--lc-width);
-  padding:1.6rem 1.5rem 3.5rem;
+/* ─── Homepage wrapper ──────────────────────────────────────────────────────── */
+.lc-main {
+  max-width: var(--lc-width);
+  margin: 0 auto;
 }
 
-.lc-main{
-  max-width:var(--lc-width);
-  margin:0 auto;
+/* ─── Hero ──────────────────────────────────────────────────────────────────── */
+.lc-hero {
+  margin: 0 0 1.5rem;
+  padding-top: .25rem;
 }
 
-/* Hero */
-.lc-hero{
-  margin:0 0 1.35rem;
+.lc-hero-title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  line-height: 1.2;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--lc-text);
 }
 
-.lc-hero-title{
-  margin:0;
-  font-family:Georgia,serif;
-  font-size:clamp(1.15rem,2vw,1.7rem);
-  line-height:1.2;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  max-width:900px;
+.lc-hero-sub {
+  margin: .35rem 0 0;
+  color: var(--lc-muted);
+  font-size: .72rem;
+  letter-spacing: .20em;
+  text-transform: uppercase;
 }
 
-.lc-hero-sub{
-  margin:.38rem 0 0;
-  color:var(--lc-muted);
-  font-size:.76rem;
-  line-height:1.4;
-  letter-spacing:.20em;
-  text-transform:uppercase;
+.lc-hero-line {
+  display: block;
+  margin-top: .75rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(163,44,44,.7), rgba(163,44,44,.14), transparent);
 }
 
-.lc-hero-line{
-  display:block;
-  margin-top:.9rem;
-  height:1px;
-  background:linear-gradient(90deg, rgba(163,44,44,.7), rgba(163,44,44,.14), transparent);
+/* ─── Homepage layout grid ──────────────────────────────────────────────────── */
+.lc-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1.45fr) minmax(300px,.95fr);
+  gap: 1rem;
+  align-items: start;
 }
 
-/* Layout */
-.lc-layout{
-  display:grid;
-  grid-template-columns:minmax(0,1.45fr) minmax(320px,.95fr);
-  gap:1rem;
-  align-items:start;
+@media (max-width: 860px) {
+  .lc-layout { grid-template-columns: 1fr; }
 }
 
-@media (max-width:860px){
-  .lc-layout{grid-template-columns:1fr}
+/* ─── Shared card shell ─────────────────────────────────────────────────────── */
+.lc-feature,
+.lc-stream {
+  background: var(--lc-card);
+  border: 1px solid var(--lc-border);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.22);
 }
 
-/* Cards */
-.lc-feature,.lc-stream{
-  background:var(--lc-card);
-  border:1px solid var(--lc-border);
-  border-radius:18px;
-  box-shadow:0 10px 28px rgba(0,0,0,.22);
+/* ─── Feature card ──────────────────────────────────────────────────────────── */
+.lc-feature {
+  padding: 1.4rem 1.35rem 1.25rem;
 }
 
-/* Feature */
-.lc-feature{
-  padding:1.35rem 1.3rem 1.2rem;
-  min-height:auto;
+.lc-chip {
+  display: inline-block;
+  margin-bottom: .8rem;
+  padding: .28rem .65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(163,44,44,.32);
+  color: #d59595;
+  font-size: .65rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
 }
 
-.lc-chip{
-  display:inline-block;
-  margin-bottom:.8rem;
-  padding:.28rem .65rem;
-  border-radius:999px;
-  border:1px solid rgba(163,44,44,.32);
-  color:#d59595;
-  font-size:.66rem;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-
-.lc-feature-title{
-  margin:0 0 .65rem;
-  font-family:Georgia,serif;
-  font-size:clamp(1.7rem,2.5vw,2.35rem);
-  line-height:1.15;
+.lc-feature-title {
+  margin: 0 0 .65rem;
+  font-family: Georgia, serif;
+  font-size: clamp(1.55rem, 2.4vw, 2.2rem);
+  line-height: 1.18;
 }
 
 .lc-feature-title a,
-.lc-stream-body h3 a{
-  color:var(--lc-text);
-  text-decoration:none;
+.lc-stream-body h3 a {
+  color: var(--lc-text);
+  text-decoration: none;
 }
 
 .lc-feature-title a:hover,
-.lc-stream-body h3 a:hover{
-  color:#fff;
+.lc-stream-body h3 a:hover {
+  color: #fff;
 }
 
-.lc-feature-desc{
-  margin:0 0 1rem;
-  color:var(--lc-muted);
-  font-size:1rem;
-  line-height:1.75;
-  max-width:38ch;
+.lc-feature-desc {
+  margin: 0 0 1rem;
+  color: var(--lc-muted);
+  font-size: .97rem;
+  line-height: 1.75;
+  max-width: 38ch;
 }
 
-.lc-feature-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.65rem .95rem;
-  color:var(--lc-muted);
-  font-size:.72rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
+.lc-feature-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem .95rem;
+  color: var(--lc-muted);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
 }
 
-.lc-feature-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.5rem;
+.lc-feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
 }
 
-/* Stream */
-.lc-stream{
-  padding:.1rem 0;
+/* ─── Stream list ───────────────────────────────────────────────────────────── */
+.lc-stream {
+  padding: .1rem 0;
 }
 
-.lc-stream-item{
-  display:flex;
-  gap:.75rem;
-  align-items:flex-start;
-  padding:1rem 1rem .92rem;
-  border-bottom:1px solid rgba(255,255,255,.045);
+.lc-stream-item {
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+  padding: .95rem 1rem .9rem;
+  border-bottom: 1px solid rgba(255,255,255,.045);
 }
 
-.lc-stream-item:last-child{
-  border-bottom:none;
+.lc-stream-item:last-child {
+  border-bottom: none;
 }
 
-.lc-dot{
-  width:10px;
-  height:10px;
-  margin-top:.42rem;
-  border-radius:50%;
-  flex:0 0 10px;
+.lc-dot {
+  width: 9px;
+  height: 9px;
+  margin-top: .44rem;
+  border-radius: 50%;
+  flex: 0 0 9px;
 }
 
-.lc-dot-poetry{
-  background:var(--lc-red);
-  box-shadow:0 0 0 3px rgba(163,44,44,.16);
+.lc-dot-poetry {
+  background: var(--lc-red);
+  box-shadow: 0 0 0 3px rgba(163,44,44,.16);
 }
 
-.lc-dot-review{
-  background:var(--lc-purple);
-  box-shadow:0 0 0 3px rgba(126,87,194,.16);
+.lc-dot-review {
+  background: var(--lc-purple);
+  box-shadow: 0 0 0 3px rgba(126,87,194,.16);
 }
 
-.lc-stream-body{
-  min-width:0;
-  flex:1;
+.lc-stream-body {
+  min-width: 0;
+  flex: 1;
 }
 
-.lc-stream-body h3{
-  margin:0 0 .22rem;
-  font-size:1rem;
-  line-height:1.35;
-  font-weight:650;
+.lc-stream-body h3 {
+  margin: 0 0 .2rem;
+  font-size: .97rem;
+  line-height: 1.35;
+  font-weight: 600;
 }
 
-.lc-stream-body time{
-  color:var(--lc-muted);
-  font-size:.76rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
+.lc-stream-body time {
+  color: var(--lc-muted);
+  font-size: .72rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
 }
 
-/* Articles */
-.post-content{
-  font-size:1.02rem;
-  line-height:1.9;
+/* ─── Individual page header (Poetry / Reviews section titles) ──────────────── */
+.page-header h1 {
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-family: Georgia, serif;
 }
 
-.post-content p{
-  margin-bottom:1.1rem;
+/* ─── Single post header ────────────────────────────────────────────────────── */
+.post-header {
+  margin-top: 1.5rem;
 }
 
-.post-content>p:first-of-type::first-letter{
-  float:left;
-  font-family:Georgia,serif;
-  font-size:3.1rem;
-  line-height:.88;
-  padding-right:.12rem;
-  color:var(--lc-red);
+.post-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-family: Georgia, serif;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: .04em;
 }
 
-.footer{
-  border-top:1px solid rgba(255,255,255,.06);
+/* ─── Article body ──────────────────────────────────────────────────────────── */
+.post-content {
+  font-size: 1.02rem;
+  line-height: 1.9;
 }
 
-/* top-spacing */
-.main{
-  padding-top: 0.2rem;
+.post-content p {
+  margin-bottom: 1.1rem;
 }
 
-.lc-main{
-  margin-top: 0;
+/* Drop cap */
+.post-content > p:first-of-type::first-letter {
+  float: left;
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  line-height: .88;
+  padding-right: .12rem;
+  color: var(--lc-red);
 }
 
-.lc-hero{
-  margin-bottom: 0.75rem;
-}
-
-.lc-hero-title{
-  font-size: clamp(1.32rem, 2.15vw, 1.95rem);
-  line-height: 1.14;
-  max-width: 1000px;
-}
-
-.lc-hero-sub{
-  margin-top: 0.18rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-}
-
-.lc-hero-line{
-  margin-top: 0.55rem;
+/* ─── Footer ────────────────────────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid rgba(255,255,255,.06);
 }
