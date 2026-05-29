@@ -7,6 +7,7 @@ categories: ["Poetry"]
 description: "A Gothic elegy haunted by a luminous spirit, neither dead nor alive, moving between grief, transcendence, and the graveyard's silence."
 slug: "carmilla"
 author: "Emrecan Koc"
+keywords: ["Carmilla", "Le Fanu", "gothic fiction", "vampire literature", "gothic poetry", "literary analysis"]
 ---
 
 The warm welcome of the grave faces,
