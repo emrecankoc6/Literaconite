@@ -1,0 +1,21 @@
+<header class="lc-header">
+  <nav class="lc-nav">
+
+    <a class="lc-nav-logo" href="{{ "" | absLangURL }}" accesskey="h">
+      <span class="lc-nav-logo-mark">✦</span>
+      Literaconite
+    </a>
+
+    <ul class="lc-nav-menu">
+      {{- range site.Menus.main }}
+      <li>
+        <a href="{{ .URL | absLangURL }}"
+          {{- if eq $.RelPermalink (.URL | absLangURL) }} class="lc-nav-active"{{ end }}>
+          {{ .Name }}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+
+  </nav>
+</header>
