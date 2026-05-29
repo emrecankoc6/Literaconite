@@ -4,7 +4,7 @@ date: 2026-05-23
 draft: false
 tags: ["Gothic", "Elegy", "Loss", "Spirit", "Graveyard", "Original Poetry", "Dark Romanticism"]
 categories: ["Poetry"]
-description: "A Gothic elegy written in the graveyard's own tongue — Carmilla moves through grief and transcendence, caught between the world of the living and whatever lies beyond."
+description: "A Gothic elegy written in the graveyard's own tongue, Carmilla moves through grief and transcendence, caught between the world of the living and whatever lies beyond."
 slug: "carmilla"
 author: "Emrecan Koc"
 keywords: ["Carmilla", "Le Fanu", "gothic fiction", "vampire literature", "gothic poetry", "literary analysis"]

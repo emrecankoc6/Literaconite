@@ -3,7 +3,7 @@ title: "On the Relation between Poe’s The Cask of Amontillado and Vengeance as
 date: 2022-04-12T14:23:00+00:00
 draft: false
 tags: ["Edgar Allan Poe", "The Cask of Amontillado", "Gothic Fiction", "Vengeance", "Unreliable Narrator", "Close Reading"]
-description: "Poe gives us a murderer and asks us to nod along. This essay unpacks how Montresor's voice seduces the reader into complicity — and what that reveals about Gothic fiction's relationship with revenge."
+description: "Poe gives us a murderer and asks us to nod along. This essay unpacks how Montresor's voice seduces the reader into complicity, and what that reveals about Gothic fiction's relationship with revenge."
 ---
 The Cask of Amontillado, written by Edgar Ellan Poe was first published in 1846 in a women’s magazine called “Godey’s Lady’s Book. The author, both a writer and a literary critic and theoretician is considered to be the master, and sometimes father of horror. He is also known to be the father of the short story genre and he published an article in the same year as this short story, which is called The Philosophy of Composition that glorifies the Short Story genre. (Sova,45)
 

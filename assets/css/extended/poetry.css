@@ -1,6 +1,6 @@
 /* Poetry-specific layout (supplements gothic.css .section-poetry rules) */
 
-/* Stanza spacing — blank lines become real breathing room */
+/* Stanza spacing, blank lines become real breathing room */
 .section-poetry .post-content p {
     margin-bottom: 2.2rem;
 }

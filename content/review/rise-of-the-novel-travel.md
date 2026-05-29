@@ -4,7 +4,7 @@ date: 2026-05-15
 draft: false
 tags: ["18th Century Novel", "Robinson Crusoe", "Travel Literature", "English Novel", "Defoe", "Levant Company", "Literary History"]
 categories: ["Analysis"]
-description: "The early English novel didn't just describe travel — it was shaped by it. This essay traces how trade routes, colonial ambition, and the romance of the unknown gave the novel its first real plots."
+description: "The early English novel didn't just describe travel, it was shaped by it. This essay traces how trade routes, colonial ambition, and the romance of the unknown gave the novel its first real plots."
 ---
 There are many candidates for the first English novel starting from Le Morte d’Arthur from 15th century to Gulliver’s Travels from the 18th century, however, Daniel Defoe’s Robinson Crusoe is widely accepted as the first English novel and thusly, in- 18th century occurred the rise of the novel in English. Among these candidates appears a common theme of travel and this theme has been kept using for a long while later than the first novels. Actually, travel accounts and writings were already common in other genres so it is not a surprise that it was applied to this newly emerging genre.
 

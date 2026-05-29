@@ -3,7 +3,7 @@ title: "Claude Debussy’s “Clair de Lune” and Musical Impressionism"
 date: 2022-04-12T13:54:00+00:00
 draft: false
 tags: ["Debussy", "Clair de Lune", "Musical Impressionism", "Piano", "Music Criticism", "Symbolism", "French Music"]
-description: "Clair de Lune doesn't describe moonlight — it becomes it. An essay on how Debussy dissolved the boundary between music and atmosphere, and why Impressionism was always more than a visual movement."
+description: "Clair de Lune doesn't describe moonlight, it becomes it. An essay on how Debussy dissolved the boundary between music and atmosphere, and why Impressionism was always more than a visual movement."
 ---
 Claude Debussy’s “Clair de Lune” is a piano suite composed under the effect of musical impressionism. As one of the basic elements of music, the rhythm used in the suite is irregular and does not repeat itself. Instead, it flows smoothly but also unexpectedly which defies the conventional ways of listening to music. Secondly, the harmony in the suite accounts for the unexpectedness created by the irregular and ever-increasing rhythm of the suite. So, along with other musical features such as timbres and textures, the song uses these two elements to give an overall impression of a moonlight scene.
 

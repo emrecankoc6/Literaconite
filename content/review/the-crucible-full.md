@@ -4,7 +4,7 @@ date: 2026-05-15
 draft: false
 tags: ["Arthur Miller", "The Crucible", "Salem Witch Trials", "Allegory", "American Drama", "McCarthyism", "Close Reading"]
 categories: ["Analysis"]
-description: "Arthur Miller wrote The Crucible as a thinly veiled allegory for McCarthyism — but the play outlasted its moment. This reading examines how mob hysteria, guilt, and the machinery of accusation work across centuries."
+description: "Arthur Miller wrote The Crucible as a thinly veiled allegory for McCarthyism, but the play outlasted its moment. This reading examines how mob hysteria, guilt, and the machinery of accusation work across centuries."
 ---
 Arthur Miller is one of the greatest playwrights of the 20th century who was born in 1915 and was awarded a Pulitzer Price. His legacy will without doubt live forever defying aging and time because they deal with the social realities and the nature of people that all of humanity possessed here and there. His inclination to communism rendered him as a critic of the capitalism that climbed towards its peak in the 20th century, and he wittingly criticized capitalism and the inner nature of people with successful allegories.
 

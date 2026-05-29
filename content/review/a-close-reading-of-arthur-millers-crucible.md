@@ -3,7 +3,7 @@ title: "A Close Reading of Arthur Miller’s Crucible"
 date: 2022-04-12T13:57:00+00:00
 draft: false
 tags: ["Arthur Miller", "The Crucible", "Close Reading", "Allegory", "American Drama", "Guilt"]
-description: "A close reading of The Crucible's language and structure — how Miller encodes confession, guilt, and collective fear into the rhythms of his dialogue and the silences between them."
+description: "A close reading of The Crucible's language and structure, how Miller encodes confession, guilt, and collective fear into the rhythms of his dialogue and the silences between them."
 ---
 The reference excerpt is at the bottom of the page.
 

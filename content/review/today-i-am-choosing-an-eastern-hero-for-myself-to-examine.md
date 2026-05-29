@@ -3,7 +3,7 @@ title: "Today, I am choosing an Eastern Hero for myself to examine"
 date: 2022-04-12T14:27:00+00:00
 draft: false
 tags: ["Eastern Literature", "Heroism", "Comparative Literature", "Character Analysis", "Literary Criticism"]
-description: "Western literary tradition has its heroes. This essay looks east — examining what heroism looks like when stripped of Homeric armour and placed inside a different moral and cultural grammar."
+description: "Western literary tradition has its heroes. This essay looks east, examining what heroism looks like when stripped of Homeric armour and placed inside a different moral and cultural grammar."
 ---
 The Epic of Gilgamesh Through a Comparative Perspective
 

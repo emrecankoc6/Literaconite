@@ -74,7 +74,7 @@ body::after{
 }
 
 /* ──────────────────────────────────────────────────────────
-   HEADER — frameless, blurred, barely there
+   HEADER, frameless, blurred, barely there
    ────────────────────────────────────────────────────────── */
 .header,header{
   background:rgba(8,7,6,0) !important;
@@ -149,7 +149,7 @@ body::after{
 }
 
 /* ──────────────────────────────────────────────────────────
-   HOME HERO — full viewport, cinematic
+   HOME HERO, full viewport, cinematic
    ────────────────────────────────────────────────────────── */
 .home-info{
   min-height:100svh !important;
@@ -237,7 +237,7 @@ body::after{
 }
 
 /* ──────────────────────────────────────────────────────────
-   POST LIST — no boxes, just clean editorial rows
+   POST LIST, no boxes, just clean editorial rows
    ────────────────────────────────────────────────────────── */
 #recent-posts,
 .post-list{
@@ -272,7 +272,7 @@ body::after{
   color:var(--text) !important;
 }
 
-/* post number — adds elegant counter */
+/* post number, adds elegant counter */
 .post-entry{counter-increment:post-counter}
 .post-entry::after{
   content:counter(post-counter, decimal-leading-zero);
@@ -324,7 +324,7 @@ body::after{
   font-family:var(--font-b) !important;
 }
 
-/* Tag pills — minimal */
+/* Tag pills, minimal */
 .post-tags a,.terms-tags a,.entry-meta a,.post-meta a{
   display:inline-block !important;
   padding:.1rem .55rem !important;
@@ -355,7 +355,7 @@ body::after{
 }
 
 /* ──────────────────────────────────────────────────────────
-   SCROLL REVEAL — elements animate in as they enter viewport
+   SCROLL REVEAL, elements animate in as they enter viewport
    ────────────────────────────────────────────────────────── */
 [data-reveal]{
   opacity:0;

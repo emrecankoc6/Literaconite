@@ -5,7 +5,7 @@ draft: false
 slug: "adrasan-shore"
 tags: ["Original Poetry", "Nature", "Gothic", "Coastal", "Mediterranean", "Dark Romanticism", "Turkey"]
 categories: ["Poetry"]
-description: "Standing at the edge of the Adrasan coast, where the sea meets ancient rock — an original poem that finds Gothic beauty in the Mediterranean's oldest silences."
+description: "Standing at the edge of the Adrasan coast, where the sea meets ancient rock, an original poem that finds Gothic beauty in the Mediterranean's oldest silences."
 ---
 Sinuous strings Present, aureate gets it,
 When those agleam rays humbly hit.

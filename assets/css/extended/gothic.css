@@ -92,7 +92,7 @@ body, body.dark {
 }
 
 /* ── HOME INFO BLOCK ─────────────────────────────────────────────────────────── */
-/* Title (h1) — was invisible because PaperMod hides it by default */
+/* Title (h1), was invisible because PaperMod hides it by default */
 .home-info .entry-header { display: block !important; }
 .home-info .entry-header h1 {
     font-family: 'Cinzel Decorative', serif !important;
@@ -122,7 +122,7 @@ body, body.dark {
     letter-spacing: 0.02em; text-shadow: 0 2px 12px rgba(138,3,3,0.3);
 }
 .home-info blockquote em { font-style: normal; }
-/* "— Edgar Allan Poe" line */
+/* Edgar Allan Poe quote line */
 .home-info blockquote + p {
     color: var(--blood-primary); font-family: 'Inter', sans-serif;
     font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase;
@@ -186,7 +186,7 @@ body, body.dark {
     letter-spacing: 0.25em; color: var(--blood-primary); text-transform: uppercase;
 }
 
-/* ── SINGLE POST — SHARED ────────────────────────────────────────────────────── */
+/* ── SINGLE POST, SHARED ────────────────────────────────────────────────────── */
 .post-header {
     text-align: center; margin-bottom: 5rem; position: relative; padding-bottom: 3rem;
 }
@@ -206,8 +206,8 @@ body, body.dark {
     letter-spacing: 0.3em; color: var(--blood-primary); text-transform: uppercase;
 }
 
-/* ── SINGLE POST — REVIEWS (prose) ──────────────────────────────────────────── */
-/* Reviews use Inter for comfortable reading — NOT Cinzel */
+/* ── SINGLE POST, REVIEWS (prose) ──────────────────────────────────────────── */
+/* Reviews use Inter for comfortable reading, NOT Cinzel */
 .post-content {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.15rem; line-height: 2.0;
@@ -233,7 +233,7 @@ body, body.dark {
     font-family: 'Cinzel', serif; font-size: 1.0rem; line-height: 1.9;
 }
 
-/* ── SINGLE POST — POETRY (verse) ────────────────────────────────────────────── */
+/* ── SINGLE POST, POETRY (verse) ────────────────────────────────────────────── */
 /* Apply Cinzel + drop-cap ONLY to poetry section */
 .section-poetry .post-content {
     font-family: 'Cinzel', serif !important;

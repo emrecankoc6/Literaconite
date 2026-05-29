@@ -3,7 +3,7 @@ title: "Another Close Reading to Arthur Miller’s Pulizter Winning “Death of 
 date: 2022-04-12T14:00:00+00:00
 draft: false
 tags: ["Arthur Miller", "Death of a Salesman", "Pulitzer Prize", "Close Reading", "Literary Analysis", "American Drama"]
-description: "Another pass through the most decorated American play of the 20th century — this time focusing on the role of memory, delusion, and the American myth of reinvention."
+description: "Another pass through the most decorated American play of the 20th century, this time focusing on the role of memory, delusion, and the American myth of reinvention."
 ---
 Reference excerpt is at the bottom of the page.
 
@@ -67,7 +67,7 @@ Excerpts
 
 2-Linda: Well, dear, life is a casting off. It’s always that way. 
 
-3-Willy: No, no, some people—some people accomplish something. Did Biff say anything after I went this morning? 
+3-Willy: No, no, some people, some people accomplish something. Did Biff say anything after I went this morning? 
 
 4-Linda: You shouldn’t have criticized him, Willy, especially after he just got off thetrain. You mustn’t lose your temper with him.
 5-Willy: When the hell did I lose my temper? I simply 
@@ -96,6 +96,6 @@ in him. He became a moody man. Did he apologize when I left this morning? 
 17-Willy: Why did he come home? I would like to know what brought him home.
 18-Linda: I don’t know. I think he’s still lost, Willy. I think he’s very lost. 
 
-19-Willy: Biff Loman is lost. In the greatest country in the world a young man with such—personal attractiveness, gets lost. And such a hard worker. There’s one thing about Biff—he’s not lazy. 
+19-Willy: Biff Loman is lost. In the greatest country in the world a young man with such, personal attractiveness, gets lost. And such a hard worker. There’s one thing about Biff, he’s not lazy. 
 
 20-Linda: Never.

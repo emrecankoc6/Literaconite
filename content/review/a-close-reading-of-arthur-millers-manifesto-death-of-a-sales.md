@@ -3,7 +3,7 @@ title: "A Close Reading of Arthur Miller’s Manifesto: Death of a Salesman"
 date: 2022-04-12T13:59:00+00:00
 draft: false
 tags: ["Arthur Miller", "Death of a Salesman", "Close Reading", "American Dream", "Manifesto", "Tragedy"]
-description: "Miller called Death of a Salesman a manifesto — but a manifesto for what? This reading traces the argument buried inside the play's domestic tragedy."
+description: "Miller called Death of a Salesman a manifesto, but a manifesto for what? This reading traces the argument buried inside the play's domestic tragedy."
 ---
 Reference excerpt is at the bottom of the page.
 
@@ -61,9 +61,9 @@ Sardar, Ziauddin, and Van Borin Loon. “And Science (De)Constructed.” Introd
 
  
 
-3-Willy: Well, I—I did—about a hundred and eighty gross 
+3-Willy: Well, I, I did, about a hundred and eighty gross 
 
-in Providence. Well, no—it came to—roughly two hundred gross on the whole trip. 
+in Providence. Well, no, it came to, roughly two hundred gross on the whole trip. 
 
  
 
@@ -83,7 +83,7 @@ in Providence. Well, no—it came to—roughly two hundred gross on the whole tr
 
  
 
-8-Linda: Well, on the first there’s sixteen dollars on the refrigerator— 
+8-Linda: Well, on the first there’s sixteen dollars on the refrigerator,  
 
  
 
