@@ -355,6 +355,29 @@ a { text-decoration: none; }
   text-transform: uppercase;
 }
 
+/* ── Colophon ─────────────────────────────────────────────────────────────── */
+.lc-colophon {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lc-border);
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: var(--lc-muted);
+  line-height: 1.7;
+}
+
+.lc-colophon a {
+  color: var(--lc-muted);
+  border-bottom: 1px solid rgba(155,43,43,.4);
+  transition: color var(--lc-transition), border-color var(--lc-transition);
+}
+
+.lc-colophon a:hover {
+  color: var(--lc-text);
+  border-color: var(--lc-red);
+}
+
 /* ── Section / List page header ───────────────────────────────────────────── */
 .page-header {
   margin: 0 0 2rem;
