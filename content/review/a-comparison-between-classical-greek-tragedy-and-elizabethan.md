@@ -3,16 +3,8 @@ title: "A Comparison between Classical Greek Tragedy and Elizabethan Tragedy"
 date: 2022-04-12T13:33:00+00:00
 draft: false
 tags: ["Greek Tragedy", "Elizabethan Drama", "Shakespeare", "Aristotle", "Sophocles", "Comparative Literature"]
-  - "classical"
-  - "drama"
-  - "elizabethan"
-  - "greek"
-  - "literature"
-  - "roman"
-  - "tragedy"
 description: "Greek tragedy ends in catharsis. Elizabethan tragedy ends in bodies. This essay explores what changed between Sophocles and Shakespeare — and what stayed hauntingly the same."
 ---
-
 Classical Greek tragedy and Elizabethan tragedy are separated by roughly 2000 years, and they still share some common characteristics despite the huge differences between them with the improvements in drama. The reason they are quite different has some significant bases such as the purpose of the theatre, the structure of the theatre itself, and the time periods in which the plays are performed. 
 
 First of all, Greek tragedy started out as rituals made for the sake of Dionysus. “From the earliest times Greeks worshipped Dionysus in a theatrical form -through masks, costumes, miracle plays, music and dance.” (Foley 1) As a result, the tragedies were highly religious with their choruses singing songs to praise gods. Quite the opposite, the Elizabethan tragedies were free from the effects of religions and thanks to which, their sole purpose was to entertain people and make a profit out of this sector.

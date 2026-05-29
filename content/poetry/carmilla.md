@@ -9,7 +9,6 @@ slug: "carmilla"
 author: "Emrecan Koc"
 keywords: ["Carmilla", "Le Fanu", "gothic fiction", "vampire literature", "gothic poetry", "literary analysis"]
 ---
-
 The warm welcome of the grave faces,
 As if they are alive, as if they are dead.
 No! this realm of the drags, not on heavens,

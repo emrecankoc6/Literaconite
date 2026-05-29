@@ -3,19 +3,8 @@ title: "A Close Reading of Arthur Miller’s Manifesto: Death of a Salesman"
 date: 2022-04-12T13:59:00+00:00
 draft: false
 tags: ["Arthur Miller", "Death of a Salesman", "Close Reading", "American Dream", "Manifesto", "Tragedy"]
-  - "American Drama"
-  - "analysis"
-  - "Arthur Miller"
-  - "Capitalism"
-  - "close reading"
-  - "Death of a Salesman"
-  - "literary criticism"
-  - "literature"
-  - "review"
-  - "tragedy"
 description: "Miller called Death of a Salesman a manifesto — but a manifesto for what? This reading traces the argument buried inside the play's domestic tragedy."
 ---
-
 Reference excerpt is at the bottom of the page.
 
 Jacques Derrida has changed the way people think about a text. He not only created a new understanding for the text, but also changed the way people interpret languages. With his deconstruction, the language became a subjective medium within which signifiers and symbols and signs dominated the vague meaning, as far as semiotics concerned. After deconstruction, the literary criticism and theory changed completely for a while, especially in the United Kingdom and United States as Derrida was counted among the 5 master theorists in the world along with Marx, Freud, Hegel and Kant. Therefore, I will try to hold a deconstructive approach throughout this paper to analyze the excerpt from Arthur Miller’s Death of a Salesman.

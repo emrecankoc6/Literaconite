@@ -3,19 +3,8 @@ title: "Another Close Reading to Arthur Miller’s Pulizter Winning “Death of 
 date: 2022-04-12T14:00:00+00:00
 draft: false
 tags: ["Arthur Miller", "Death of a Salesman", "Pulitzer Prize", "Close Reading", "Literary Analysis", "American Drama"]
-  - "American Drama"
-  - "analysis"
-  - "Arthur Miller"
-  - "Capitalism"
-  - "close reading"
-  - "Death of a Salesman"
-  - "drama"
-  - "literature"
-  - "review"
-  - "tragedy"
 description: "Another pass through the most decorated American play of the 20th century — this time focusing on the role of memory, delusion, and the American myth of reinvention."
 ---
-
 Reference excerpt is at the bottom of the page.
 
 Literary theory and criticism have developed over the course of more than 3000 years, starting with Aristotle and even Plato and Socrates, and it took many forms based on the time period or conditions within which the theory arose. Literary theory is basically seeking an answer to why we read and produce literature and what makes a work of literature good while literary criticism is the appliance of the theory in practice to evaluate or understand a work of literature. There have been many ways to read a text throughout the history but as for Arthur Miller’s “Death of a Salesman”, I will use certain methods to do a close reading into the selected 20 lines from the text. These are Platonian reading, Aristotelian reading, Horacian reading, Russian Formalism, and lastly Psychoanalytic or Freudian reading.

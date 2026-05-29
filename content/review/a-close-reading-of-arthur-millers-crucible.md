@@ -3,15 +3,8 @@ title: "A Close Reading of Arthur Miller’s Crucible"
 date: 2022-04-12T13:57:00+00:00
 draft: false
 tags: ["Arthur Miller", "The Crucible", "Close Reading", "Allegory", "American Drama", "Guilt"]
-  - "American Drama"
-  - "Arthur Miller"
-  - "Crucible"
-  - "drama"
-  - "Salem Witch Trails"
-  - "tragedy"
 description: "A close reading of The Crucible's language and structure — how Miller encodes confession, guilt, and collective fear into the rhythms of his dialogue and the silences between them."
 ---
-
 The reference excerpt is at the bottom of the page.
 
 Close Reading allows for a deeper understanding and a deeper pleasure when reading a work of literature. It is generally related to critical media literacy in terms of their pursue for the real meaning that lies behind the apparent lines. In Critical Media Literacy, one should compare multiple sources to validate the reliability of a news along with other techniques. Similarly, in order to do a successful close reading, one should be able to compare the lines and read between the lines, considering the text as a whole and dissecting it. In this way, the hidden messages can be unearthed. The internal logic in a text must be fulfilled to satisfy the reader experience. Therefore, I will be dissecting and analyzing a small section -20 lines- of the play but it will account for the text as a whole. Also, I chose the opening part of the play as it is suggestive enough of what to expect from the play in later parts.

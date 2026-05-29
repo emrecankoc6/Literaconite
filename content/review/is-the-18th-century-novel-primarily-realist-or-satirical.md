@@ -3,19 +3,8 @@ title: "Is the 18th Century Novel Primarily Realist or Satirical?"
 date: 2022-04-12T14:18:00+00:00
 draft: false
 tags: ["18th Century Novel", "Realism", "Satire", "Fielding", "Swift", "Richardson", "Literary History"]
-  - "analysis"
-  - "Daniel Defoe"
-  - "early English novel"
-  - "Gulliver"
-  - "literary criticism"
-  - "literature"
-  - "oronoque"
-  - "realist novel"
-  - "Robinson Crusoe"
-  - "satirical"
 description: "The 18th century novel had two faces — one pressed to the window of real life, one twisted into a grin. This essay argues the two modes were never in opposition but always in conversation."
 ---
-
 The novel in the 18th century was fledgeling and there was not an established style, however, most of the novels of the period featured satiric and realistic styles, realistic novels being the most prominent. I will examine early English novels in my article to show the prominence of realistic novels over satiric novels by exemplifying from the novels and comparing them to the period in which they were written. First of all, when I use the term realistic novel, I mean the novels that feature everyday characters with ordinary names in their casual routines and original plots unlike traditional ones as Watt’s Formal Realism suggests and most importantly, real settings with geographical and minute details, basing on real events that have happened or may happen in real life. By the term satirical novel, I mean the novels that aim to highlight the shortcomings of society or the political system through ridiculing, mimicking, mocking the acknowledged norms of society in order to change the corruption and establish a decorum.
 
  
