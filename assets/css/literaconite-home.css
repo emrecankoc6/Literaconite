@@ -84,17 +84,18 @@ a { text-decoration: none; }
 
 /* Logo */
 .logo a {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: .95rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: .06em;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: .68rem;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: .22em;
+  text-transform: uppercase;
   color: var(--lc-text);
-  opacity: .9;
+  opacity: 1;
   transition: opacity var(--lc-transition);
 }
 
-.logo a:hover { opacity: 1; }
+.logo a:hover { opacity: .75; }
 
 /* Nav menu */
 .menu {
