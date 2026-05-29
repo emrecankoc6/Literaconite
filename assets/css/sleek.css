@@ -261,8 +261,7 @@ body{
 }
 
 /* ── tag pills ── */
-.post-tags a,
-.lc-tag-pill{
+.post-tags a{
   display:inline-block;
   font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;
   padding:3px 10px;
@@ -273,22 +272,17 @@ body{
   margin:.2rem .15rem;
   transition:background .2s,color .2s;
 }
-.post-tags a:hover,.lc-tag-pill:hover{
+.post-tags a:hover{
   background:rgba(158,42,42,.15);
   color:#f0e8e0;
 }
-.post-tags{
-  margin-top:2rem;
-  display:flex;flex-wrap:wrap;gap:.3rem;
-}
 
 /* ── reading progress ── */
-#lc-progress{ border-radius:0 999px 999px 0 }
+#lc-progress{border-radius:0 999px 999px 0}
 
 /* ── related posts ── */
 .lc-related{
-  max-width:680px;
-  margin:3rem auto 0;
+  max-width:680px;margin:3rem auto 0;
   padding-top:2rem;
   border-top:1px solid rgba(255,255,255,.06);
 }
@@ -305,8 +299,7 @@ body{
   display:flex;flex-direction:column;gap:5px;
   background:rgba(255,255,255,.02);
   border:1px solid rgba(255,255,255,.055);
-  border-radius:12px;
-  padding:14px 16px;
+  border-radius:12px;padding:14px 16px;
   text-decoration:none;
   transition:border-color .2s,background .2s;
 }
@@ -318,15 +311,4 @@ body{
   font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
   color:rgba(158,42,42,.7);
 }
-.lc-related-name{
-  font-size:.9rem;color:#f0e8e0;line-height:1.35;
-}
-
-/* ── post footer author chip ── */
-.post-footer{
-  display:flex;align-items:center;gap:12px;
-  margin-top:2.5rem;padding-top:1.5rem;
-  border-top:1px solid rgba(255,255,255,.055);
-  font-size:.8rem;color:rgba(158,150,144,.75);
-  letter-spacing:.06em;
-}
+.lc-related-name{font-size:.9rem;color:#f0e8e0;line-height:1.35}
