@@ -2,8 +2,10 @@
 title: "Kubla Khan by Samuel Taylor Coleridge: A Translation into Turkish and A Reflection"
 date: 2026-05-15
 draft: false
-tags: ["Coleridge", "Romanticism", "Translation", "Poetry"]
+tags: ["Coleridge", "Kubla Khan", "Türkçe Çeviri", "Romantizm", "Kübilay Han", "Şiir Çevirisi", "Translation"]
 categories: ["Analysis", "Creative"]
+description: "Samuel Taylor Coleridge'in Kubla Khan şiirinin Türkçe çevirisi — Kübilay Han'ın sarayından yükselen görüm, Xanadu'nun nehirleri ve unutulmuş cennetin yankısı. Emrecan Koç çevirisiyle."
+lang: "tr"
 ---
 
 ### Kübilay Han - Samuel Taylor Coleridge

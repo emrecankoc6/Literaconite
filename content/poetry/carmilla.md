@@ -2,9 +2,9 @@
 title: "Carmilla"
 date: 2026-05-23
 draft: false
-tags: ["Gothic", "Elegy", "Spirit", "Graveyard", "Love", "Loss"]
+tags: ["Gothic", "Elegy", "Loss", "Spirit", "Graveyard", "Original Poetry", "Dark Romanticism"]
 categories: ["Poetry"]
-description: "A Gothic elegy haunted by a luminous spirit, neither dead nor alive, moving between grief, transcendence, and the graveyard's silence."
+description: "A Gothic elegy written in the graveyard's own tongue — Carmilla moves through grief and transcendence, caught between the world of the living and whatever lies beyond."
 slug: "carmilla"
 author: "Emrecan Koc"
 keywords: ["Carmilla", "Le Fanu", "gothic fiction", "vampire literature", "gothic poetry", "literary analysis"]

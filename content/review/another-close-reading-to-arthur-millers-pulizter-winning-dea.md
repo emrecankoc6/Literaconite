@@ -2,7 +2,7 @@
 title: "Another Close Reading to Arthur Miller’s Pulizter Winning “Death of a Salesman"
 date: 2022-04-12T14:00:00+00:00
 draft: false
-tags:
+tags: ["Arthur Miller", "Death of a Salesman", "Pulitzer Prize", "Close Reading", "Literary Analysis", "American Drama"]
   - "American Drama"
   - "analysis"
   - "Arthur Miller"
@@ -13,6 +13,7 @@ tags:
   - "literature"
   - "review"
   - "tragedy"
+description: "Another pass through the most decorated American play of the 20th century — this time focusing on the role of memory, delusion, and the American myth of reinvention."
 ---
 
 Reference excerpt is at the bottom of the page.

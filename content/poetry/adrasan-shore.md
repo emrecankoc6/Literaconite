@@ -3,9 +3,9 @@ title: "A Glimpse from the Adrasan Shore"
 date: 2026-05-15
 draft: false
 slug: "adrasan-shore"
-tags: ["Adrasan", "Gothic", "Poetry", "Gleam", "Nature", "Turkey"]
+tags: ["Original Poetry", "Nature", "Gothic", "Coastal", "Mediterranean", "Dark Romanticism", "Turkey"]
 categories: ["Poetry"]
-description: "An original poem inspired by the Adrasan coastline, capturing its ancient, luminous beauty through Gothic and Romantic imagery."
+description: "Standing at the edge of the Adrasan coast, where the sea meets ancient rock — an original poem that finds Gothic beauty in the Mediterranean's oldest silences."
 ---
 
 Sinuous strings Present, aureate gets it,

@@ -2,7 +2,7 @@
 title: "The 18th Century Novel and Crime as a Subject"
 date: 2022-04-12T14:25:00+00:00
 draft: false
-tags:
+tags: ["18th Century Novel", "Crime Fiction", "Moll Flanders", "Defoe", "Newgate", "Literary History", "Morality"]
   - "18th century novel"
   - "crime"
   - "Daniel Defoe"
@@ -13,6 +13,7 @@ tags:
   - "Robinson Crusoe"
   - "satirical"
   - "subject matter"
+description: "Before the detective novel, there was the criminal memoir. This essay examines how 18th century fiction turned crime into a moral laboratory — and why the guilty voice became the novel's most compelling narrator."
 ---
 
 The 18th century of Britain had suffered from various issues. Most of these issues were results of the growth in population. The wealth wasn’t divided equally either, leading society to be divided into classes, which would be a fundamental issue for the next centuries.One of the most important issues of the period was crime, which took a highlighted role in the newly growing literature form: novel.

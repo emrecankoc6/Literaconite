@@ -2,7 +2,7 @@
 title: "Kubla Khan by Samuel Taylor Coleridge: A Translation into Turkish by Emrecan Koç"
 date: 2025-03-06T03:21:00+00:00
 draft: false
-tags:
+tags: ["Kubla Khan", "Coleridge", "Türkçe Çeviri", "Romantizm", "Translation", "Poetry Analysis"]
   - "english literature"
   - "english poetry"
   - "kubla khan"
@@ -13,6 +13,8 @@ tags:
   - "Samuel Taylor Coleridge"
   - "translation"
   - "türkçe çeviri"
+description: "An earlier rendering of Coleridge's Kubla Khan in Turkish — the first attempt at bringing the vision of Xanadu into a new tongue, with notes on what resists translation and what crosses over freely."
+lang: "tr"
 ---
 
 ** Kubla Khan by Samuel Taylor Coleridge: A Translation into Turkish by Emrecan Koç**

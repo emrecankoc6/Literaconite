@@ -2,10 +2,11 @@
 title: "A glimpse from the Adrasan shore #mypoetry"
 date: 2022-04-12T14:02:00+00:00
 draft: false
-tags:
+tags: ["Original Poetry", "Adrasan", "Creative Writing", "Gothic", "Nature", "Mediterranean"]
   - "imagery"
   - "poetry"
   - "romanticism"
+description: "An early reflection on the poem A Glimpse from the Adrasan Shore — the coast that inspired it, the imagery it reaches for, and the Gothic undertow beneath what looks like a peaceful landscape."
 ---
 
 Sinuous strings Present, aureate gets it,

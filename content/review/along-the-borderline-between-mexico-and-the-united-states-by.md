@@ -2,7 +2,7 @@
 title: "Along the borderline between Mexico and the United States by Frida Kahlo"
 date: 2022-04-12T14:13:00+00:00
 draft: false
-tags:
+tags: ["Frida Kahlo", "Art Criticism", "Mexican Art", "Identity", "Borderlands", "Feminism", "Surrealism"]
   - "analysis"
   - "art"
   - "borderline"
@@ -10,6 +10,7 @@ tags:
   - "mexico"
   - "review"
   - "United States"
+description: "Frida Kahlo painted the border not as a line on a map but as a wound running through identity itself. A close reading of her 1932 canvas and what it means to exist between two worlds that refuse to hold you."
 ---
 
 The juxtaposition of Mexico and United States in the painting fascinated me at first glance for its representative quality. I loved the painting because of the little details such as the roots of the vegetation and the label of Ford. In general, the painting can be divided vertically, Kahlo herself representing the dividend. On the left side, the sun and moon are in the firmament in their clouds, whose interaction causes a lightning and also the left side features a ruined temple below which are some flowers, all representing Mexico. As for the right side, there is a cloud coming from a factory of Ford, along with some mechanical devices painted below. The cloud contains the flag of the United States with its stars against the moon and the sun on the left side. All of those represent the industrialization of the United States, which is presented as a negative feature.

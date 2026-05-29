@@ -1,2 +1,77 @@
-{{- $sleek := resources.Get "css/sleek.css" | minify | fingerprint -}}
-<link rel="stylesheet" href="{{ $sleek.RelPermalink }}" integrity="{{ $sleek.Data.Integrity }}">
+{{/* ── favicons ── */}}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.svg">
+
+{{/* ── canonical ── */}}
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{/* ── Open Graph ── */}}
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ .Title }} — Literaconite">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="Literaconite">
+<meta property="og:locale" content="en_US">
+{{ if .IsPage }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ with .Params.tags }}{{ range . }}<meta property="article:tag" content="{{ . }}">{{ end }}{{ end }}
+{{ end }}
+
+{{/* ── Twitter Card ── */}}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ .Title }} — Literaconite">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+
+{{/* ── JSON-LD ── */}}
+{{ if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ if eq .Section "poetry" }}Poem{{ else }}Article{{ end }}",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ with .Description }}{{ . | jsonify }}{{ else }}{{ .Site.Params.description | jsonify }}{{ end }},
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
+  "author": {"@type": "Person", "name": "Emrecan Koç", "url": "https://literaconite.com"},
+  "publisher": {"@type": "Organization", "name": "Literaconite", "url": "https://literaconite.com"},
+  "url": {{ .Permalink | jsonify }},
+  "inLanguage": "{{ if .Params.lang }}{{ .Params.lang }}{{ else }}en{{ end }}"
+}
+</script>
+{{ else }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Literaconite",
+  "url": "https://literaconite.com",
+  "description": {{ .Site.Params.description | jsonify }},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://literaconite.com/search/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{{ end }}
+
+{{/* ── reading progress bar (only on single posts) ── */}}
+{{ if .IsPage }}
+<style>
+#lc-progress{position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,#9e2a2a,#c0392b);z-index:9999;transition:width .1s linear;pointer-events:none}
+</style>
+<div id="lc-progress"></div>
+<script>
+(function(){
+  var bar=document.getElementById('lc-progress');
+  window.addEventListener('scroll',function(){
+    var s=document.documentElement,b=document.body;
+    var t=s.scrollTop||b.scrollTop;
+    var h=(s.scrollHeight||b.scrollHeight)-s.clientHeight;
+    bar.style.width=(h>0?(t/h*100):0)+'%';
+  },{passive:true});
+})();
+</script>
+{{ end }}
