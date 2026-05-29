@@ -756,6 +756,29 @@ details.toc summary {
 
 #searchResults .post-entry { margin-top: .75rem; }
 
+/* ── Article images ─────────────────────────────────────────────────────── */
+.post-content img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--lc-radius);
+  margin: 2rem 0;
+  display: block;
+  border: 1px solid var(--lc-border);
+}
+
+.post-content img + em,
+.post-content img + p > em:only-child {
+  display: block;
+  text-align: center;
+  font-size: .72rem;
+  font-style: italic;
+  color: var(--lc-muted);
+  margin-top: -.75rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: .04em;
+}
+
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--lc-bg); }
