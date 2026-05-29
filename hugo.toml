@@ -11,6 +11,9 @@ buildDrafts = false
 [pagination]
   pagerSize = 10
 
+[params.label]
+  text = "Literaconite"
+
 [params]
   env = "production"
   defaultTheme = "dark"
