@@ -1,19 +1,4 @@
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="alternate icon" href="/favicon.ico">
-<link rel="canonical" href="{{ .Permalink }}">
-<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-<meta property="og:title" content="{{ .Title }} — Literaconite">
-<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-<meta property="og:url" content="{{ .Permalink }}">
-<meta property="og:site_name" content="Literaconite">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{{ .Title }} — Literaconite">
-<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-{{ if .IsPage }}
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"{{ if eq .Section "poetry" }}Poem{{ else }}Article{{ end }}","headline":{{ .Title | jsonify }},"author":{"@type":"Person","name":"Emrecan Koç"},"datePublished":"{{ .Date.Format "2006-01-02" }}","url":{{ .Permalink | jsonify }}}
-</script>
-<style>#lc-progress{position:fixed;top:0;left:0;width:0;height:2px;background:#9e2a2a;z-index:9999;pointer-events:none}</style>
-<div id="lc-progress"></div>
-<script>(function(){var b=document.getElementById("lc-progress");window.addEventListener("scroll",function(){var d=document.documentElement,h=d.scrollHeight-d.clientHeight;b.style.width=h>0?(d.scrollTop/h*100)+"%":"0%";},{passive:true});})();</script>
+{{ if (resources.Get "css/override.css") }}
+<link rel="stylesheet" href="{{ (resources.Get "css/override.css").RelPermalink }}">
 {{ end }}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">

@@ -1,0 +1,84 @@
+:root{
+  --theme:#070707;
+  --entry:#111111;
+  --primary:#f2ece6;
+  --secondary:#b8aaa0;
+  --tertiary:#8f2a2a;
+  --content:700px;
+}
+
+body{
+  background:
+    radial-gradient(circle at top, rgba(120,0,0,.18), transparent 38%),
+    #070707;
+}
+
+.header{
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(7,7,7,.92);
+  backdrop-filter:blur(8px);
+}
+
+.logo a,
+.logo span{
+  font-family: Georgia, serif;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+#menu a{
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:.76rem;
+}
+
+.main{
+  padding-top:2rem;
+}
+
+.first-entry,
+.post-entry{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  box-shadow:none;
+}
+
+.first-entry:hover,
+.post-entry:hover{
+  border-color:rgba(143,42,42,.42);
+  transform:none;
+}
+
+.entry-header h2{
+  font-family: Georgia, serif;
+  font-weight:700;
+}
+
+.post-content{
+  font-size:1.02rem;
+  line-height:1.95;
+}
+
+.post-content p{
+  margin-bottom:1.15rem;
+}
+
+.post-content blockquote{
+  border-left:2px solid rgba(143,42,42,.65);
+  padding: .2rem 0 .2rem 1rem;
+  color:var(--secondary);
+}
+
+.post-content > p:first-of-type::first-letter{
+  float:left;
+  font-family:Georgia,serif;
+  font-size:3.4rem;
+  line-height:.9;
+  padding-right:.12rem;
+  color:#a33232;
+}
+
+.footer{
+  border-top:1px solid rgba(255,255,255,.06);
+}
