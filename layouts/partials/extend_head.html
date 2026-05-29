@@ -1,4 +1,4 @@
-{{ if (resources.Get "css/override.css") }}
-<link rel="stylesheet" href="{{ (resources.Get "css/override.css").RelPermalink }}">
+{{ with resources.Get "css/override.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
 {{ end }}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
