@@ -14,6 +14,8 @@ keywords: ["Carmilla", "Le Fanu", "gothic fiction", "vampire literature", "gothi
 
 *Artwork: [“Stormbringer, Cymoril” by dameklaudia on DeviantArt](https://www.deviantart.com/dameklaudia/art/Stormbringer-Cymoril-845719504). Image used on this page with credit and a link to the original source.*
 
+{{< figure src="carmilla-art.jpg" alt="Illustration of a pale woman in flowing white robes, framed by storm-dark skies and a Gothic atmosphere, evoking the spirit of Carmilla" caption="*Artwork: [Stormbringer, Cymoril](https://www.deviantart.com/dameklaudia/art/Stormbringer-Cymoril-845719504) by dameklaudia on DeviantArt*" >}}
+
 The warm welcome of the grave faces,
 As if they are alive, as if they are dead.
 No! this realm of the drags, not on heavens,
