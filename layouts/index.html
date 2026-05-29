@@ -1,57 +1,43 @@
-{{- define "main" }}
-<main class="main lc-home">
-
-  {{/* ── wordmark + tagline ───────────────────────── */}}
+{{ define "main" }}
+<main class="lc-main">
   <header class="lc-hero">
-    <p class="lc-wordmark">Literaconite</p>
-    <p class="lc-tagline">Gothic poetry &amp; literary criticism</p>
-    <span class="lc-rule"></span>
+    <p class="lc-hero-title">Literaconite</p>
+    <p class="lc-hero-sub">Gothic poetry &amp; literary criticism</p>
+    <span class="lc-hero-line"></span>
   </header>
-
-  {{/* ── post grid ────────────────────────────────── */}}
-  {{- $pages := where .Site.RegularPages "Draft" false }}
-  {{- $pages = where $pages "Section" "in" (slice "poetry" "review") }}
-  {{- $pages = $pages.ByDate.Reverse }}
-
-  {{- if $pages }}
-  <section class="lc-grid">
-    {{- range $i, $p := first 1 $pages }}
-    <article class="lc-featured">
-      <span class="lc-section-tag">{{ $p.Section }}</span>
-      <h2 class="lc-featured-title">
-        <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
-      </h2>
-      {{- with $p.Description }}<p class="lc-featured-desc">{{ . }}</p>{{ end }}
-      <div class="lc-featured-meta">
-        <time>{{ $p.Date.Format "2 January 2006" }}</time>
-        {{- with $p.Params.tags }}<span class="lc-tags">
-          {{- range first 3 . }}<a href="/tags/{{ . | urlize }}/">#{{ . }}</a> {{- end}}
-        </span>{{ end }}
+  {{ $pages := where .Site.RegularPages "Draft" false }}
+  {{ $pages = where $pages "Section" "in" (slice "poetry" "review") }}
+  {{ $pages = $pages.ByDate.Reverse }}
+  {{ if $pages }}
+  <section class="lc-layout">
+    {{ with index $pages 0 }}
+    <article class="lc-feature">
+      <span class="lc-chip">{{ .Section }}</span>
+      <h2 class="lc-feature-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Description }}<p class="lc-feature-desc">{{ . }}</p>{{ end }}
+      <div class="lc-feature-meta">
+        <time>{{ .Date.Format "2 January 2006" }}</time>
+        {{ with .Params.tags }}<span class="lc-feature-tags">{{ range first 3 . }}<a href="/tags/{{ . | urlize }}/">#{{ . }}</a> {{ end }}</span>{{ end }}
       </div>
     </article>
-    {{- end }}
-
-    <div class="lc-list">
-      {{- range $i, $p := after 1 (first 9 $pages) }}
-      <article class="lc-item">
-        <span class="lc-section-dot lc-dot-{{ $p.Section }}"></span>
-        <div class="lc-item-body">
-          <h3><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
-          <time>{{ $p.Date.Format "Jan 2006" }}</time>
+    {{ end }}
+    <div class="lc-stream">
+      {{ range after 1 (first 12 $pages) }}
+      <article class="lc-stream-item">
+        <span class="lc-dot lc-dot-{{ .Section }}"></span>
+        <div class="lc-stream-body">
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <time>{{ .Date.Format "Jan 2006" }}</time>
         </div>
       </article>
-      {{- end }}
+      {{ end }}
     </div>
   </section>
-
-  <div class="lc-more">
-    <a href="/poetry/">Poetry</a>
-    <span>·</span>
-    <a href="/review/">Reviews</a>
-    <span>·</span>
+  <nav class="lc-nav-links">
+    <a href="/poetry/">Poetry</a><span>·</span>
+    <a href="/review/">Reviews</a><span>·</span>
     <a href="/archives/">Archive</a>
-  </div>
-  {{- end }}
-
+  </nav>
+  {{ end }}
 </main>
-{{- end }}
+{{ end }}
