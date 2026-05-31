@@ -7,7 +7,7 @@
   </header>
 
   {{ $pages := where .Site.RegularPages "Draft" false }}
-  {{ $pages = where $pages "Section" "in" (slice "poetry" "review") }}
+  {{ $pages = where $pages "Section" "in" (slice "poetry" "review" "miscellaneous") }}
   {{ $pages = $pages.ByDate.Reverse }}
 
   {{ if gt (len $pages) 0 }}

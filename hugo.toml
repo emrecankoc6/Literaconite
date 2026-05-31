@@ -27,7 +27,7 @@ buildDrafts = false
   ShowToc = true
   disableSpecial1stPost = true
   TocOpen = false
-  mainSections = ["poetry","review"]
+  mainSections = ["poetry","review","miscellaneous"]
   description = "Literaconite is a literary journal of original Gothic poetry and close criticism, dark, romantic, and haunted by the canon."
   author = "Emrecan Koc"
   DateFormat = "January 2, 2006"
@@ -74,3 +74,8 @@ buildDrafts = false
 [markup.highlight]
   style = "monokai"
   lineNos = false
+[[menu.main]]
+  name = "Miscellaneous"
+  url = "/miscellaneous/"
+  weight = 50
+  title = "Random things, fragments, and images"
