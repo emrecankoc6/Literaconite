@@ -1,58 +1,59 @@
-<header class="lc-header">
-  <nav class="lc-nav">
+<header class="lc-site-header">
+  <div class="lc-header-inner">
 
-    <div class="lc-nav-left">
-      <a class="lc-nav-logo" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite">
-        <span class="lc-nav-logo-mark">✦</span>
-        <span class="lc-nav-logo-title">Literaconite</span>
+    <div class="lc-brand">
+      <a class="lc-brand-link" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite: Frontispiece">
+        <span class="lc-brand-star">✦</span>
+        <span class="lc-brand-title">L I T E R A C O N I T E</span>
       </a>
-      <span class="lc-nav-tagline">Gothic Verse &amp; Criticism</span>
     </div>
 
-    <ul class="lc-nav-menu">
-      <li>
-        <a href="{{ "/poetry/" | absLangURL }}"
-          {{- if eq $.RelPermalink ("/poetry/" | absLangURL) }} class="lc-nav-active"{{ end }}>
-          Poetry
-        </a>
-      </li>
-      <li>
-        <a href="{{ "/review/" | absLangURL }}"
-          {{- if eq $.RelPermalink ("/review/" | absLangURL) }} class="lc-nav-active"{{ end }}>
-          Criticism
-        </a>
-      </li>
-      <li>
-        <a href="{{ "/archives/" | absLangURL }}"
-          {{- if eq $.RelPermalink ("/archives/" | absLangURL) }} class="lc-nav-active"{{ end }}>
-          Archive
-        </a>
-      </li>
-      <li>
-        <a href="{{ "/miscellaneous/" | absLangURL }}"
-          {{- if eq $.RelPermalink ("/miscellaneous/" | absLangURL) }} class="lc-nav-active"{{ end }}>
-          Fragments
-        </a>
-      </li>
-    </ul>
+    <nav class="lc-site-nav" aria-label="Primary">
+      <ul class="lc-nav-list">
+        <li>
+          <a href="{{ "/poetry/" | absLangURL }}"
+            {{- if eq $.RelPermalink ("/poetry/" | absLangURL) }} class="is-active"{{ end }}>
+            Poetry
+          </a>
+        </li>
+        <li>
+          <a href="{{ "/review/" | absLangURL }}"
+            {{- if eq $.RelPermalink ("/review/" | absLangURL) }} class="is-active"{{ end }}>
+            Criticism
+          </a>
+        </li>
+        <li>
+          <a href="{{ "/archives/" | absLangURL }}"
+            {{- if eq $.RelPermalink ("/archives/" | absLangURL) }} class="is-active"{{ end }}>
+            Archive
+          </a>
+        </li>
+        <li>
+          <a href="{{ "/miscellaneous/" | absLangURL }}"
+            {{- if eq $.RelPermalink ("/miscellaneous/" | absLangURL) }} class="is-active"{{ end }}>
+            Fragments
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-    <div class="lc-nav-actions">
-      <button class="lc-btn lc-palette-trigger" type="button" aria-label="Search">
-        <svg class="lc-btn-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <span class="lc-btn-label">Search</span>
-        <span class="lc-kbd">⌘K</span>
+    <div class="lc-header-tools">
+      <button class="lc-tool-btn lc-palette-trigger" type="button" aria-label="Quick Search (Cmd+K)">
+        <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span class="lc-tool-text">Search</span>
+        <kbd class="lc-tool-kbd">⌘K</kbd>
       </button>
 
-      <button class="lc-btn lc-theme-btn" type="button" aria-label="Toggle Mood">
-        <span class="lc-theme-dot"></span>
+      <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood">
+        <span class="lc-status-dot lc-theme-dot"></span>
         <span class="lc-theme-label">Midnight</span>
       </button>
 
-      <button class="lc-btn lc-audio-btn" type="button" aria-label="Toggle Rain Soundscape">
-        <span class="lc-audio-dot"></span>
+      <button class="lc-tool-btn lc-audio-btn" type="button" aria-label="Toggle Rain Ambient Audio">
+        <span class="lc-status-dot lc-audio-dot"></span>
         <span class="lc-audio-label">Rain</span>
       </button>
     </div>
 
-  </nav>
+  </div>
 </header>

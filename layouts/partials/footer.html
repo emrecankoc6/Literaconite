@@ -1,11 +1,13 @@
-<footer class="lc-footer" style="text-align: center; padding: 4rem 1.5rem 3rem; margin-top: 5rem; border-top: 1px solid var(--lc-border); font-size: 0.75rem; color: var(--lc-muted); letter-spacing: 0.08em;">
-  <div style="color: var(--lc-red); font-size: 1.2rem; margin-bottom: 1.2rem; opacity: 0.8;">❦</div>
-  <p style="margin: 0 0 0.5rem;">
-    &copy; {{ now.Format "2006" }} <a href="{{ "" | absLangURL }}" style="color: var(--lc-text); font-weight: 500;">Literaconite</a> &bull; Emrecan Koç
-  </p>
-  <p style="margin: 0; font-size: 0.68rem; opacity: 0.75;">
-    Gothic Poetry &amp; Literary Criticism &bull; Haunted by the Canon
-  </p>
+<footer class="lc-site-footer">
+  <div class="lc-footer-inner">
+    <div class="lc-footer-mark">❦</div>
+    <p class="lc-footer-copy">
+      &copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">Literaconite</a> &bull; Emrecan Koç
+    </p>
+    <p class="lc-footer-sub">
+      Gothic Poetry &amp; Literary Criticism &bull; Haunted by the Canon
+    </p>
+  </div>
 </footer>
 
 {{ with resources.Get "js/literaconite-core.js" }}

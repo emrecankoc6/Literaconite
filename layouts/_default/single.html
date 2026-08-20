@@ -1,87 +1,79 @@
 {{- define "main" }}
 
-<div id="reading-progress"></div>
+<div id="reading-progress" class="lc-progress-bar"></div>
 
-<article class="post-single {{ if eq .Section "poetry" }}is-poetry{{ end }}">
-  <header class="post-header">
-    <div class="post-section-badge">
-      <span class="lc-chip">{{ .Section }}</span>
+<article class="lc-article-page {{ if eq .Section "poetry" }}is-poetry-article{{ end }}">
+
+  <header class="lc-article-header">
+    <div class="lc-article-badge">
+      <span class="lc-section-pill lc-pill-{{ .Section }}">{{ .Section }}</span>
     </div>
 
-    <h1 class="post-title">
-      {{ .Title }}
-    </h1>
+    <h1 class="lc-article-title">{{ .Title }}</h1>
 
-    {{- if .Description }}
-    <div class="post-description">
-      {{ .Description }}
-    </div>
+    {{- with .Description }}
+    <p class="lc-article-description">{{ . }}</p>
     {{- end }}
 
-    <div class="post-meta">
-      <span class="lc-meta-item">
-        <time>{{ .Date.Format "2 January 2006" }}</time>
-      </span>
-      <span class="lc-meta-sep">&bull;</span>
-      <span class="lc-meta-item">
-        {{ .ReadingTime }} min read
-      </span>
-      <span class="lc-meta-sep">&bull;</span>
-      <span class="lc-meta-item">
-        {{ .WordCount }} words
-      </span>
+    <div class="lc-article-meta">
+      <time class="lc-meta-date">{{ .Date.Format "2 January 2006" }}</time>
+      <span class="lc-meta-bullet">&bull;</span>
+      <span class="lc-meta-readtime">{{ .ReadingTime }} min read</span>
+      <span class="lc-meta-bullet">&bull;</span>
+      <span class="lc-meta-words">{{ .WordCount }} words</span>
     </div>
 
-    <div class="lc-post-divider"></div>
+    <div class="lc-header-separator">
+      <span>✦</span>
+    </div>
   </header>
 
   {{- if (.Param "ShowToc") }}
-  <details class="toc" {{ if (.Param "TocOpen") }}open{{ end }}>
-    <summary accesskey="c" title="(Alt + C)">
-      <span class="details">✦ Table of Contents</span>
-    </summary>
-    <div class="inner">
+  <details class="lc-toc-box" {{ if (.Param "TocOpen") }}open{{ end }}>
+    <summary><span class="lc-toc-title">✦ Table of Contents</span></summary>
+    <div class="lc-toc-content">
       {{- .TableOfContents }}
     </div>
   </details>
   {{- end }}
 
   {{- if .Content }}
-  <div class="post-content {{ if eq .Section "poetry" }}lc-verse-container{{ end }}">
+  <div class="lc-prose {{ if eq .Section "poetry" }}lc-verse-mode{{ end }}">
     {{ .Content }}
   </div>
   {{- end }}
 
-  <div class="lc-end-mark">
-    <span>✦ &nbsp; ❦ &nbsp; ✦</span>
+  <div class="lc-post-fleuron">
+    <span>☩ &nbsp; ❦ &nbsp; ☩</span>
   </div>
 
-  <footer class="post-footer">
+  <footer class="lc-article-footer">
     {{- with .Params.tags }}
-    <ul class="post-tags">
+    <div class="lc-tag-cloud">
       {{- range . }}
-      <li><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/">#{{ . }}</a></li>
+      <a class="lc-tag-chip" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/">#{{ . }}</a>
       {{- end }}
-    </ul>
+    </div>
     {{- end }}
 
     {{- if (.Param "ShowPostNavLinks") }}
-    <nav class="paginav">
+    <nav class="lc-pagination">
       {{- with .PrevInSection }}
-      <a class="prev" href="{{ .RelPermalink }}">
-        <span class="title">&laquo; Previous</span>
-        <span>{{ .Title }}</span>
+      <a class="lc-pag-link lc-pag-prev" href="{{ .RelPermalink }}">
+        <span class="lc-pag-label">&laquo; Previous Inscription</span>
+        <span class="lc-pag-title">{{ .Title }}</span>
       </a>
       {{- end }}
       {{- with .NextInSection }}
-      <a class="next" href="{{ .RelPermalink }}">
-        <span class="title">Next &raquo;</span>
-        <span>{{ .Title }}</span>
+      <a class="lc-pag-link lc-pag-next" href="{{ .RelPermalink }}">
+        <span class="lc-pag-label">Next Inscription &raquo;</span>
+        <span class="lc-pag-title">{{ .Title }}</span>
       </a>
       {{- end }}
     </nav>
     {{- end }}
   </footer>
+
 </article>
 
 {{- end }}

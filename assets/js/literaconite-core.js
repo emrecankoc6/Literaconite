@@ -1,5 +1,5 @@
 /**
- * LITERACONITE CORE ENGINE
+ * LITERACONITE CORE INTERACTIVE SYSTEM
  * Pure Vanilla JavaScript — High-Performance & Zero Dependencies
  */
 
@@ -7,7 +7,7 @@
   'use strict';
 
   /* ─────────────────────────────────────────────────────────────
-     1. THEMES & ATMOSPHERE ENGINE
+     1. ATMOSPHERE THEME ENGINE
      ───────────────────────────────────────────────────────────── */
   const THEMES = ['midnight', 'candlelight', 'crimson'];
   const THEME_NAMES = {
@@ -68,7 +68,7 @@
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // Pink/Brown noise generator for rainfall
+      // Pink/Brown noise buffer for rainfall
       const bufferSize = audioCtx.sampleRate * 2;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -86,18 +86,18 @@
 
       filterNode = audioCtx.createBiquadFilter();
       filterNode.type = 'lowpass';
-      filterNode.frequency.setValueAtTime(700, audioCtx.currentTime);
+      filterNode.frequency.setValueAtTime(680, audioCtx.currentTime);
 
       noiseNode.connect(filterNode);
       filterNode.connect(masterGain);
 
-      // Cathedral drone oscillator (55Hz)
+      // Deep cathedral 55Hz drone
       const droneOsc = audioCtx.createOscillator();
       droneOsc.type = 'sine';
       droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
 
       droneGain = audioCtx.createGain();
-      droneGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      droneGain.gain.setValueAtTime(0.038, audioCtx.currentTime);
 
       droneOsc.connect(droneGain);
       droneGain.connect(masterGain);
@@ -105,7 +105,7 @@
       noiseNode.start(0);
       droneOsc.start(0);
     } catch(e) {
-      console.warn('Web Audio error', e);
+      console.warn('Web Audio init', e);
     }
   }
 
@@ -120,7 +120,7 @@
     if (!isAudioPlaying) {
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 1.0);
+      masterGain.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 1.0);
       isAudioPlaying = true;
       showToast('Rain Soundscape: Active');
     } else {
@@ -166,13 +166,13 @@
   let isIndexLoaded = false;
 
   const STATIC_COMMANDS = [
-    { title: 'Home', subtitle: 'Front page', url: '/', icon: '✦' },
-    { title: 'Poetry', subtitle: 'Gothic verse & translations', url: '/poetry/', icon: '📜' },
-    { title: 'Criticism & Essays', subtitle: 'Close readings and theory', url: '/review/', icon: '🖋️' },
-    { title: 'Atmosphere: Toggle Mood', subtitle: 'Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
-    { title: 'Soundscape: Toggle Rain', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
-    { title: 'Archive', subtitle: 'Chronological archive of all writings', url: '/archives/', icon: '📂' },
-    { title: 'Search', subtitle: 'Full search page', url: '/search/', icon: '🔍' },
+    { title: 'Frontispiece', subtitle: 'Return to front page', url: '/', icon: '✦' },
+    { title: 'Poetry & Verse', subtitle: 'Original Gothic and Romantic verse', url: '/poetry/', icon: '📜' },
+    { title: 'Criticism & Close Readings', subtitle: 'Dramatic essays and literary theory', url: '/review/', icon: '🖋️' },
+    { title: 'Chronological Archive', subtitle: 'Full index of all writings', url: '/archives/', icon: '📂' },
+    { title: 'Fragments & Miscellaneous', subtitle: 'Scraps, fragments, and art', url: '/miscellaneous/', icon: '✨' },
+    { title: 'Atmosphere: Toggle Theme', subtitle: 'Switch Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
+    { title: 'Soundscape: Toggle Rain', subtitle: 'Ambient procedural rainfall', action: 'audio', icon: '🌧️' },
     { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true }
   ];
 
@@ -205,7 +205,7 @@
       <div class="lc-palette-modal" role="dialog" aria-modal="true" aria-label="Command Palette">
         <div class="lc-palette-header">
           <span class="lc-palette-icon">✦</span>
-          <input type="text" class="lc-palette-input" placeholder="Search inscriptions or type a command (Esc to close)..." autocomplete="off" spellcheck="false" />
+          <input type="text" class="lc-palette-input" placeholder="Search inscriptions or jump to section (Esc to exit)..." autocomplete="off" spellcheck="false" />
           <kbd class="lc-palette-kbd">ESC</kbd>
         </div>
         <div class="lc-palette-results"></div>
@@ -344,40 +344,40 @@
   });
 
   /* ─────────────────────────────────────────────────────────────
-     5. VERSE FOCUS & STANZA INTERACTION (Click to Lock)
+     5. VERSE FOCUS & STANZA INTERACTION
      ───────────────────────────────────────────────────────────── */
   function initVerseFocus() {
-    const postContent = document.querySelector('.post-content');
-    if (!postContent) return;
+    const proseContainer = document.querySelector('.lc-verse-mode') || document.querySelector('.is-poetry-article .lc-prose');
+    if (!proseContainer) return;
 
-    const paragraphs = Array.from(postContent.querySelectorAll('p')).filter(p => !p.closest('figcaption'));
+    const paragraphs = Array.from(proseContainer.querySelectorAll('p')).filter(p => !p.closest('figcaption'));
 
     paragraphs.forEach((p, idx) => {
       p.addEventListener('click', e => {
         e.stopPropagation();
-        const isAlreadyActive = p.classList.contains('is-active-stanza');
+        const isAlreadyLocked = p.classList.contains('is-locked-stanza');
 
-        paragraphs.forEach(el => el.classList.remove('is-active-stanza'));
-        postContent.classList.remove('has-active-stanza');
+        paragraphs.forEach(el => el.classList.remove('is-locked-stanza'));
+        proseContainer.classList.remove('has-locked-stanza');
 
-        if (!isAlreadyActive) {
-          p.classList.add('is-active-stanza');
-          postContent.classList.add('has-active-stanza');
-          showToast(`Stanza ${idx + 1} focused`);
+        if (!isAlreadyLocked) {
+          p.classList.add('is-locked-stanza');
+          proseContainer.classList.add('has-locked-stanza');
+          showToast(`Stanza ${idx + 1} locked in contemplation`);
         }
       });
     });
 
     document.addEventListener('click', e => {
-      if (!postContent.contains(e.target)) {
-        postContent.classList.remove('has-active-stanza');
-        paragraphs.forEach(el => el.classList.remove('is-active-stanza'));
+      if (!proseContainer.contains(e.target)) {
+        proseContainer.classList.remove('has-locked-stanza');
+        paragraphs.forEach(el => el.classList.remove('is-locked-stanza'));
       }
     });
   }
 
   /* ─────────────────────────────────────────────────────────────
-     6. GOTHIC EXCERPT & QUOTE CLIPPING TOOL
+     6. GOTHIC EXCERPT & CITATION TOOLTIP
      ───────────────────────────────────────────────────────────── */
   let quoteTooltip = null;
 
@@ -435,15 +435,11 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     7. READING PROGRESS
+     7. READING PROGRESS BAR
      ───────────────────────────────────────────────────────────── */
   function initReadingProgress() {
-    let progressBar = document.querySelector('#reading-progress');
-    if (!progressBar) {
-      progressBar = document.createElement('div');
-      progressBar.id = 'reading-progress';
-      document.body.appendChild(progressBar);
-    }
+    const progressBar = document.querySelector('#reading-progress');
+    if (!progressBar) return;
 
     function updateProgress() {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -458,27 +454,27 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     8. STREAM CATEGORY FILTER (Homepage)
+     8. HOMEPAGE STREAM FILTER
      ───────────────────────────────────────────────────────────── */
   function initStreamFilter() {
-    const filterContainer = document.querySelector('.lc-stream-filter');
-    const streamItems = document.querySelectorAll('.lc-stream-item');
-    if (!filterContainer || streamItems.length === 0) return;
+    const filterContainer = document.querySelector('.lc-filter-pills');
+    const cards = document.querySelectorAll('.lc-grid-card');
+    if (!filterContainer || cards.length === 0) return;
 
     filterContainer.addEventListener('click', e => {
-      const btn = e.target.closest('.lc-filter-btn');
+      const btn = e.target.closest('.lc-filter-pill');
       if (!btn) return;
 
-      filterContainer.querySelectorAll('.lc-filter-btn').forEach(b => b.classList.remove('is-active'));
+      filterContainer.querySelectorAll('.lc-filter-pill').forEach(b => b.classList.remove('is-active'));
       btn.classList.add('is-active');
 
       const filter = btn.getAttribute('data-filter');
 
-      streamItems.forEach(item => {
-        if (filter === 'all' || item.classList.contains(`lc-section-${filter}`)) {
-          item.style.display = 'flex';
+      cards.forEach(card => {
+        if (filter === 'all' || card.classList.contains(`lc-card-${filter}`)) {
+          card.style.display = 'flex';
         } else {
-          item.style.display = 'none';
+          card.style.display = 'none';
         }
       });
     });

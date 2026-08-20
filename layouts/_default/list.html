@@ -1,0 +1,48 @@
+{{ define "main" }}
+<div class="lc-list-page">
+
+  <header class="lc-list-header">
+    <div class="lc-list-badge">
+      <span class="lc-section-pill">{{ .Title }}</span>
+    </div>
+    <h1 class="lc-list-title">{{ .Title }}</h1>
+    {{ with .Description }}
+    <p class="lc-list-desc">{{ . }}</p>
+    {{ end }}
+    <div class="lc-header-separator">
+      <span>✦</span>
+    </div>
+  </header>
+
+  {{- $pages := .Pages }}
+  {{- if .IsHome }}
+    {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+  {{- end }}
+
+  <div class="lc-grid">
+    {{ range $pages }}
+    <article class="lc-grid-card lc-card-{{ .Section }}">
+      <div class="lc-card-top">
+        <span class="lc-dot lc-dot-{{ .Section }}"></span>
+        <span class="lc-card-section">{{ .Section }}</span>
+        <span class="lc-meta-dot">&bull;</span>
+        <time class="lc-card-time">{{ .Date.Format "2 Jan 2006" }}</time>
+      </div>
+      <h3 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p class="lc-grid-desc">
+        {{ with .Description }}
+          {{ . | truncate 140 }}
+        {{ else }}
+          {{ .Summary | plainify | truncate 140 }}
+        {{ end }}
+      </p>
+      <div class="lc-grid-bottom">
+        <a class="lc-grid-link" href="{{ .RelPermalink }}">Read inscription &rarr;</a>
+        <span class="lc-grid-readtime">{{ .ReadingTime }} min</span>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+</div>
+{{ end }}

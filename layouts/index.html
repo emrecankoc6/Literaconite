@@ -1,82 +1,97 @@
 {{ define "main" }}
-<main class="lc-main">
+<div class="lc-frontispiece">
 
-  <header class="lc-masthead">
-    <h1 class="lc-masthead-title">Literaconite</h1>
-    <p class="lc-masthead-sub">A Journal of Gothic Verse, Dramatic Theory &amp; Close Criticism</p>
-    <div class="lc-masthead-rule"></div>
-  </header>
+  <section class="lc-masthead">
+    <div class="lc-masthead-ornament">✦ &nbsp; ❦ &nbsp; ✦</div>
+    <h1 class="lc-masthead-title">L I T E R A C O N I T E</h1>
+    <p class="lc-masthead-subtitle">A Journal of Gothic Verse, Dramatic Theory &amp; Close Criticism</p>
+    <div class="lc-masthead-line"></div>
+  </section>
 
   {{ $pages := where .Site.RegularPages "Draft" false }}
   {{ $pages = where $pages "Section" "in" (slice "poetry" "review" "miscellaneous") }}
   {{ $pages = $pages.ByDate.Reverse }}
 
   {{ if gt (len $pages) 0 }}
-  <section class="lc-layout">
-
-    {{ with index $pages 0 }}
-    <article class="lc-lead">
-      <div class="lc-lead-badge">
-        <span class="lc-chip">{{ .Section }}</span>
-        <span class="lc-lead-date">{{ .Date.Format "2 January 2006" }}</span>
+  <!-- Lead Editorial Feature -->
+  {{ with index $pages 0 }}
+  <section class="lc-lead-feature">
+    <div class="lc-lead-card">
+      <div class="lc-card-header">
+        <span class="lc-section-pill lc-pill-{{ .Section }}">{{ .Section }}</span>
+        <span class="lc-card-date">{{ .Date.Format "2 January 2006" }}</span>
       </div>
-      <h2 class="lc-lead-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      <h2 class="lc-lead-heading"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
       {{ with .Description }}
-        <p class="lc-lead-desc">{{ . }}</p>
+        <p class="lc-lead-synopsis">{{ . }}</p>
       {{ else }}
-        <p class="lc-lead-desc">{{ .Summary | plainify | truncate 190 }}</p>
+        <p class="lc-lead-synopsis">{{ .Summary | plainify | truncate 220 }}</p>
       {{ end }}
-      <div class="lc-lead-footer">
-        <span class="lc-read-more"><a href="{{ .RelPermalink }}">Read inscription &rarr;</a></span>
-        {{ with .Params.tags }}
-        <div class="lc-lead-tags">
-          {{ range first 3 . }}<span>#{{ . }}</span>{{ end }}
-        </div>
-        {{ end }}
-      </div>
-    </article>
-    {{ end }}
-
-    <aside class="lc-stream">
-      <div class="lc-stream-header">
-        <span class="lc-stream-title">Dispatches &amp; Index</span>
-        <div class="lc-stream-filter">
-          <button class="lc-filter-btn is-active" data-filter="all" type="button">All</button>
-          <button class="lc-filter-btn" data-filter="poetry" type="button">Poetry</button>
-          <button class="lc-filter-btn" data-filter="review" type="button">Criticism</button>
+      <div class="lc-card-footer">
+        <a class="lc-enter-link" href="{{ .RelPermalink }}">Enter Inscription <span class="lc-arrow">&rarr;</span></a>
+        <div class="lc-meta-cluster">
+          <span>{{ .ReadingTime }} min read</span>
+          {{ with .Params.tags }}
+          <span class="lc-tag-preview">{{ index . 0 }}</span>
+          {{ end }}
         </div>
       </div>
-
-      <div class="lc-stream-list">
-        {{ range after 1 (first 14 $pages) }}
-        <article class="lc-stream-item lc-section-{{ .Section }}">
-          <span class="lc-dot lc-dot-{{ .Section }}" title="{{ .Section }}"></span>
-          <div class="lc-stream-content">
-            <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-            <div class="lc-stream-meta">
-              <span class="lc-stream-section">{{ .Section }}</span>
-              <span class="lc-stream-sep">&bull;</span>
-              <time>{{ .Date.Format "Jan 2006" }}</time>
-            </div>
-          </div>
-        </article>
-        {{ end }}
-      </div>
-    </aside>
-
+    </div>
   </section>
   {{ end }}
 
-  <footer class="lc-colophon">
-    <div class="lc-colophon-text">
-      Literaconite is edited and maintained by <strong>Emrecan Koç</strong>. Dedicated to original Gothic poetry, dramatic analysis, and close critical readings.
+  <!-- The Dispatches Grid -->
+  <section class="lc-stream-section">
+    <div class="lc-stream-navbar">
+      <h3 class="lc-stream-heading">The Archives &amp; Dispatches</h3>
+      <div class="lc-filter-pills">
+        <button class="lc-filter-pill is-active" data-filter="all" type="button">All</button>
+        <button class="lc-filter-pill" data-filter="poetry" type="button">Poetry</button>
+        <button class="lc-filter-pill" data-filter="review" type="button">Criticism</button>
+        <button class="lc-filter-pill" data-filter="miscellaneous" type="button">Fragments</button>
+      </div>
     </div>
-    <div class="lc-colophon-links">
-      <a href="https://letterboxd.com/scyllaborder" target="_blank" rel="noopener">Letterboxd</a> &bull;
-      <a href="/archives/">Archive</a> &bull;
+
+    <div class="lc-grid">
+      {{ range after 1 $pages }}
+      <article class="lc-grid-card lc-card-{{ .Section }}">
+        <div class="lc-card-top">
+          <span class="lc-dot lc-dot-{{ .Section }}"></span>
+          <span class="lc-card-section">{{ .Section }}</span>
+          <span class="lc-meta-dot">&bull;</span>
+          <time class="lc-card-time">{{ .Date.Format "Jan 2006" }}</time>
+        </div>
+        <h4 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+        <p class="lc-grid-desc">
+          {{ with .Description }}
+            {{ . | truncate 130 }}
+          {{ else }}
+            {{ .Summary | plainify | truncate 130 }}
+          {{ end }}
+        </p>
+        <div class="lc-grid-bottom">
+          <a class="lc-grid-link" href="{{ .RelPermalink }}">Read &rarr;</a>
+          <span class="lc-grid-readtime">{{ .ReadingTime }} min</span>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
+  <!-- Colophon -->
+  <footer class="lc-colophon">
+    <div class="lc-colophon-ornament">❦</div>
+    <p class="lc-colophon-copy">
+      <strong>Literaconite</strong> is written, edited, and curated by <strong>Emrecan Koç</strong>.<br>
+      A digital sanctum devoted to original Gothic poetry, dramatic analysis, and close literary criticism.
+    </p>
+    <div class="lc-colophon-nav">
+      <a href="https://letterboxd.com/scyllaborder" target="_blank" rel="noopener">Letterboxd Diary</a> &bull;
+      <a href="/archives/">Chronological Archive</a> &bull;
       <a href="https://github.com/emrecankoc6" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
 
-</main>
+</div>
 {{ end }}
