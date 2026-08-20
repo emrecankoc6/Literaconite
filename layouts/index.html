@@ -3,16 +3,22 @@
 
   <section class="lc-hero-section">
     <div class="lc-hero-header">
-      <h1 class="lc-hero-title">Literaconite</h1>
-      <p class="lc-hero-sub">Gothic Poetry &amp; Literary Criticism</p>
+      <div>
+        <h1 class="lc-hero-title">Literaconite</h1>
+        <p class="lc-hero-sub">Gothic Poetry &amp; Literary Criticism</p>
+      </div>
+      <div class="lc-hero-est">
+        <span>EST. MMXXVI</span>
+      </div>
     </div>
 
     <div class="lc-epigraph-box">
+      <div class="lc-epigraph-icon">❝</div>
       <div class="lc-epigraph-content">
         <p class="lc-epigraph-text">“Deep into that darkness peering, long I stood there wondering, fearing...”</p>
         <p class="lc-epigraph-author">— Edgar Allan Poe</p>
       </div>
-      <button class="lc-epigraph-cycle" type="button" title="Cycle Gothic Fragment">✦</button>
+      <button class="lc-epigraph-cycle" type="button" title="Conjure Next Gothic Fragment">✦</button>
     </div>
   </section>
 
@@ -25,7 +31,10 @@
 
     {{ with index $pages 0 }}
     <article class="lc-feature">
-      <span class="lc-chip">{{ .Section }}</span>
+      <div class="lc-feature-top">
+        <span class="lc-chip">{{ .Section }}</span>
+        <span class="lc-feature-highlight">Featured Inscription</span>
+      </div>
       <h2 class="lc-feature-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
       {{ with .Description }}
         <p class="lc-feature-desc">{{ . }}</p>
@@ -54,26 +63,31 @@
         </div>
       </div>
 
-      {{ range after 1 (first 14 $pages) }}
-      <article class="lc-stream-item lc-section-{{ .Section }}">
-        <span class="lc-dot lc-dot-{{ .Section }}"></span>
-        <div class="lc-stream-body">
-          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-          <time>{{ .Date.Format "Jan 2006" }}</time>
-        </div>
-      </article>
-      {{ end }}
+      <div class="lc-stream-list">
+        {{ range after 1 (first 16 $pages) }}
+        <article class="lc-stream-item lc-section-{{ .Section }}">
+          <span class="lc-dot lc-dot-{{ .Section }}" title="Section: {{ .Section }}"></span>
+          <div class="lc-stream-body">
+            <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            <time>{{ .Date.Format "Jan 2006" }}</time>
+          </div>
+        </article>
+        {{ end }}
+      </div>
     </aside>
 
   </section>
   {{ end }}
 
   <div class="lc-colophon">
-    <div>
-      Literaconite is written and maintained by <strong>Emrecan Koç</strong>, a reader of difficult books and a writer of darker things.
+    <div class="lc-colophon-bio">
+      <span class="lc-colophon-mark">❦</span>
+      Literaconite is written and curated by <strong>Emrecan Koç</strong>, a reader of difficult books and a writer of darker things.
     </div>
-    <div>
-      Film diary on <a href="https://letterboxd.com/scyllaborder" target="_blank" rel="noopener">Letterboxd</a> &bull; Code on <a href="https://github.com/emrecankoc6" target="_blank" rel="noopener">GitHub</a>
+    <div class="lc-colophon-links">
+      <a href="https://letterboxd.com/scyllaborder" target="_blank" rel="noopener">Letterboxd Diary</a> &bull; 
+      <a href="https://github.com/emrecankoc6" target="_blank" rel="noopener">GitHub</a> &bull; 
+      <a href="/archives/">Full Archive</a>
     </div>
   </div>
 

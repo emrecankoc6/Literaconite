@@ -1,13 +1,13 @@
 /**
- * LITERACONITE CORE INTERACTIVE ENGINE
- * Pure Vanilla JS, zero external dependencies.
+ * LITERACONITE LUXURY GOTHIC CORE ENGINE
+ * Pure Vanilla JavaScript — Zero External Dependencies.
  */
 
 (function () {
   'use strict';
 
   /* ─────────────────────────────────────────────────────────────
-     1. THEME & ATMOSPHERE ENGINE
+     1. THEMES & ATMOSPHERE ENGINE
      ───────────────────────────────────────────────────────────── */
   const THEMES = ['midnight', 'candlelight', 'crimson'];
   const THEME_NAMES = {
@@ -32,16 +32,13 @@
   function applyTheme(theme) {
     if (!THEMES.includes(theme)) theme = 'midnight';
     document.documentElement.setAttribute('data-theme', theme);
-    if (document.body) {
-      document.body.setAttribute('data-theme', theme);
-    }
+    if (document.body) document.body.setAttribute('data-theme', theme);
     try {
       localStorage.setItem('lc-theme', theme);
     } catch(e) {}
 
-    // Update theme toggle button icons
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
-      btn.setAttribute('title', `Theme: ${THEME_NAMES[theme]} (Click to cycle)`);
+      btn.setAttribute('title', `Atmosphere: ${THEME_NAMES[theme]} (Click to cycle)`);
       const iconSpan = btn.querySelector('.lc-theme-icon');
       if (iconSpan) iconSpan.textContent = THEME_ICONS[theme] || '✦';
     });
@@ -56,11 +53,48 @@
     return nextTheme;
   }
 
-  // Initial apply
+  /* ─────────────────────────────────────────────────────────────
+     2. TYPEFACE SWITCHER (Serif / Antiqua / Modern)
+     ───────────────────────────────────────────────────────────── */
+  const FONTS = ['serif', 'antiqua', 'modern'];
+  const FONT_NAMES = {
+    serif: 'Playfair Display (Editorial Serif)',
+    antiqua: 'EB Garamond (Classic Antiqua)',
+    modern: 'Inter (Modern Sans)'
+  };
+
+  function getStoredFont() {
+    try {
+      return localStorage.getItem('lc-font') || 'serif';
+    } catch(e) {
+      return 'serif';
+    }
+  }
+
+  function applyFont(font) {
+    if (!FONTS.includes(font)) font = 'serif';
+    document.documentElement.setAttribute('data-font', font);
+    if (document.body) document.body.setAttribute('data-font', font);
+    try {
+      localStorage.setItem('lc-font', font);
+    } catch(e) {}
+  }
+
+  function cycleFont() {
+    const current = getStoredFont();
+    const nextIndex = (FONTS.indexOf(current) + 1) % FONTS.length;
+    const nextFont = FONTS[nextIndex];
+    applyFont(nextFont);
+    showToast(`Aa Typeface: ${FONT_NAMES[nextFont]}`);
+    return nextFont;
+  }
+
+  // Preload settings
   applyTheme(getStoredTheme());
+  applyFont(getStoredFont());
 
   /* ─────────────────────────────────────────────────────────────
-     2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
+     3. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
      ───────────────────────────────────────────────────────────── */
   let audioCtx = null;
   let isAudioPlaying = false;
@@ -80,7 +114,7 @@
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // Pink/Brown noise generator for rainfall
+      // Pink/Brown noise buffer for rainfall
       const bufferSize = audioCtx.sampleRate * 2;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -96,21 +130,21 @@
       noiseNode.buffer = noiseBuffer;
       noiseNode.loop = true;
 
-      // Lowpass filter for muffled rain
+      // Lowpass filter
       filterNode = audioCtx.createBiquadFilter();
       filterNode.type = 'lowpass';
-      filterNode.frequency.setValueAtTime(750, audioCtx.currentTime);
+      filterNode.frequency.setValueAtTime(720, audioCtx.currentTime);
 
       noiseNode.connect(filterNode);
       filterNode.connect(masterGain);
 
-      // Atmospheric drone oscillator (55Hz A1)
+      // Cathedral drone oscillator (55Hz A1)
       const droneOsc = audioCtx.createOscillator();
       droneOsc.type = 'sine';
       droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
 
       droneGain = audioCtx.createGain();
-      droneGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      droneGain.gain.setValueAtTime(0.045, audioCtx.currentTime);
 
       droneOsc.connect(droneGain);
       droneGain.connect(masterGain);
@@ -150,7 +184,35 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     3. TOAST NOTIFICATIONS
+     4. RANDOM POST JUMPER
+     ───────────────────────────────────────────────────────────── */
+  const INVENTORY = [
+    '/poetry/carmilla/',
+    '/poetry/adrasan-shore/',
+    '/poetry/mircalla/',
+    '/poetry/first-poem/',
+    '/poetry/kubla-khan-by-samuel-taylor-coleridge-a-translation-into-turkish-and-a-reflection/',
+    '/review/the-crucible-allegory-witchcraft-and-mob-hysteria/',
+    '/review/the-rise-of-the-english-novel-and-the-theme-of-travel/',
+    '/review/close-reading-of-arthur-millers-death-of-a-salesman-theoretical-perspectives/',
+    '/review/along-the-borderline-between-mexico-and-the-united-states-by-frida-kahlo/',
+    '/review/claude-debussys-clair-de-lune-and-musical-impressionism/',
+    '/review/on-the-relation-between-poes-the-cask-of-amontillado-and-vengeance-as-a-subject-matter/',
+    '/review/the-18th-century-novel-and-crime-as-a-subject/'
+  ];
+
+  function jumpToRandomPost() {
+    const current = window.location.pathname;
+    const candidates = INVENTORY.filter(url => !current.endsWith(url));
+    const target = candidates[Math.floor(Math.random() * candidates.length)] || '/';
+    showToast('✨ Whisking to random inscription...');
+    setTimeout(() => {
+      window.location.href = target;
+    }, 300);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     5. TOAST NOTIFICATIONS
      ───────────────────────────────────────────────────────────── */
   let toastEl = null;
   let toastTimer = null;
@@ -166,27 +228,28 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toastEl.classList.remove('is-visible');
-    }, 2400);
+    }, 2500);
   }
 
   /* ─────────────────────────────────────────────────────────────
-     4. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
+     6. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
      ───────────────────────────────────────────────────────────── */
   let paletteEl = null;
   let searchIndex = [];
   let isIndexLoaded = false;
 
   const STATIC_COMMANDS = [
-    { title: 'Home', subtitle: 'Return to front page', url: '/', icon: '🏛️' },
-    { title: 'Poetry', subtitle: 'Read Gothic & Romantic verse', url: '/poetry/', icon: '📜' },
-    { title: 'Reviews & Criticism', subtitle: 'Close readings and essays', url: '/review/', icon: '🖋️' },
+    { title: 'Home', subtitle: 'Return to frontispiece', url: '/', icon: '🏛️' },
+    { title: 'Poetry', subtitle: 'Gothic & Romantic verse', url: '/poetry/', icon: '📜' },
+    { title: 'Reviews & Criticism', subtitle: 'Close readings and dramatic theory', url: '/review/', icon: '🖋️' },
+    { title: 'Random Inscription', subtitle: 'Surprise me with a random piece', action: 'random', icon: '✨' },
+    { title: 'Atmosphere: Cycle Mood', subtitle: 'Toggle Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
+    { title: 'Typeface: Cycle Fonts', subtitle: 'Switch Serif / Antiqua / Modern Sans', action: 'font', icon: '🔤' },
+    { title: 'Soundscape: Toggle Ambient Rain', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
     { title: 'Archives', subtitle: 'Chronological archive of all writings', url: '/archives/', icon: '📂' },
-    { title: 'Search', subtitle: 'Open full search page', url: '/search/', icon: '🔍' },
+    { title: 'Search', subtitle: 'Full-text search page', url: '/search/', icon: '🔍' },
     { title: 'Miscellaneous', subtitle: 'Fragments, notes, and visual scraps', url: '/miscellaneous/', icon: '✨' },
-    { title: 'Atmosphere: Cycle Theme', subtitle: 'Toggle Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
-    { title: 'Soundscape: Toggle Rain Sanctuary', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
-    { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true },
-    { title: 'GitHub Code', subtitle: 'Literaconite repository', url: 'https://github.com/emrecankoc6', icon: '💻', external: true }
+    { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true }
   ];
 
   async function loadSearchIndex() {
@@ -205,7 +268,7 @@
         }
       }
     } catch (e) {
-      console.warn('Search index load', e);
+      console.warn('Search index fallback', e);
     }
     isIndexLoaded = true;
   }
@@ -218,7 +281,7 @@
       <div class="lc-palette-modal" role="dialog" aria-modal="true" aria-label="Command Palette">
         <div class="lc-palette-header">
           <span class="lc-palette-icon">✦</span>
-          <input type="text" class="lc-palette-input" placeholder="Search poetry, essays, or jump to section (Esc to exit)..." autocomplete="off" spellcheck="false" />
+          <input type="text" class="lc-palette-input" placeholder="Search inscriptions or trigger actions (Esc to close)..." autocomplete="off" spellcheck="false" />
           <kbd class="lc-palette-kbd">ESC</kbd>
         </div>
         <div class="lc-palette-results"></div>
@@ -306,8 +369,12 @@
         closePalette();
         if (item.action === 'theme') {
           cycleTheme();
+        } else if (item.action === 'font') {
+          cycleFont();
         } else if (item.action === 'audio') {
           toggleAudio();
+        } else if (item.action === 'random') {
+          jumpToRandomPost();
         } else if (item.url) {
           if (item.external) {
             window.open(item.url, '_blank', 'noopener');
@@ -340,7 +407,6 @@
     if (paletteEl) paletteEl.classList.remove('is-open');
   }
 
-  // Keyboard shortcut listener
   document.addEventListener('keydown', e => {
     if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
       e.preventDefault();
@@ -358,10 +424,9 @@
   });
 
   /* ─────────────────────────────────────────────────────────────
-     5. VERSE FOCUS MODE (Stanza Illumination)
+     7. VERSE FOCUS & STANZA INTERACTION
      ───────────────────────────────────────────────────────────── */
   function initVerseFocus() {
-    // Detect poetry container or poetry path
     const container = document.querySelector('.lc-verse-container') ||
                       document.querySelector('.is-poetry .post-content') ||
                       (window.location.pathname.includes('/poetry/') ? document.querySelector('.post-content') : null);
@@ -369,44 +434,46 @@
     if (!container) return;
 
     container.classList.add('lc-verse-container');
-    const paragraphs = Array.from(container.querySelectorAll('p'));
-    if (paragraphs.length === 0) return;
+    const paragraphs = Array.from(container.querySelectorAll('p')).filter(p => !p.closest('figcaption'));
 
-    paragraphs.forEach(p => {
+    paragraphs.forEach((p, idx) => {
       p.classList.add('lc-stanza');
+      p.setAttribute('data-stanza', idx + 1);
 
-      function focusStanza() {
-        container.classList.add('is-focused-mode');
-        paragraphs.forEach(other => {
-          if (other === p) {
-            other.classList.add('is-illuminated');
-            other.classList.remove('is-dimmed');
-          } else {
-            other.classList.add('is-dimmed');
-            other.classList.remove('is-illuminated');
-          }
+      p.addEventListener('click', e => {
+        e.stopPropagation();
+        const isAlreadyLocked = p.classList.contains('is-locked-focus');
+
+        // Clear all locks
+        paragraphs.forEach(el => {
+          el.classList.remove('is-locked-focus', 'is-illuminated', 'is-dimmed');
         });
-      }
+        container.classList.remove('is-focused-mode');
 
-      p.addEventListener('mouseenter', focusStanza);
-      p.addEventListener('click', focusStanza);
-    });
-
-    container.addEventListener('mouseleave', () => {
-      container.classList.remove('is-focused-mode');
-      paragraphs.forEach(p => p.classList.remove('is-dimmed', 'is-illuminated'));
+        if (!isAlreadyLocked) {
+          container.classList.add('is-focused-mode');
+          paragraphs.forEach(el => {
+            if (el === p) {
+              el.classList.add('is-locked-focus', 'is-illuminated');
+            } else {
+              el.classList.add('is-dimmed');
+            }
+          });
+          showToast(`✦ Stanza ${idx + 1} locked in focus`);
+        }
+      });
     });
 
     document.addEventListener('click', e => {
       if (!container.contains(e.target)) {
         container.classList.remove('is-focused-mode');
-        paragraphs.forEach(p => p.classList.remove('is-dimmed', 'is-illuminated'));
+        paragraphs.forEach(el => el.classList.remove('is-locked-focus', 'is-illuminated', 'is-dimmed'));
       }
     });
   }
 
   /* ─────────────────────────────────────────────────────────────
-     6. GOTHIC EXCERPT & QUOTE CLIPPING TOOL
+     8. GOTHIC EXCERPT & QUOTE CLIPPING TOOL
      ───────────────────────────────────────────────────────────── */
   let quoteTooltip = null;
 
@@ -446,7 +513,7 @@
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
           if (rect.width > 0 && rect.height > 0) {
-            quoteTooltip.style.top = `${window.scrollY + rect.top - 46}px`;
+            quoteTooltip.style.top = `${window.scrollY + rect.top - 48}px`;
             quoteTooltip.style.left = `${window.scrollX + rect.left + (rect.width / 2)}px`;
             quoteTooltip.classList.add('is-visible');
             return;
@@ -464,7 +531,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     7. READING PROGRESS & SCROLL-TO-TOP INDICATOR
+     9. READING PROGRESS & SCROLL-TO-TOP INDICATOR
      ───────────────────────────────────────────────────────────── */
   function initReadingProgress() {
     let progressBar = document.querySelector('#reading-progress');
@@ -506,7 +573,7 @@
         circleVal.setAttribute('stroke-dasharray', `${Math.min(100, Math.round(progress))}, 100`);
       }
 
-      if (scrollTop > 250) {
+      if (scrollTop > 240) {
         topBtn.classList.add('is-visible');
       } else {
         topBtn.classList.remove('is-visible');
@@ -519,7 +586,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     8. STREAM CATEGORY FILTER (Homepage)
+     10. STREAM CATEGORY FILTER (Homepage)
      ───────────────────────────────────────────────────────────── */
   function initStreamFilter() {
     const filterContainer = document.querySelector('.lc-stream-filter');
@@ -548,7 +615,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     9. GOTHIC ROTATING EPIGRAPHS (Homepage)
+     11. GOTHIC ROTATING EPIGRAPHS (Homepage)
      ───────────────────────────────────────────────────────────── */
   const EPIGRAPHS = [
     { text: "Deep into that darkness peering, long I stood there wondering, fearing...", author: "Edgar Allan Poe" },
@@ -593,16 +660,31 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     10. DOM INITIALIZATION
+     12. DOM INITIALIZATION
      ───────────────────────────────────────────────────────────── */
   function init() {
     applyTheme(getStoredTheme());
+    applyFont(getStoredFont());
 
     // Header buttons
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
         cycleTheme();
+      });
+    });
+
+    document.querySelectorAll('.lc-font-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        cycleFont();
+      });
+    });
+
+    document.querySelectorAll('.lc-random-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        jumpToRandomPost();
       });
     });
 
@@ -635,6 +717,8 @@
 
   window.Literaconite = {
     cycleTheme,
+    cycleFont,
+    jumpToRandomPost,
     toggleAudio,
     openPalette,
     closePalette,
