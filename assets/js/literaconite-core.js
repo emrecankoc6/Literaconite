@@ -43,19 +43,19 @@
     const nextIndex = (THEMES.indexOf(current) + 1) % THEMES.length;
     const nextTheme = THEMES[nextIndex];
     applyTheme(nextTheme);
-    showToast(`Atmosphere: ${THEME_NAMES[nextTheme]}`);
+    showToast('Atmosphere: ' + (THEME_NAMES[nextTheme] || 'Midnight'));
     return nextTheme;
   }
 
   /* ─────────────────────────────────────────────────────────────
      2. GOTHIC PROCEDURAL SOUND SANCTUARY (Web Audio API)
-     4-Track Atmospheric Soundscape: Rain, Fire, Wind, Bells
+     Rain + Real Hearth Fireplace + Cathedral Wind + Continuous Abbey Bells
      ───────────────────────────────────────────────────────────── */
   let audioCtx = window.__lc_audioCtx || null;
   let isAudioPlaying = false;
   let masterGain = null;
   let rainGain = null, fireGain = null, windGain = null, bellsGain = null;
-  let bellTimer = null;
+  let bellInterval = null;
   let audioDockEl = null;
 
   const SOUND_STATES = {
@@ -85,7 +85,7 @@
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // ── 1. RAIN CHANNEL ──
+      // ── 1. CONTINUOUS RAINFALL (Pink noise bed + droplets) ──
       const rainBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
       const rainData = rainBuffer.getChannelData(0);
       let rLast = 0.0;
@@ -100,26 +100,32 @@
 
       const rainFilter = audioCtx.createBiquadFilter();
       rainFilter.type = 'lowpass';
-      rainFilter.frequency.setValueAtTime(860, audioCtx.currentTime);
+      rainFilter.frequency.setValueAtTime(880, audioCtx.currentTime);
 
       rainGain = audioCtx.createGain();
-      rainGain.gain.setValueAtTime(SOUND_STATES.rain ? 0.32 : 0.0001, audioCtx.currentTime);
+      rainGain.gain.setValueAtTime(SOUND_STATES.rain ? 0.35 : 0.0001, audioCtx.currentTime);
 
       rainSrc.connect(rainFilter);
       rainFilter.connect(rainGain);
       rainGain.connect(masterGain);
       rainSrc.start(0);
 
-      // ── 2. FIREPLACE CHANNEL (Warm log rumble + crackle pops) ──
+      // ── 2. AUTHENTIC HEARTH FIREPLACE (Wood crackles + snap impulses + warm rumble) ──
       const fireBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
       const fireData = fireBuffer.getChannelData(0);
-      let fLast = 0.0;
+      let fRumble = 0.0;
       for (let i = 0; i < fireBuffer.length; i++) {
         const white = Math.random() * 2 - 1;
-        fLast = (fLast + (0.015 * white)) / 1.015;
-        // Periodic audible ember snap
-        const pop = (Math.random() < 0.0012) ? (Math.random() * 2 - 1) * 3.6 : 0;
-        fireData[i] = (fLast * 3.0) + pop;
+        fRumble = (fRumble + 0.012 * white) / 1.012;
+        let sample = fRumble * 2.0;
+
+        if (Math.random() < 0.0035) {
+          sample += (Math.random() * 2 - 1) * 3.2;
+        }
+        if (Math.random() < 0.0004) {
+          sample += (Math.random() > 0.5 ? 1 : -1) * (5.0 + Math.random() * 3.0);
+        }
+        fireData[i] = sample;
       }
       const fireSrc = audioCtx.createBufferSource();
       fireSrc.buffer = fireBuffer;
@@ -127,22 +133,22 @@
 
       const fireFilter = audioCtx.createBiquadFilter();
       fireFilter.type = 'bandpass';
-      fireFilter.frequency.setValueAtTime(550, audioCtx.currentTime);
-      fireFilter.Q.setValueAtTime(1.0, audioCtx.currentTime);
+      fireFilter.frequency.setValueAtTime(1500, audioCtx.currentTime);
+      fireFilter.Q.setValueAtTime(0.7, audioCtx.currentTime);
 
       fireGain = audioCtx.createGain();
-      fireGain.gain.setValueAtTime(SOUND_STATES.fire ? 0.35 : 0.0001, audioCtx.currentTime);
+      fireGain.gain.setValueAtTime(SOUND_STATES.fire ? 0.52 : 0.0001, audioCtx.currentTime);
 
       fireSrc.connect(fireFilter);
       fireFilter.connect(fireGain);
       fireGain.connect(masterGain);
       fireSrc.start(0);
 
-      // ── 3. CATHEDRAL WIND CHANNEL (LFO Filter + 55Hz Sub Drone) ──
+      // ── 3. CATHEDRAL WIND (Swept resonant draft + 55Hz drone) ──
       const windBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
       const windData = windBuffer.getChannelData(0);
       for (let i = 0; i < windBuffer.length; i++) {
-        windData[i] = (Math.random() * 2 - 1) * 1.1;
+        windData[i] = (Math.random() * 2 - 1) * 1.2;
       }
       const windSrc = audioCtx.createBufferSource();
       windSrc.buffer = windBuffer;
@@ -151,12 +157,12 @@
       const windFilter = audioCtx.createBiquadFilter();
       windFilter.type = 'lowpass';
       windFilter.frequency.setValueAtTime(360, audioCtx.currentTime);
-      windFilter.Q.setValueAtTime(3.0, audioCtx.currentTime);
+      windFilter.Q.setValueAtTime(3.2, audioCtx.currentTime);
 
       const windLfo = audioCtx.createOscillator();
-      windLfo.frequency.setValueAtTime(0.09, audioCtx.currentTime);
+      windLfo.frequency.setValueAtTime(0.08, audioCtx.currentTime);
       const windLfoGain = audioCtx.createGain();
-      windLfoGain.gain.setValueAtTime(280, audioCtx.currentTime);
+      windLfoGain.gain.setValueAtTime(290, audioCtx.currentTime);
       windLfo.connect(windLfoGain);
       windLfoGain.connect(windFilter.frequency);
       windLfo.start(0);
@@ -164,12 +170,12 @@
       const droneOsc = audioCtx.createOscillator();
       droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
       const droneGain = audioCtx.createGain();
-      droneGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      droneGain.gain.setValueAtTime(0.045, audioCtx.currentTime);
       droneOsc.connect(droneGain);
       droneOsc.start(0);
 
       windGain = audioCtx.createGain();
-      windGain.gain.setValueAtTime(SOUND_STATES.wind ? 0.32 : 0.0001, audioCtx.currentTime);
+      windGain.gain.setValueAtTime(SOUND_STATES.wind ? 0.38 : 0.0001, audioCtx.currentTime);
 
       windSrc.connect(windFilter);
       windFilter.connect(windGain);
@@ -177,79 +183,96 @@
       windGain.connect(masterGain);
       windSrc.start(0);
 
-      // ── 4. ABBEY BELLS CHANNEL ──
+      // ── 4. ABBEY BELLS CHANNEL (Inharmonic Cathedral Resonance) ──
       bellsGain = audioCtx.createGain();
       bellsGain.gain.setValueAtTime(1.0, audioCtx.currentTime);
       bellsGain.connect(masterGain);
 
-      scheduleBellToll();
+      startBellCycle();
     } catch(e) {
       console.warn('Web Audio init error', e);
     }
   }
 
-  function tollAbbeyBell() {
+  const BELL_FREQS = [
+    [220, 442, 665, 1120],
+    [277, 554, 831, 1386],
+    [330, 660, 990, 1650]
+  ];
+
+  function tollAbbeyBell(freqIndex = 0) {
     if (!audioCtx || !bellsGain) return;
     if (audioCtx.state === 'suspended') audioCtx.resume();
     try {
       const now = audioCtx.currentTime;
-      const freqs = [220, 442, 665, 1120];
-      const gains = [0.30, 0.16, 0.09, 0.045];
+      const fSet = BELL_FREQS[freqIndex % BELL_FREQS.length];
+      const gains = [0.32, 0.18, 0.10, 0.05];
 
-      freqs.forEach((freq, idx) => {
+      fSet.forEach((freq, idx) => {
         const osc = audioCtx.createOscillator();
         const g = audioCtx.createGain();
         osc.type = idx === 0 ? 'sine' : 'triangle';
         osc.frequency.setValueAtTime(freq, now);
         g.gain.setValueAtTime(gains[idx], now);
-        g.gain.exponentialRampToValueAtTime(0.0001, now + 5.2);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 5.5);
         osc.connect(g);
         g.connect(bellsGain);
         osc.start(now);
-        osc.stop(now + 5.3);
+        osc.stop(now + 5.6);
       });
-      showToast('🔔 Abbey Bell tolled in the night');
     } catch(e) {}
   }
 
-  function scheduleBellToll() {
-    clearTimeout(bellTimer);
-    bellTimer = setTimeout(() => {
+  let bellCycleIndex = 0;
+  function startBellCycle() {
+    if (bellInterval) clearInterval(bellInterval);
+    bellInterval = setInterval(() => {
       if (isAudioPlaying && SOUND_STATES.bells) {
-        tollAbbeyBell();
+        tollAbbeyBell(bellCycleIndex++);
       }
-      scheduleBellToll();
-    }, 45000 + Math.random() * 25000);
+    }, 13000);
   }
 
   function toggleSoundTrack(soundKey) {
     if (!isAudioPlaying) startAudio(true);
     SOUND_STATES[soundKey] = !SOUND_STATES[soundKey];
 
-    const targetGain = SOUND_STATES[soundKey] ? (soundKey === 'fire' ? 0.35 : 0.32) : 0.0001;
+    const targetGains = {
+      rain: 0.35,
+      fire: 0.52,
+      wind: 0.38,
+      bells: 1.0
+    };
 
     if (audioCtx) {
       const now = audioCtx.currentTime;
+      const gainVal = SOUND_STATES[soundKey] ? targetGains[soundKey] : 0.0001;
+
       if (soundKey === 'rain' && rainGain) {
         rainGain.gain.cancelScheduledValues(now);
         rainGain.gain.setValueAtTime(rainGain.gain.value, now);
-        rainGain.gain.linearRampToValueAtTime(targetGain, now + 0.5);
+        rainGain.gain.linearRampToValueAtTime(gainVal, now + 0.4);
       } else if (soundKey === 'fire' && fireGain) {
         fireGain.gain.cancelScheduledValues(now);
         fireGain.gain.setValueAtTime(fireGain.gain.value, now);
-        fireGain.gain.linearRampToValueAtTime(targetGain, now + 0.5);
+        fireGain.gain.linearRampToValueAtTime(gainVal, now + 0.4);
       } else if (soundKey === 'wind' && windGain) {
         windGain.gain.cancelScheduledValues(now);
         windGain.gain.setValueAtTime(windGain.gain.value, now);
-        windGain.gain.linearRampToValueAtTime(targetGain, now + 0.5);
+        windGain.gain.linearRampToValueAtTime(gainVal, now + 0.4);
       } else if (soundKey === 'bells') {
-        if (SOUND_STATES.bells) tollAbbeyBell();
+        if (SOUND_STATES.bells) {
+          tollAbbeyBell(bellCycleIndex++);
+          showToast('🔔 Cathedral Bells active (tolling periodically)');
+        }
       }
     }
 
     updateSoundPills();
-    const names = { rain: 'Rain', fire: 'Fireplace', wind: 'Cathedral Wind', bells: 'Abbey Bells' };
-    showToast(`${names[soundKey]}: ${SOUND_STATES[soundKey] ? 'On' : 'Off'}`);
+    const names = { rain: 'Rainfall', fire: 'Hearth Fire', wind: 'Cathedral Wind', bells: 'Abbey Bells' };
+    if (soundKey !== 'bells') {
+      showToast(names[soundKey] + ': ' + (SOUND_STATES[soundKey] ? 'On' : 'Off'));
+    }
   }
 
   function updateSoundPills() {
@@ -274,21 +297,21 @@
 
         <div class="lc-sound-toggles">
           <button class="lc-sound-chip ${SOUND_STATES.rain ? 'is-active' : ''}" data-sound="rain" type="button" title="Toggle Rainfall">
-            <span>🌧️ Rain</span>
+            <span class="lc-chip-emoji">🌧️</span> <span class="lc-chip-text">Rain</span>
           </button>
-          <button class="lc-sound-chip ${SOUND_STATES.fire ? 'is-active' : ''}" data-sound="fire" type="button" title="Toggle Fireplace Embers">
-            <span>🔥 Fire</span>
+          <button class="lc-sound-chip ${SOUND_STATES.fire ? 'is-active' : ''}" data-sound="fire" type="button" title="Toggle Hearth Fire">
+            <span class="lc-chip-emoji">🔥</span> <span class="lc-chip-text">Fire</span>
           </button>
           <button class="lc-sound-chip ${SOUND_STATES.wind ? 'is-active' : ''}" data-sound="wind" type="button" title="Toggle Cathedral Wind">
-            <span>🌬️ Wind</span>
+            <span class="lc-chip-emoji">🌬️</span> <span class="lc-chip-text">Wind</span>
           </button>
-          <button class="lc-sound-chip ${SOUND_STATES.bells ? 'is-active' : ''}" data-sound="bells" type="button" title="Strike / Toggle Abbey Bells">
-            <span>🔔 Bells</span>
+          <button class="lc-sound-chip ${SOUND_STATES.bells ? 'is-active' : ''}" data-sound="bells" type="button" title="Toggle Abbey Bells (Periodic Chime)">
+            <span class="lc-chip-emoji">🔔</span> <span class="lc-chip-text">Bells</span>
           </button>
         </div>
 
         <div class="lc-audio-slider-wrap">
-          <input type="range" class="lc-audio-dock-vol" id="lc-master-vol" min="0" max="1" step="0.05" value="0.7" title="Master Volume">
+          <input type="range" class="lc-audio-dock-vol" id="lc-master-vol" min="0" max="1" step="0.05" value="0.75" title="Master Volume">
         </div>
 
         <button class="lc-dock-close" type="button" title="Close soundscape">&times;</button>
@@ -329,7 +352,7 @@
 
     if (masterGain) {
       const volInput = audioDockEl?.querySelector('#lc-master-vol');
-      const vol = volInput ? parseFloat(volInput.value) : 0.7;
+      const vol = volInput ? parseFloat(volInput.value) : 0.75;
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
       masterGain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + 0.8);
@@ -539,7 +562,7 @@
       const quote = oracleModalEl.querySelector('#oracle-quote-text').textContent.trim();
       const work = oracleModalEl.querySelector('#oracle-work-title').textContent.trim();
       const url = readBtn.getAttribute('href') || window.location.href;
-      const citation = `> ${quote}\n\n— Emrecan Koç, *${work}* (${window.location.origin}${url})`;
+      const citation = '> ' + quote + '\n\n— Emrecan Koç, *' + work + '* (' + window.location.origin + url + ')';
       navigator.clipboard.writeText(citation).then(() => {
         showToast('✦ Inscription clipped with citation!');
       });
@@ -559,8 +582,8 @@
       const arcanaNum = oracleModalEl.querySelector('#oracle-arcana-num');
 
       const roman = ARCANA_NUMERALS[Math.floor(Math.random() * ARCANA_NUMERALS.length)];
-      arcanaNum.textContent = `ARCANUM ${roman} • ${item.section.toUpperCase()}`;
-      quoteEl.textContent = `"${item.quote}"`;
+      arcanaNum.textContent = 'ARCANUM ' + roman + ' • ' + item.section.toUpperCase();
+      quoteEl.textContent = '"' + item.quote + '"';
       workEl.textContent = item.title;
       readBtn.setAttribute('href', item.url);
 
@@ -614,17 +637,14 @@
       const parser = new DOMParser();
       const newDoc = parser.parseFromString(htmlText, 'text/html');
 
-      // Update Title & Body Class
       if (newDoc.title) document.title = newDoc.title;
       if (newDoc.body) document.body.className = newDoc.body.className;
 
-      // Swap Main Container
       const newMain = newDoc.querySelector('.lc-container');
       if (mainContainer && newMain) {
         mainContainer.innerHTML = newMain.innerHTML;
       }
 
-      // Update URL
       if (pushHistory) {
         window.history.pushState({ url }, '', url);
       }
@@ -632,7 +652,6 @@
       updateNavLinks();
       window.scrollTo(0, 0);
 
-      // Re-init in-page interactives
       initReadingProgress();
       initVerseFocus();
       initStreamFilter();
@@ -650,7 +669,6 @@
 
   function initPjax() {
     document.addEventListener('click', e => {
-      // Direct action buttons
       const oracleBtn = e.target.closest('.lc-oracle-trigger');
       if (oracleBtn) {
         e.preventDefault();
@@ -679,7 +697,6 @@
         return;
       }
 
-      // Link navigation
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const link = e.target.closest('a');
       if (!link) return;
@@ -860,13 +877,13 @@
 
     container.innerHTML = '';
     if (filtered.length === 0) {
-      container.innerHTML = `<div class="lc-palette-empty">No inscriptions found for "${query}"</div>`;
+      container.innerHTML = '<div class="lc-palette-empty">No inscriptions found for "' + query + '"</div>';
       return;
     }
 
     filtered.slice(0, 10).forEach((item, index) => {
       const row = document.createElement('div');
-      row.className = `lc-palette-item ${index === 0 ? 'is-active' : ''}`;
+      row.className = 'lc-palette-item ' + (index === 0 ? 'is-active' : '');
       row.innerHTML = `
         <span class="lc-palette-item-icon">${item.icon || '✦'}</span>
         <div class="lc-palette-item-text">
@@ -885,7 +902,7 @@
         } else if (item.action === 'oracle') {
           openOracle();
         } else if (item.action === 'toll') {
-          tollAbbeyBell();
+          tollAbbeyBell(0);
         } else if (item.url) {
           if (item.external) {
             window.open(item.url, '_blank', 'noopener');
@@ -962,7 +979,7 @@
         if (!isAlreadyLocked) {
           p.classList.add('is-locked-stanza');
           proseContainer.classList.add('has-locked-stanza');
-          showToast(`Stanza ${idx + 1} locked in contemplation`);
+          showToast('Stanza ' + (idx + 1) + ' locked in contemplation');
         }
       };
     });
@@ -999,7 +1016,7 @@
 
       const pageTitle = document.title.split('|')[0].trim() || 'Literaconite';
       const url = window.location.href;
-      const citation = `> "${text}"\n\n— Emrecan Koç, *${pageTitle}* (${url})`;
+      const citation = '> "' + text + '"\n\n— Emrecan Koç, *' + pageTitle + '* (' + url + ')';
 
       navigator.clipboard.writeText(citation).then(() => {
         showToast('✦ Quote clipped with citation!');
@@ -1071,7 +1088,7 @@
       const filter = btn.getAttribute('data-filter');
 
       cards.forEach(card => {
-        if (filter === 'all' || card.classList.contains(`lc-card-${filter}`)) {
+        if (filter === 'all' || card.classList.contains('lc-card-' + filter)) {
           card.style.display = 'flex';
         } else {
           card.style.display = 'none';
