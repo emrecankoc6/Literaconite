@@ -159,6 +159,10 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
   gap: 1.5rem;
 }
 
+.lc-header-brand-row {
+  display: contents;
+}
+
 /* Brand */
 .lc-brand-link {
   display: inline-flex;
@@ -283,18 +287,208 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
   border: 1px solid var(--lc-border);
 }
 
+/* ── 4. RESPONSIVE MOBILE ADAPTATION SYSTEM ─────────────────────────────────── */
 @media (max-width: 860px) {
   .lc-header-inner { padding: 0 1.2rem; }
   .lc-nav-list { gap: 1.2rem; }
   .lc-tool-kbd { display: none; }
 }
 
-@media (max-width: 680px) {
-  .lc-site-nav { display: none; }
-  .lc-tool-text { display: none; }
+@media (max-width: 768px) {
+  :root {
+    --header-height: auto;
+  }
+
+  .lc-site-header {
+    height: auto;
+    padding: 0.65rem 1rem 0.55rem;
+  }
+
+  .lc-header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+    padding: 0;
+    height: auto;
+  }
+
+  .lc-header-brand-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .lc-brand-link {
+    font-size: 0.86rem;
+    letter-spacing: 0.16em;
+    gap: 0.45rem;
+  }
+
+  .lc-header-tools {
+    gap: 0.35rem;
+  }
+
+  .lc-tool-btn {
+    height: 28px;
+    padding: 0 0.55rem;
+    font-size: 0.64rem;
+    gap: 0.35rem;
+  }
+
+  .lc-tool-kbd {
+    display: none;
+  }
+
+  .lc-site-nav {
+    display: block !important;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .lc-site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lc-nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.15rem 0;
+    width: max-content;
+  }
+
+  .lc-nav-list a {
+    display: inline-block;
+    padding: 0.28rem 0.75rem;
+    border-radius: 999px;
+    background: var(--lc-card);
+    border: 1px solid var(--lc-border);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lc-muted);
+    white-space: nowrap;
+    transition: all 160ms ease;
+  }
+
+  .lc-nav-list a.is-active {
+    background: var(--lc-card-hover);
+    border-color: var(--lc-red-bright);
+    color: var(--lc-text-pure);
+    box-shadow: 0 0 10px var(--lc-red-glow);
+  }
+
+  .lc-container {
+    padding: 1.8rem 1rem 4.5rem;
+  }
+
+  .lc-frontispiece {
+    gap: 3rem;
+  }
+
+  .lc-masthead {
+    padding-bottom: 0.5rem;
+  }
+
+  .lc-masthead-title {
+    font-size: clamp(1.9rem, 7.5vw, 2.7rem);
+    letter-spacing: 0.1em;
+  }
+
+  .lc-lead-card {
+    padding: 1.6rem 1.2rem;
+    border-radius: 12px;
+  }
+
+  .lc-lead-heading {
+    font-size: clamp(1.5rem, 5.5vw, 2rem);
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+
+  .lc-lead-desc {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin-bottom: 1.2rem;
+  }
+
+  .lc-lead-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .lc-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .lc-grid-card {
+    padding: 1.4rem 1.2rem;
+    border-radius: 10px;
+  }
+
+  .lc-stream-navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .lc-filter-pills {
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.2rem;
+  }
+
+  .lc-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lc-article-title {
+    font-size: clamp(1.9rem, 6.8vw, 2.7rem);
+    line-height: 1.16;
+  }
+
+  .lc-verse-mode,
+  .is-poetry-article .lc-prose {
+    font-size: 1.18rem;
+    line-height: 2.0;
+  }
+
+  .lc-verse-mode p,
+  .is-poetry-article .lc-prose p {
+    padding: 0.8rem 1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .lc-verse-mode p:hover,
+  .is-poetry-article .lc-prose p:hover,
+  .lc-verse-mode p.is-locked-stanza,
+  .is-poetry-article .lc-prose p.is-locked-stanza {
+    transform: translateX(4px) !important;
+  }
+
+  .lc-palette-modal {
+    width: calc(100% - 1.5rem);
+    max-height: 85vh;
+  }
+
+  .lc-audio-dock {
+    bottom: max(1rem, env(safe-area-inset-bottom, 1rem)) !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    padding: 0.4rem 0.8rem;
+    justify-content: space-between;
+  }
 }
 
-/* ── 4. CONTAINER ─────────────────────────────────────────────────────────── */
+/* ── 5. CONTAINER ─────────────────────────────────────────────────────────── */
 .lc-container {
   max-width: var(--nav-max-width);
   margin: 0 auto;
@@ -308,10 +502,6 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
 .lc-container.is-transitioning {
   opacity: 0;
   transform: translateY(4px);
-}
-
-@media (max-width: 768px) {
-  .lc-container { padding: 2.5rem 1.2rem 4.5rem; }
 }
 
 /* ── 5. FRONTISPIECE / HOMEPAGE ───────────────────────────────────────────── */
@@ -498,10 +688,6 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
 
 .lc-tag-preview {
   color: var(--lc-faint);
-}
-
-@media (max-width: 768px) {
-  .lc-lead-card { padding: 2rem 1.6rem; }
 }
 
 /* ── 6. DISPATCHES GRID & FILTER ──────────────────────────────────────────── */
@@ -1288,13 +1474,4 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
 
 .lc-audio-dock-close:hover {
   color: var(--lc-red-bright);
-}
-
-@media (max-width: 600px) {
-  .lc-audio-dock {
-    bottom: 1.2rem;
-    right: 1.2rem;
-    left: 1.2rem;
-    justify-content: space-between;
-  }
 }

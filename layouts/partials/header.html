@@ -1,11 +1,30 @@
 <header class="lc-site-header">
   <div class="lc-header-inner">
+    <div class="lc-header-brand-row">
+      <div class="lc-brand">
+        <a class="lc-brand-link" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite: Frontispiece">
+          <span class="lc-brand-star">✦</span>
+          <span class="lc-brand-title">L I T E R A C O N I T E</span>
+        </a>
+      </div>
 
-    <div class="lc-brand">
-      <a class="lc-brand-link" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite: Frontispiece">
-        <span class="lc-brand-star">✦</span>
-        <span class="lc-brand-title">L I T E R A C O N I T E</span>
-      </a>
+      <div class="lc-header-tools">
+        <button class="lc-tool-btn lc-palette-trigger" type="button" aria-label="Quick Search (Cmd+K)">
+          <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="lc-tool-text">Search</span>
+          <kbd class="lc-tool-kbd">⌘K</kbd>
+        </button>
+
+        <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood">
+          <span class="lc-status-dot lc-theme-dot"></span>
+          <span class="lc-theme-label">Midnight</span>
+        </button>
+
+        <button class="lc-tool-btn lc-audio-btn" type="button" aria-label="Toggle Rain Ambient Audio">
+          <span class="lc-status-dot lc-audio-dot"></span>
+          <span class="lc-audio-label">Rain</span>
+        </button>
+      </div>
     </div>
 
     <nav class="lc-site-nav" aria-label="Primary">
@@ -36,24 +55,5 @@
         </li>
       </ul>
     </nav>
-
-    <div class="lc-header-tools">
-      <button class="lc-tool-btn lc-palette-trigger" type="button" aria-label="Quick Search (Cmd+K)">
-        <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <span class="lc-tool-text">Search</span>
-        <kbd class="lc-tool-kbd">⌘K</kbd>
-      </button>
-
-      <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood">
-        <span class="lc-status-dot lc-theme-dot"></span>
-        <span class="lc-theme-label">Midnight</span>
-      </button>
-
-      <button class="lc-tool-btn lc-audio-btn" type="button" aria-label="Toggle Rain Ambient Audio">
-        <span class="lc-status-dot lc-audio-dot"></span>
-        <span class="lc-audio-label">Rain</span>
-      </button>
-    </div>
-
   </div>
 </header>
