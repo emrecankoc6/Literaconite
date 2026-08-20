@@ -30,17 +30,9 @@
       <span class="lc-meta-item">
         {{ .WordCount }} words
       </span>
-      {{- if eq .Section "poetry" }}
-      <span class="lc-meta-sep">&bull;</span>
-      <span class="lc-meta-item lc-verse-tip">
-        ✦ Click stanza to lock focus
-      </span>
-      {{- end }}
     </div>
 
-    <div class="lc-ornament-line">
-      <span>❦</span>
-    </div>
+    <div class="lc-post-divider"></div>
   </header>
 
   {{- if (.Param "ShowToc") }}
@@ -60,8 +52,8 @@
   </div>
   {{- end }}
 
-  <div class="lc-end-fleuron">
-    <span>☩ &nbsp; ❦ &nbsp; ☩</span>
+  <div class="lc-end-mark">
+    <span>✦ &nbsp; ❦ &nbsp; ✦</span>
   </div>
 
   <footer class="post-footer">
@@ -77,13 +69,13 @@
     <nav class="paginav">
       {{- with .PrevInSection }}
       <a class="prev" href="{{ .RelPermalink }}">
-        <span class="title">« Previous Inscription</span>
+        <span class="title">&laquo; Previous</span>
         <span>{{ .Title }}</span>
       </a>
       {{- end }}
       {{- with .NextInSection }}
       <a class="next" href="{{ .RelPermalink }}">
-        <span class="title">Next Inscription »</span>
+        <span class="title">Next &raquo;</span>
         <span>{{ .Title }}</span>
       </a>
       {{- end }}

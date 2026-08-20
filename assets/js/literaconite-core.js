@@ -1,6 +1,6 @@
 /**
- * LITERACONITE LUXURY GOTHIC CORE ENGINE
- * Pure Vanilla JavaScript — Zero External Dependencies.
+ * LITERACONITE CORE ENGINE
+ * Pure Vanilla JavaScript — High-Performance & Zero Dependencies
  */
 
 (function () {
@@ -11,14 +11,9 @@
      ───────────────────────────────────────────────────────────── */
   const THEMES = ['midnight', 'candlelight', 'crimson'];
   const THEME_NAMES = {
-    midnight: 'Midnight Obsidian',
-    candlelight: 'Candlelight Parchment',
-    crimson: 'Gothic Crimson'
-  };
-  const THEME_ICONS = {
-    midnight: '🌑',
-    candlelight: '🕯️',
-    crimson: '🍷'
+    midnight: 'Midnight',
+    candlelight: 'Candlelight',
+    crimson: 'Crimson'
   };
 
   function getStoredTheme() {
@@ -38,9 +33,8 @@
     } catch(e) {}
 
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
-      btn.setAttribute('title', `Atmosphere: ${THEME_NAMES[theme]} (Click to cycle)`);
-      const iconSpan = btn.querySelector('.lc-theme-icon');
-      if (iconSpan) iconSpan.textContent = THEME_ICONS[theme] || '✦';
+      const label = btn.querySelector('.lc-theme-label');
+      if (label) label.textContent = THEME_NAMES[theme] || 'Midnight';
     });
   }
 
@@ -49,52 +43,12 @@
     const nextIndex = (THEMES.indexOf(current) + 1) % THEMES.length;
     const nextTheme = THEMES[nextIndex];
     applyTheme(nextTheme);
-    showToast(`✦ Atmosphere: ${THEME_NAMES[nextTheme]}`);
+    showToast(`Atmosphere: ${THEME_NAMES[nextTheme]}`);
     return nextTheme;
   }
 
   /* ─────────────────────────────────────────────────────────────
-     2. TYPEFACE SWITCHER (Serif / Antiqua / Modern)
-     ───────────────────────────────────────────────────────────── */
-  const FONTS = ['serif', 'antiqua', 'modern'];
-  const FONT_NAMES = {
-    serif: 'Playfair Display (Editorial Serif)',
-    antiqua: 'EB Garamond (Classic Antiqua)',
-    modern: 'Inter (Modern Sans)'
-  };
-
-  function getStoredFont() {
-    try {
-      return localStorage.getItem('lc-font') || 'serif';
-    } catch(e) {
-      return 'serif';
-    }
-  }
-
-  function applyFont(font) {
-    if (!FONTS.includes(font)) font = 'serif';
-    document.documentElement.setAttribute('data-font', font);
-    if (document.body) document.body.setAttribute('data-font', font);
-    try {
-      localStorage.setItem('lc-font', font);
-    } catch(e) {}
-  }
-
-  function cycleFont() {
-    const current = getStoredFont();
-    const nextIndex = (FONTS.indexOf(current) + 1) % FONTS.length;
-    const nextFont = FONTS[nextIndex];
-    applyFont(nextFont);
-    showToast(`Aa Typeface: ${FONT_NAMES[nextFont]}`);
-    return nextFont;
-  }
-
-  // Preload settings
-  applyTheme(getStoredTheme());
-  applyFont(getStoredFont());
-
-  /* ─────────────────────────────────────────────────────────────
-     3. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
+     2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
      ───────────────────────────────────────────────────────────── */
   let audioCtx = null;
   let isAudioPlaying = false;
@@ -114,7 +68,7 @@
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // Pink/Brown noise buffer for rainfall
+      // Pink/Brown noise generator for rainfall
       const bufferSize = audioCtx.sampleRate * 2;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -130,21 +84,20 @@
       noiseNode.buffer = noiseBuffer;
       noiseNode.loop = true;
 
-      // Lowpass filter
       filterNode = audioCtx.createBiquadFilter();
       filterNode.type = 'lowpass';
-      filterNode.frequency.setValueAtTime(720, audioCtx.currentTime);
+      filterNode.frequency.setValueAtTime(700, audioCtx.currentTime);
 
       noiseNode.connect(filterNode);
       filterNode.connect(masterGain);
 
-      // Cathedral drone oscillator (55Hz A1)
+      // Cathedral drone oscillator (55Hz)
       const droneOsc = audioCtx.createOscillator();
       droneOsc.type = 'sine';
       droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
 
       droneGain = audioCtx.createGain();
-      droneGain.gain.setValueAtTime(0.045, audioCtx.currentTime);
+      droneGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
 
       droneOsc.connect(droneGain);
       droneGain.connect(masterGain);
@@ -169,50 +122,24 @@
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
       masterGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 1.0);
       isAudioPlaying = true;
-      showToast('🌧️ Gothic Soundscape: Active');
+      showToast('Rain Soundscape: Active');
     } else {
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
       masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
       isAudioPlaying = false;
-      showToast('Soundscape: Paused');
+      showToast('Rain Soundscape: Paused');
     }
 
     document.querySelectorAll('.lc-audio-btn').forEach(btn => {
       btn.classList.toggle('is-active', isAudioPlaying);
+      const label = btn.querySelector('.lc-audio-label');
+      if (label) label.textContent = isAudioPlaying ? 'Rain On' : 'Rain';
     });
   }
 
   /* ─────────────────────────────────────────────────────────────
-     4. RANDOM POST JUMPER
-     ───────────────────────────────────────────────────────────── */
-  const INVENTORY = [
-    '/poetry/carmilla/',
-    '/poetry/adrasan-shore/',
-    '/poetry/mircalla/',
-    '/poetry/first-poem/',
-    '/poetry/kubla-khan-by-samuel-taylor-coleridge-a-translation-into-turkish-and-a-reflection/',
-    '/review/the-crucible-allegory-witchcraft-and-mob-hysteria/',
-    '/review/the-rise-of-the-english-novel-and-the-theme-of-travel/',
-    '/review/close-reading-of-arthur-millers-death-of-a-salesman-theoretical-perspectives/',
-    '/review/along-the-borderline-between-mexico-and-the-united-states-by-frida-kahlo/',
-    '/review/claude-debussys-clair-de-lune-and-musical-impressionism/',
-    '/review/on-the-relation-between-poes-the-cask-of-amontillado-and-vengeance-as-a-subject-matter/',
-    '/review/the-18th-century-novel-and-crime-as-a-subject/'
-  ];
-
-  function jumpToRandomPost() {
-    const current = window.location.pathname;
-    const candidates = INVENTORY.filter(url => !current.endsWith(url));
-    const target = candidates[Math.floor(Math.random() * candidates.length)] || '/';
-    showToast('✨ Whisking to random inscription...');
-    setTimeout(() => {
-      window.location.href = target;
-    }, 300);
-  }
-
-  /* ─────────────────────────────────────────────────────────────
-     5. TOAST NOTIFICATIONS
+     3. TOAST NOTIFICATIONS
      ───────────────────────────────────────────────────────────── */
   let toastEl = null;
   let toastTimer = null;
@@ -228,27 +155,24 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toastEl.classList.remove('is-visible');
-    }, 2500);
+    }, 2400);
   }
 
   /* ─────────────────────────────────────────────────────────────
-     6. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
+     4. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
      ───────────────────────────────────────────────────────────── */
   let paletteEl = null;
   let searchIndex = [];
   let isIndexLoaded = false;
 
   const STATIC_COMMANDS = [
-    { title: 'Home', subtitle: 'Return to frontispiece', url: '/', icon: '🏛️' },
-    { title: 'Poetry', subtitle: 'Gothic & Romantic verse', url: '/poetry/', icon: '📜' },
-    { title: 'Reviews & Criticism', subtitle: 'Close readings and dramatic theory', url: '/review/', icon: '🖋️' },
-    { title: 'Random Inscription', subtitle: 'Surprise me with a random piece', action: 'random', icon: '✨' },
-    { title: 'Atmosphere: Cycle Mood', subtitle: 'Toggle Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
-    { title: 'Typeface: Cycle Fonts', subtitle: 'Switch Serif / Antiqua / Modern Sans', action: 'font', icon: '🔤' },
-    { title: 'Soundscape: Toggle Ambient Rain', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
-    { title: 'Archives', subtitle: 'Chronological archive of all writings', url: '/archives/', icon: '📂' },
-    { title: 'Search', subtitle: 'Full-text search page', url: '/search/', icon: '🔍' },
-    { title: 'Miscellaneous', subtitle: 'Fragments, notes, and visual scraps', url: '/miscellaneous/', icon: '✨' },
+    { title: 'Home', subtitle: 'Front page', url: '/', icon: '✦' },
+    { title: 'Poetry', subtitle: 'Gothic verse & translations', url: '/poetry/', icon: '📜' },
+    { title: 'Criticism & Essays', subtitle: 'Close readings and theory', url: '/review/', icon: '🖋️' },
+    { title: 'Atmosphere: Toggle Mood', subtitle: 'Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
+    { title: 'Soundscape: Toggle Rain', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
+    { title: 'Archive', subtitle: 'Chronological archive of all writings', url: '/archives/', icon: '📂' },
+    { title: 'Search', subtitle: 'Full search page', url: '/search/', icon: '🔍' },
     { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true }
   ];
 
@@ -281,7 +205,7 @@
       <div class="lc-palette-modal" role="dialog" aria-modal="true" aria-label="Command Palette">
         <div class="lc-palette-header">
           <span class="lc-palette-icon">✦</span>
-          <input type="text" class="lc-palette-input" placeholder="Search inscriptions or trigger actions (Esc to close)..." autocomplete="off" spellcheck="false" />
+          <input type="text" class="lc-palette-input" placeholder="Search inscriptions or type a command (Esc to close)..." autocomplete="off" spellcheck="false" />
           <kbd class="lc-palette-kbd">ESC</kbd>
         </div>
         <div class="lc-palette-results"></div>
@@ -369,12 +293,8 @@
         closePalette();
         if (item.action === 'theme') {
           cycleTheme();
-        } else if (item.action === 'font') {
-          cycleFont();
         } else if (item.action === 'audio') {
           toggleAudio();
-        } else if (item.action === 'random') {
-          jumpToRandomPost();
         } else if (item.url) {
           if (item.external) {
             window.open(item.url, '_blank', 'noopener');
@@ -424,56 +344,40 @@
   });
 
   /* ─────────────────────────────────────────────────────────────
-     7. VERSE FOCUS & STANZA INTERACTION
+     5. VERSE FOCUS & STANZA INTERACTION (Click to Lock)
      ───────────────────────────────────────────────────────────── */
   function initVerseFocus() {
-    const container = document.querySelector('.lc-verse-container') ||
-                      document.querySelector('.is-poetry .post-content') ||
-                      (window.location.pathname.includes('/poetry/') ? document.querySelector('.post-content') : null);
+    const postContent = document.querySelector('.post-content');
+    if (!postContent) return;
 
-    if (!container) return;
-
-    container.classList.add('lc-verse-container');
-    const paragraphs = Array.from(container.querySelectorAll('p')).filter(p => !p.closest('figcaption'));
+    const paragraphs = Array.from(postContent.querySelectorAll('p')).filter(p => !p.closest('figcaption'));
 
     paragraphs.forEach((p, idx) => {
-      p.classList.add('lc-stanza');
-      p.setAttribute('data-stanza', idx + 1);
-
       p.addEventListener('click', e => {
         e.stopPropagation();
-        const isAlreadyLocked = p.classList.contains('is-locked-focus');
+        const isAlreadyActive = p.classList.contains('is-active-stanza');
 
-        // Clear all locks
-        paragraphs.forEach(el => {
-          el.classList.remove('is-locked-focus', 'is-illuminated', 'is-dimmed');
-        });
-        container.classList.remove('is-focused-mode');
+        paragraphs.forEach(el => el.classList.remove('is-active-stanza'));
+        postContent.classList.remove('has-active-stanza');
 
-        if (!isAlreadyLocked) {
-          container.classList.add('is-focused-mode');
-          paragraphs.forEach(el => {
-            if (el === p) {
-              el.classList.add('is-locked-focus', 'is-illuminated');
-            } else {
-              el.classList.add('is-dimmed');
-            }
-          });
-          showToast(`✦ Stanza ${idx + 1} locked in focus`);
+        if (!isAlreadyActive) {
+          p.classList.add('is-active-stanza');
+          postContent.classList.add('has-active-stanza');
+          showToast(`Stanza ${idx + 1} focused`);
         }
       });
     });
 
     document.addEventListener('click', e => {
-      if (!container.contains(e.target)) {
-        container.classList.remove('is-focused-mode');
-        paragraphs.forEach(el => el.classList.remove('is-locked-focus', 'is-illuminated', 'is-dimmed'));
+      if (!postContent.contains(e.target)) {
+        postContent.classList.remove('has-active-stanza');
+        paragraphs.forEach(el => el.classList.remove('is-active-stanza'));
       }
     });
   }
 
   /* ─────────────────────────────────────────────────────────────
-     8. GOTHIC EXCERPT & QUOTE CLIPPING TOOL
+     6. GOTHIC EXCERPT & QUOTE CLIPPING TOOL
      ───────────────────────────────────────────────────────────── */
   let quoteTooltip = null;
 
@@ -513,7 +417,7 @@
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
           if (rect.width > 0 && rect.height > 0) {
-            quoteTooltip.style.top = `${window.scrollY + rect.top - 48}px`;
+            quoteTooltip.style.top = `${window.scrollY + rect.top - 46}px`;
             quoteTooltip.style.left = `${window.scrollX + rect.left + (rect.width / 2)}px`;
             quoteTooltip.classList.add('is-visible');
             return;
@@ -531,7 +435,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     9. READING PROGRESS & SCROLL-TO-TOP INDICATOR
+     7. READING PROGRESS
      ───────────────────────────────────────────────────────────── */
   function initReadingProgress() {
     let progressBar = document.querySelector('#reading-progress');
@@ -541,43 +445,11 @@
       document.body.appendChild(progressBar);
     }
 
-    let topBtn = document.querySelector('.lc-back-to-top');
-    if (!topBtn) {
-      topBtn = document.createElement('button');
-      topBtn.className = 'lc-back-to-top';
-      topBtn.setAttribute('aria-label', 'Back to top');
-      topBtn.innerHTML = `
-        <svg viewBox="0 0 36 36" class="lc-progress-circle">
-          <path class="lc-progress-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-          <path class="lc-progress-val" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-        </svg>
-        <span class="lc-top-arrow">↑</span>
-      `;
-      document.body.appendChild(topBtn);
-
-      topBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
-
-    const circleVal = topBtn.querySelector('.lc-progress-val');
-
     function updateProgress() {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-
       progressBar.style.width = `${progress}%`;
-
-      if (circleVal) {
-        circleVal.setAttribute('stroke-dasharray', `${Math.min(100, Math.round(progress))}, 100`);
-      }
-
-      if (scrollTop > 240) {
-        topBtn.classList.add('is-visible');
-      } else {
-        topBtn.classList.remove('is-visible');
-      }
     }
 
     window.addEventListener('scroll', updateProgress, { passive: true });
@@ -586,7 +458,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     10. STREAM CATEGORY FILTER (Homepage)
+     8. STREAM CATEGORY FILTER (Homepage)
      ───────────────────────────────────────────────────────────── */
   function initStreamFilter() {
     const filterContainer = document.querySelector('.lc-stream-filter');
@@ -605,86 +477,23 @@
       streamItems.forEach(item => {
         if (filter === 'all' || item.classList.contains(`lc-section-${filter}`)) {
           item.style.display = 'flex';
-          item.classList.remove('is-hidden');
         } else {
           item.style.display = 'none';
-          item.classList.add('is-hidden');
         }
       });
     });
   }
 
   /* ─────────────────────────────────────────────────────────────
-     11. GOTHIC ROTATING EPIGRAPHS (Homepage)
-     ───────────────────────────────────────────────────────────── */
-  const EPIGRAPHS = [
-    { text: "Deep into that darkness peering, long I stood there wondering, fearing...", author: "Edgar Allan Poe" },
-    { text: "For he on honey-dew hath fed, and drunk the milk of Paradise.", author: "Samuel Taylor Coleridge" },
-    { text: "You will think me cruel, very selfish, but love is always selfish; the more ardent the more selfish.", author: "Sheridan Le Fanu, Carmilla" },
-    { text: "She walks in beauty, like the night of cloudless climes and starry skies.", author: "Lord Byron" },
-    { text: "There is something at work in my soul, which I do not understand.", author: "Mary Shelley, Frankenstein" },
-    { text: "There are times when one must choose between living one's own life fully and dragging out a false existence.", author: "Arthur Miller" },
-    { text: "Whatever is dark, romantic, and haunted by the canon shall never sleep.", author: "Literaconite" }
-  ];
-
-  function initEpigraph() {
-    const epigraphText = document.querySelector('.lc-epigraph-text');
-    const epigraphAuthor = document.querySelector('.lc-epigraph-author');
-    const refreshBtn = document.querySelector('.lc-epigraph-cycle');
-    if (!epigraphText || !epigraphAuthor) return;
-
-    let currentIndex = 0;
-
-    function renderQuote(index) {
-      const q = EPIGRAPHS[index];
-      epigraphText.style.opacity = '0';
-      epigraphAuthor.style.opacity = '0';
-
-      setTimeout(() => {
-        epigraphText.textContent = `“${q.text}”`;
-        epigraphAuthor.textContent = `— ${q.author}`;
-        epigraphText.style.opacity = '1';
-        epigraphAuthor.style.opacity = '1';
-      }, 200);
-    }
-
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % EPIGRAPHS.length;
-        renderQuote(currentIndex);
-      });
-    }
-
-    currentIndex = Math.floor(Math.random() * EPIGRAPHS.length);
-    renderQuote(currentIndex);
-  }
-
-  /* ─────────────────────────────────────────────────────────────
-     12. DOM INITIALIZATION
+     9. DOM INITIALIZATION
      ───────────────────────────────────────────────────────────── */
   function init() {
     applyTheme(getStoredTheme());
-    applyFont(getStoredFont());
 
-    // Header buttons
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
         cycleTheme();
-      });
-    });
-
-    document.querySelectorAll('.lc-font-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        cycleFont();
-      });
-    });
-
-    document.querySelectorAll('.lc-random-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        jumpToRandomPost();
       });
     });
 
@@ -706,7 +515,6 @@
     initQuoteTooltip();
     initVerseFocus();
     initStreamFilter();
-    initEpigraph();
   }
 
   if (document.readyState === 'loading') {
@@ -717,8 +525,6 @@
 
   window.Literaconite = {
     cycleTheme,
-    cycleFont,
-    jumpToRandomPost,
     toggleAudio,
     openPalette,
     closePalette,

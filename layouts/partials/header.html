@@ -1,43 +1,56 @@
 <header class="lc-header">
   <nav class="lc-nav">
 
-    <a class="lc-nav-logo" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite: Return to Frontispiece">
-      <span class="lc-nav-logo-mark">✦</span>
-      <span class="lc-nav-logo-text">Literaconite</span>
-    </a>
+    <div class="lc-nav-left">
+      <a class="lc-nav-logo" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite">
+        <span class="lc-nav-logo-mark">✦</span>
+        <span class="lc-nav-logo-title">Literaconite</span>
+      </a>
+      <span class="lc-nav-tagline">Gothic Verse &amp; Criticism</span>
+    </div>
 
     <ul class="lc-nav-menu">
-      {{- range site.Menus.main }}
       <li>
-        <a href="{{ .URL | absLangURL }}"
-          {{- if eq $.RelPermalink (.URL | absLangURL) }} class="lc-nav-active"{{ end }}
-          {{ with .Title }} title="{{ . }}"{{ end }}>
-          {{ .Name }}
+        <a href="{{ "/poetry/" | absLangURL }}"
+          {{- if eq $.RelPermalink ("/poetry/" | absLangURL) }} class="lc-nav-active"{{ end }}>
+          Poetry
         </a>
       </li>
-      {{- end }}
+      <li>
+        <a href="{{ "/review/" | absLangURL }}"
+          {{- if eq $.RelPermalink ("/review/" | absLangURL) }} class="lc-nav-active"{{ end }}>
+          Criticism
+        </a>
+      </li>
+      <li>
+        <a href="{{ "/archives/" | absLangURL }}"
+          {{- if eq $.RelPermalink ("/archives/" | absLangURL) }} class="lc-nav-active"{{ end }}>
+          Archive
+        </a>
+      </li>
+      <li>
+        <a href="{{ "/miscellaneous/" | absLangURL }}"
+          {{- if eq $.RelPermalink ("/miscellaneous/" | absLangURL) }} class="lc-nav-active"{{ end }}>
+          Fragments
+        </a>
+      </li>
     </ul>
 
     <div class="lc-nav-actions">
-      <button class="lc-action-btn lc-palette-trigger" type="button" title="Quick Search & Command Palette (Cmd+K / /)">
-        <span>Search</span>
-        <span class="lc-kbd-badge">⌘K</span>
+      <button class="lc-btn lc-palette-trigger" type="button" aria-label="Search">
+        <svg class="lc-btn-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span class="lc-btn-label">Search</span>
+        <span class="lc-kbd">⌘K</span>
       </button>
 
-      <button class="lc-action-btn lc-random-btn" type="button" title="Random Inscription (Surprise Me)">
-        <span class="lc-action-icon">✨</span>
+      <button class="lc-btn lc-theme-btn" type="button" aria-label="Toggle Mood">
+        <span class="lc-theme-dot"></span>
+        <span class="lc-theme-label">Midnight</span>
       </button>
 
-      <button class="lc-action-btn lc-font-btn" type="button" title="Cycle Reading Typeface (Playfair Serif / Garamond Antiqua / Modern)">
-        <span class="lc-font-indicator">Aa</span>
-      </button>
-
-      <button class="lc-action-btn lc-audio-btn" type="button" title="Gothic Soundscape (Procedural Ambient Rain)">
-        <span class="lc-audio-icon">🌧️</span>
-      </button>
-
-      <button class="lc-action-btn lc-theme-btn" type="button" title="Switch Atmosphere Mood (Midnight / Candlelight / Crimson)">
-        <span class="lc-theme-icon">🌑</span>
+      <button class="lc-btn lc-audio-btn" type="button" aria-label="Toggle Rain Soundscape">
+        <span class="lc-audio-dot"></span>
+        <span class="lc-audio-label">Rain</span>
       </button>
     </div>
 
