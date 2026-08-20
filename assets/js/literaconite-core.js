@@ -1,6 +1,6 @@
 /**
- * LITERACONITE CORE INTERACTIVE SYSTEM
- * Pure Vanilla JavaScript — High-Performance & Zero Dependencies
+ * LITERACONITE CORE INTERACTIVE SYSTEM & PERSISTENT AUDIO ENGINE
+ * Pure Vanilla JavaScript — High-Performance, Zero Dependencies
  */
 
 (function () {
@@ -49,6 +49,7 @@
 
   /* ─────────────────────────────────────────────────────────────
      2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
+     Persistent across seamless page transitions & stored in localStorage
      ───────────────────────────────────────────────────────────── */
   let audioCtx = null;
   let isAudioPlaying = false;
@@ -56,6 +57,14 @@
   let filterNode = null;
   let droneGain = null;
   let masterGain = null;
+
+  function getStoredAudioPref() {
+    try {
+      return localStorage.getItem('lc-audio') === 'active';
+    } catch(e) {
+      return false;
+    }
+  }
 
   function initWebAudio() {
     if (audioCtx) return;
@@ -105,11 +114,11 @@
       noiseNode.start(0);
       droneOsc.start(0);
     } catch(e) {
-      console.warn('Web Audio init', e);
+      console.warn('Web Audio init error', e);
     }
   }
 
-  function toggleAudio() {
+  function startAudio(silent = false) {
     if (!audioCtx) initWebAudio();
     if (!audioCtx) return;
 
@@ -117,20 +126,42 @@
       audioCtx.resume();
     }
 
-    if (!isAudioPlaying) {
-      masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-      masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 1.0);
-      isAudioPlaying = true;
-      showToast('Rain Soundscape: Active');
-    } else {
-      masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-      masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
-      isAudioPlaying = false;
-      showToast('Rain Soundscape: Paused');
-    }
+    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 1.0);
+    isAudioPlaying = true;
+    try {
+      localStorage.setItem('lc-audio', 'active');
+    } catch(e) {}
 
+    updateAudioUI();
+    if (!silent) showToast('Rain Soundscape: Active');
+  }
+
+  function pauseAudio(silent = false) {
+    if (!audioCtx || !isAudioPlaying) return;
+
+    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+    isAudioPlaying = false;
+    try {
+      localStorage.setItem('lc-audio', 'paused');
+    } catch(e) {}
+
+    updateAudioUI();
+    if (!silent) showToast('Rain Soundscape: Paused');
+  }
+
+  function toggleAudio() {
+    if (!isAudioPlaying) {
+      startAudio();
+    } else {
+      pauseAudio();
+    }
+  }
+
+  function updateAudioUI() {
     document.querySelectorAll('.lc-audio-btn').forEach(btn => {
       btn.classList.toggle('is-active', isAudioPlaying);
       const label = btn.querySelector('.lc-audio-label');
@@ -138,8 +169,135 @@
     });
   }
 
+  // Restore audio on first interaction if user previously enabled it
+  function checkAutoResumeAudio() {
+    if (getStoredAudioPref() && !isAudioPlaying) {
+      const resumeHandler = () => {
+        if (!isAudioPlaying && getStoredAudioPref()) {
+          startAudio(true);
+        }
+        document.removeEventListener('click', resumeHandler);
+        document.removeEventListener('keydown', resumeHandler);
+        document.removeEventListener('touchstart', resumeHandler);
+      };
+      document.addEventListener('click', resumeHandler, { once: true });
+      document.addEventListener('keydown', resumeHandler, { once: true });
+      document.addEventListener('touchstart', resumeHandler, { once: true });
+    }
+  }
+
   /* ─────────────────────────────────────────────────────────────
-     3. TOAST NOTIFICATIONS
+     3. SEAMLESS GOTHIC PJAX NAVIGATION (Keeps Audio Playing!)
+     ───────────────────────────────────────────────────────────── */
+  let isNavigating = false;
+
+  async function navigateTo(url, pushHistory = true) {
+    if (isNavigating) return;
+    isNavigating = true;
+
+    const mainContainer = document.querySelector('.lc-container');
+    if (mainContainer) mainContainer.classList.add('is-transitioning');
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Navigation failed');
+      const htmlText = await response.text();
+
+      const parser = new DOMParser();
+      const newDoc = parser.parseFromString(htmlText, 'text/html');
+
+      // Update Document Title
+      document.title = newDoc.title;
+
+      // Update Body Classes (single-view vs list-view, section-*, etc.)
+      document.body.className = newDoc.body.className;
+
+      // Swap Main Container
+      const newMain = newDoc.querySelector('.lc-container');
+      if (mainContainer && newMain) {
+        mainContainer.innerHTML = newMain.innerHTML;
+      }
+
+      // Update History
+      if (pushHistory) {
+        window.history.pushState({ url }, '', url);
+      }
+
+      // Update Active Navigation Links in Header
+      document.querySelectorAll('.lc-nav-list a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && (window.location.pathname === href || (href !== '/' && window.location.pathname.startsWith(href)))) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+
+      // Scroll smoothly to top
+      window.scrollTo(0, 0);
+
+      // Re-initialize dynamic page listeners
+      initReadingProgress();
+      initVerseFocus();
+      initStreamFilter();
+
+    } catch (err) {
+      console.warn('Seamless navigation fallback to native reload', err);
+      window.location.href = url;
+    } finally {
+      setTimeout(() => {
+        if (mainContainer) mainContainer.classList.remove('is-transitioning');
+        isNavigating = false;
+      }, 50);
+    }
+  }
+
+  function initPjax() {
+    document.addEventListener('click', e => {
+      // Don't intercept clicks with modifier keys (cmd/ctrl/shift/alt)
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.defaultPrevented) return;
+
+      const link = e.target.closest('a');
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // Ignore external links, mailto, tel, anchors, and target="_blank"
+      if (
+        link.target === '_blank' ||
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        href.startsWith('javascript:') ||
+        link.getAttribute('rel')?.includes('external')
+      ) {
+        return;
+      }
+
+      // Check if it is same-origin
+      try {
+        const targetUrl = new URL(link.href, window.location.origin);
+        if (targetUrl.origin === window.location.origin) {
+          // If navigating to the exact current URL hashless, just scroll top
+          if (targetUrl.pathname === window.location.pathname && !targetUrl.hash) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+          e.preventDefault();
+          navigateTo(targetUrl.href, true);
+        }
+      } catch(err) {}
+    });
+
+    window.addEventListener('popstate', () => {
+      navigateTo(window.location.href, false);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     4. TOAST NOTIFICATIONS
      ───────────────────────────────────────────────────────────── */
   let toastEl = null;
   let toastTimer = null;
@@ -159,7 +317,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     4. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
+     5. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
      ───────────────────────────────────────────────────────────── */
   let paletteEl = null;
   let searchIndex = [];
@@ -299,7 +457,7 @@
           if (item.external) {
             window.open(item.url, '_blank', 'noopener');
           } else {
-            window.location.href = item.url;
+            navigateTo(item.url, true);
           }
         }
       });
@@ -344,7 +502,7 @@
   });
 
   /* ─────────────────────────────────────────────────────────────
-     5. VERSE FOCUS & STANZA INTERACTION
+     6. VERSE FOCUS & STANZA INTERACTION
      ───────────────────────────────────────────────────────────── */
   function initVerseFocus() {
     const proseContainer = document.querySelector('.lc-verse-mode') || document.querySelector('.is-poetry-article .lc-prose');
@@ -377,11 +535,12 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     6. GOTHIC EXCERPT & CITATION TOOLTIP
+     7. GOTHIC EXCERPT & CITATION TOOLTIP
      ───────────────────────────────────────────────────────────── */
   let quoteTooltip = null;
 
   function initQuoteTooltip() {
+    if (quoteTooltip) return;
     quoteTooltip = document.createElement('div');
     quoteTooltip.className = 'lc-quote-tooltip';
     quoteTooltip.innerHTML = `
@@ -435,7 +594,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     7. READING PROGRESS BAR
+     8. READING PROGRESS BAR
      ───────────────────────────────────────────────────────────── */
   function initReadingProgress() {
     const progressBar = document.querySelector('#reading-progress');
@@ -454,7 +613,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     8. HOMEPAGE STREAM FILTER
+     9. HOMEPAGE STREAM FILTER
      ───────────────────────────────────────────────────────────── */
   function initStreamFilter() {
     const filterContainer = document.querySelector('.lc-filter-pills');
@@ -481,10 +640,12 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     9. DOM INITIALIZATION
+     10. DOM INITIALIZATION
      ───────────────────────────────────────────────────────────── */
   function init() {
     applyTheme(getStoredTheme());
+    updateAudioUI();
+    checkAutoResumeAudio();
 
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
       btn.addEventListener('click', e => {
@@ -511,6 +672,7 @@
     initQuoteTooltip();
     initVerseFocus();
     initStreamFilter();
+    initPjax();
   }
 
   if (document.readyState === 'loading') {
@@ -521,9 +683,12 @@
 
   window.Literaconite = {
     cycleTheme,
+    startAudio,
+    pauseAudio,
     toggleAudio,
     openPalette,
     closePalette,
-    showToast
+    showToast,
+    navigateTo
   };
 })();
