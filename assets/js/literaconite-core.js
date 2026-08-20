@@ -352,7 +352,7 @@
     { title: 'Fragments & Miscellaneous', subtitle: 'Scraps, fragments, and art', url: '/miscellaneous/', icon: '✨' },
     { title: 'Atmosphere: Toggle Theme', subtitle: 'Switch Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
     { title: 'Soundscape: Toggle Rain', subtitle: 'Ambient procedural rainfall', action: 'audio', icon: '🌧️' },
-    { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true }
+    { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://boxd.it/3s7QH', icon: '🎞️', external: true }
   ];
 
   async function loadSearchIndex() {

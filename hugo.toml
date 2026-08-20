@@ -38,7 +38,7 @@ buildDrafts = false
 
   [[params.socialIcons]]
     name = "letterboxd"
-    url = "https://letterboxd.com/scyllaborder"
+    url = "https://boxd.it/3s7QH"
 
 [permalinks]
   poetry = "/poetry/:slug/"
