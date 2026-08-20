@@ -1,6 +1,6 @@
 /**
  * LITERACONITE CORE INTERACTIVE SYSTEM & CONTINUOUS AUDIO SANCTUARY
- * Pure Vanilla JavaScript — Zero Dependencies, 100% Seamless PJAX
+ * Pure Vanilla JavaScript — High Performance, Zero Dependencies, Seamless PJAX
  */
 
 (function () {
@@ -49,9 +49,9 @@
 
   /* ─────────────────────────────────────────────────────────────
      2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
-     Continuous procedural rainfall that never unloads or stops
+     Persistent continuous audio that never unloads or pauses
      ───────────────────────────────────────────────────────────── */
-  let audioCtx = null;
+  let audioCtx = window.__lc_audioCtx || null;
   let isAudioPlaying = false;
   let noiseNode = null;
   let filterNode = null;
@@ -72,13 +72,14 @@
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (!AudioContext) return;
       audioCtx = new AudioContext();
+      window.__lc_audioCtx = audioCtx;
 
       masterGain = audioCtx.createGain();
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // Pink/Brown noise buffer for gentle rainfall
-      const bufferSize = audioCtx.sampleRate * 2;
+      // Pink/Brown noise buffer for gentle rainfall (4-second loop)
+      const bufferSize = audioCtx.sampleRate * 4;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
       let lastOut = 0.0;
@@ -126,9 +127,12 @@
       audioCtx.resume();
     }
 
-    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 1.0);
+    if (masterGain) {
+      masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 0.8);
+    }
+
     isAudioPlaying = true;
     try {
       localStorage.setItem('lc-audio', 'active');
@@ -141,9 +145,12 @@
   function pauseAudio(silent = false) {
     if (!audioCtx || !isAudioPlaying) return;
 
-    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+    if (masterGain) {
+      masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+    }
+
     isAudioPlaying = false;
     try {
       localStorage.setItem('lc-audio', 'paused');
@@ -175,9 +182,9 @@
         if (!isAudioPlaying && getStoredAudioPref()) {
           startAudio(true);
         }
-        document.removeEventListener('click', resumeHandler);
-        document.removeEventListener('keydown', resumeHandler);
-        document.removeEventListener('touchstart', resumeHandler);
+        document.removeEventListener('click', resumeHandler, true);
+        document.removeEventListener('keydown', resumeHandler, true);
+        document.removeEventListener('touchstart', resumeHandler, true);
       };
       document.addEventListener('click', resumeHandler, { once: true, capture: true });
       document.addEventListener('keydown', resumeHandler, { once: true, capture: true });
@@ -187,15 +194,27 @@
 
   /* ─────────────────────────────────────────────────────────────
      3. BULLETPROOF CAPTURE-PHASE PJAX NAVIGATION
-     Intercepts ALL internal link clicks before anything can stop propagation
+     Intercepts all internal clicks and transitions smoothly
      ───────────────────────────────────────────────────────────── */
   let isNavigating = false;
+
+  function updateNavLinks() {
+    const cleanPath = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.lc-nav-list a').forEach(link => {
+      const linkPath = link.getAttribute('href')?.replace(/\/$/, '') || '/';
+      if (linkPath === cleanPath || (linkPath !== '/' && cleanPath.startsWith(linkPath))) {
+        link.classList.add('is-active');
+      } else {
+        link.classList.remove('is-active');
+      }
+    });
+  }
 
   async function navigateTo(url, pushHistory = true) {
     if (isNavigating) return;
     isNavigating = true;
 
-    // Ensure audio stays alive
+    // Keep audio active
     if (isAudioPlaying && audioCtx && audioCtx.state === 'suspended') {
       audioCtx.resume();
     }
@@ -204,7 +223,7 @@
     if (mainContainer) mainContainer.classList.add('is-transitioning');
 
     try {
-      const response = await fetch(url, { headers: { 'X-Requested-With': 'Literaconite-PJAX' } });
+      const response = await fetch(url);
       if (!response.ok) throw new Error('HTTP ' + response.status);
       const htmlText = await response.text();
 
@@ -212,10 +231,10 @@
       const newDoc = parser.parseFromString(htmlText, 'text/html');
 
       // Update Document Title
-      document.title = newDoc.title;
+      if (newDoc.title) document.title = newDoc.title;
 
-      // Update Body Classes (single-view vs list-view, section-*, etc.)
-      document.body.className = newDoc.body.className;
+      // Update Body Classes
+      if (newDoc.body) document.body.className = newDoc.body.className;
 
       // Swap Main Container
       const newMain = newDoc.querySelector('.lc-container');
@@ -229,17 +248,9 @@
       }
 
       // Update Active Navigation Links in Header
-      const cleanPath = window.location.pathname.replace(/\/$/, '') || '/';
-      document.querySelectorAll('.lc-nav-list a').forEach(link => {
-        const linkPath = link.getAttribute('href')?.replace(/\/$/, '') || '/';
-        if (linkPath === cleanPath || (linkPath !== '/' && cleanPath.startsWith(linkPath))) {
-          link.classList.add('is-active');
-        } else {
-          link.classList.remove('is-active');
-        }
-      });
+      updateNavLinks();
 
-      // Scroll smoothly to top
+      // Scroll to top
       window.scrollTo(0, 0);
 
       // Re-initialize dynamic page interactive components
@@ -248,7 +259,7 @@
       initStreamFilter();
 
     } catch (err) {
-      console.warn('PJAX fallback to hard navigation', err);
+      console.warn('PJAX fallback to direct load', err);
       window.location.href = url;
     } finally {
       setTimeout(() => {
@@ -259,7 +270,7 @@
   }
 
   function initPjax() {
-    // CAPTURE PHASE LISTENER: catches every click before child stopPropagation
+    // CAPTURE PHASE LISTENER
     document.addEventListener('click', e => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
@@ -284,7 +295,6 @@
       try {
         const targetUrl = new URL(link.href, window.location.origin);
         if (targetUrl.origin === window.location.origin) {
-          // Normalize paths for hashless self-navigation
           const curPath = window.location.pathname.replace(/\/$/, '') || '/';
           const tgtPath = targetUrl.pathname.replace(/\/$/, '') || '/';
 
@@ -300,7 +310,7 @@
           navigateTo(targetUrl.href, true);
         }
       } catch(err) {}
-    }, true); // TRUE = Capture phase!
+    }, true);
 
     window.addEventListener('popstate', () => {
       navigateTo(window.location.href, false);
@@ -523,7 +533,6 @@
 
     paragraphs.forEach((p, idx) => {
       p.onclick = e => {
-        // If clicking a link inside the stanza, do not lock stanza
         if (e.target.closest('a')) return;
 
         const isAlreadyLocked = p.classList.contains('is-locked-stanza');
