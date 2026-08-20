@@ -2,8 +2,9 @@
 title: "Mircalla"
 date: 2026-07-12T23:36:00+03:00
 draft: false
-tags: ["poetry"]
+tags: ["poetry", "Gothic", "Carmilla", "Dark Romanticism", "Vampirism"]
 categories: ["creative"]
+description: "An invocation of the velvet dark and the silent thirst of long sleep; an original Gothic poem of ruin, blood, and macabre beauty."
 ---
 
 Come.

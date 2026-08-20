@@ -1,10 +1,20 @@
 {{ define "main" }}
 <main class="lc-main">
 
-  <header class="lc-hero">
-    <p class="lc-hero-title">Literaconite</p>
-    <p class="lc-hero-sub">Gothic Poetry &amp; Literary Criticism</p>
-  </header>
+  <section class="lc-hero-section">
+    <div class="lc-hero-header">
+      <h1 class="lc-hero-title">Literaconite</h1>
+      <p class="lc-hero-sub">Gothic Poetry &amp; Literary Criticism</p>
+    </div>
+
+    <div class="lc-epigraph-box">
+      <div class="lc-epigraph-content">
+        <p class="lc-epigraph-text">“Deep into that darkness peering, long I stood there wondering, fearing...”</p>
+        <p class="lc-epigraph-author">— Edgar Allan Poe</p>
+      </div>
+      <button class="lc-epigraph-cycle" type="button" title="Cycle Gothic Fragment">✦</button>
+    </div>
+  </section>
 
   {{ $pages := where .Site.RegularPages "Draft" false }}
   {{ $pages = where $pages "Section" "in" (slice "poetry" "review" "miscellaneous") }}
@@ -17,7 +27,11 @@
     <article class="lc-feature">
       <span class="lc-chip">{{ .Section }}</span>
       <h2 class="lc-feature-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-      {{ with .Description }}<p class="lc-feature-desc">{{ . }}</p>{{ end }}
+      {{ with .Description }}
+        <p class="lc-feature-desc">{{ . }}</p>
+      {{ else }}
+        <p class="lc-feature-desc">{{ .Summary | plainify | truncate 180 }}</p>
+      {{ end }}
       <div class="lc-feature-meta">
         <time>{{ .Date.Format "2 January 2006" }}</time>
         {{ with .Params.tags }}
@@ -30,9 +44,18 @@
     {{ end }}
 
     <aside class="lc-stream">
-      <div class="lc-stream-label">Latest</div>
-      {{ range after 1 (first 12 $pages) }}
-      <article class="lc-stream-item">
+      <div class="lc-stream-header">
+        <div class="lc-stream-label">Latest Inscriptions</div>
+        <div class="lc-stream-filter">
+          <button class="lc-filter-btn is-active" data-filter="all" type="button">All</button>
+          <button class="lc-filter-btn" data-filter="poetry" type="button">Poetry</button>
+          <button class="lc-filter-btn" data-filter="review" type="button">Reviews</button>
+          <button class="lc-filter-btn" data-filter="miscellaneous" type="button">Misc</button>
+        </div>
+      </div>
+
+      {{ range after 1 (first 14 $pages) }}
+      <article class="lc-stream-item lc-section-{{ .Section }}">
         <span class="lc-dot lc-dot-{{ .Section }}"></span>
         <div class="lc-stream-body">
           <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
@@ -45,10 +68,14 @@
   </section>
   {{ end }}
 
-  <p class="lc-colophon">
-    Literaconite is written and maintained by Emrecan Ko&#231; ,  a reader of difficult books and a writer of darker things.
-    Film diary on <a href="https://letterboxd.com/scyllaborder" target="_blank" rel="noopener">Letterboxd</a>.
-  </p>
+  <div class="lc-colophon">
+    <div>
+      Literaconite is written and maintained by <strong>Emrecan Koç</strong>, a reader of difficult books and a writer of darker things.
+    </div>
+    <div>
+      Film diary on <a href="https://letterboxd.com/scyllaborder" target="_blank" rel="noopener">Letterboxd</a> &bull; Code on <a href="https://github.com/emrecankoc6" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
 
 </main>
 {{ end }}

@@ -1,21 +1,37 @@
 <header class="lc-header">
   <nav class="lc-nav">
 
-    <a class="lc-nav-logo" href="{{ "" | absLangURL }}" accesskey="h">
+    <a class="lc-nav-logo" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite Home">
       <span class="lc-nav-logo-mark">✦</span>
-      Literaconite
+      <span>Literaconite</span>
     </a>
 
     <ul class="lc-nav-menu">
       {{- range site.Menus.main }}
       <li>
         <a href="{{ .URL | absLangURL }}"
-          {{- if eq $.RelPermalink (.URL | absLangURL) }} class="lc-nav-active"{{ end }}>
+          {{- if eq $.RelPermalink (.URL | absLangURL) }} class="lc-nav-active"{{ end }}
+          {{ with .Title }} title="{{ . }}"{{ end }}>
           {{ .Name }}
         </a>
       </li>
       {{- end }}
     </ul>
+
+    <div class="lc-nav-actions">
+      <button class="lc-action-btn lc-palette-trigger" type="button" title="Command Palette & Quick Search (Cmd+K / /)">
+        <span>Search</span>
+        <span class="lc-kbd-badge">⌘K</span>
+      </button>
+
+      <button class="lc-action-btn lc-audio-btn" type="button" title="Gothic Soundscape (Procedural Ambient Rain)">
+        <span class="lc-audio-icon">🌧️</span>
+      </button>
+
+      <button class="lc-action-btn lc-theme-btn" type="button" title="Switch Atmosphere Mood (Midnight / Candlelight / Crimson)">
+        <span class="lc-theme-icon">🌑</span>
+      </button>
+    </div>
 
   </nav>
 </header>
