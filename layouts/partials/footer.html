@@ -11,6 +11,6 @@
 </footer>
 
 {{ with resources.Get "js/literaconite-core.js" }}
-  {{ $js := . | resources.Minify }}
-  <script src="{{ $js.RelPermalink }}" defer></script>
+  {{ $js := . | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}
