@@ -9,24 +9,24 @@
       </div>
 
       <div class="lc-header-tools">
-        <button class="lc-tool-btn lc-palette-trigger" type="button" aria-label="Quick Search (Cmd+K)">
+        <button class="lc-tool-btn lc-palette-trigger" type="button" aria-label="Quick Search (Cmd+K)" onclick="window.Literaconite && window.Literaconite.openPalette ? window.Literaconite.openPalette() : null">
           <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <span class="lc-tool-text">Search</span>
           <kbd class="lc-tool-kbd">⌘K</kbd>
         </button>
 
-        <button class="lc-tool-btn lc-oracle-trigger" type="button" aria-label="Consult Inscription Oracle (Cmd+O)">
+        <button class="lc-tool-btn lc-oracle-trigger" type="button" aria-label="Consult Inscription Oracle (Cmd+O)" onclick="window.Literaconite && window.Literaconite.openOracle ? window.Literaconite.openOracle() : null">
           <span class="lc-oracle-icon">🔮</span>
           <span class="lc-tool-text">Oracle</span>
           <kbd class="lc-tool-kbd">⌘O</kbd>
         </button>
 
-        <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood">
+        <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood" onclick="window.Literaconite && window.Literaconite.cycleTheme ? window.Literaconite.cycleTheme() : null">
           <span class="lc-status-dot lc-theme-dot"></span>
           <span class="lc-theme-label">Midnight</span>
         </button>
 
-        <button class="lc-tool-btn lc-audio-btn" type="button" aria-label="Toggle Rain Ambient Audio">
+        <button class="lc-tool-btn lc-audio-btn" type="button" aria-label="Toggle Rain Ambient Audio" onclick="window.Literaconite && window.Literaconite.toggleAudio ? window.Literaconite.toggleAudio() : null">
           <span class="lc-status-dot lc-audio-dot"></span>
           <span class="lc-audio-label">Rain</span>
         </button>

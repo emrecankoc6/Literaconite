@@ -1,6 +1,6 @@
 /**
  * LITERACONITE CORE INTERACTIVE SYSTEM & GOTHIC SANCTUARY
- * Pure Vanilla JavaScript — High Performance, Zero Dependencies, Seamless PJAX
+ * Pure Vanilla JavaScript — Zero Dependencies, High Fidelity Procedural Audio, Bibliomancy Oracle
  */
 
 (function () {
@@ -49,7 +49,7 @@
 
   /* ─────────────────────────────────────────────────────────────
      2. GOTHIC PROCEDURAL SOUND SANCTUARY (Web Audio API)
-     Rain + Real Hearth Fireplace + Cathedral Wind + Continuous Abbey Bells
+     4 Channels: Rainfall, Multi-Layered Hearth Fire, Cathedral Wind, Abbey Bells
      ───────────────────────────────────────────────────────────── */
   let audioCtx = window.__lc_audioCtx || null;
   let isAudioPlaying = false;
@@ -110,20 +110,23 @@
       rainGain.connect(masterGain);
       rainSrc.start(0);
 
-      // ── 2. AUTHENTIC HEARTH FIREPLACE (Wood crackles + snap impulses + warm rumble) ──
-      const fireBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
+      // ── 2. MULTI-LAYER HEARTH FIREPLACE (Wood crackles + snap pops + warm combustion) ──
+      const fireBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 5, audioCtx.sampleRate);
       const fireData = fireBuffer.getChannelData(0);
       let fRumble = 0.0;
       for (let i = 0; i < fireBuffer.length; i++) {
         const white = Math.random() * 2 - 1;
-        fRumble = (fRumble + 0.012 * white) / 1.012;
-        let sample = fRumble * 2.0;
+        // Warm sub-rumble
+        fRumble = (fRumble + 0.015 * white) / 1.015;
+        let sample = fRumble * 2.2;
 
-        if (Math.random() < 0.0035) {
-          sample += (Math.random() * 2 - 1) * 3.2;
+        // Frequent wood crackling snaps (short impulses)
+        if (Math.random() < 0.0045) {
+          sample += (Math.random() * 2 - 1) * 3.5;
         }
-        if (Math.random() < 0.0004) {
-          sample += (Math.random() > 0.5 ? 1 : -1) * (5.0 + Math.random() * 3.0);
+        // Sudden loud ember pop / wood burst
+        if (Math.random() < 0.0005) {
+          sample += (Math.random() > 0.5 ? 1 : -1) * (5.5 + Math.random() * 3.5);
         }
         fireData[i] = sample;
       }
@@ -133,11 +136,11 @@
 
       const fireFilter = audioCtx.createBiquadFilter();
       fireFilter.type = 'bandpass';
-      fireFilter.frequency.setValueAtTime(1500, audioCtx.currentTime);
-      fireFilter.Q.setValueAtTime(0.7, audioCtx.currentTime);
+      fireFilter.frequency.setValueAtTime(1400, audioCtx.currentTime);
+      fireFilter.Q.setValueAtTime(0.75, audioCtx.currentTime);
 
       fireGain = audioCtx.createGain();
-      fireGain.gain.setValueAtTime(SOUND_STATES.fire ? 0.52 : 0.0001, audioCtx.currentTime);
+      fireGain.gain.setValueAtTime(SOUND_STATES.fire ? 0.55 : 0.0001, audioCtx.currentTime);
 
       fireSrc.connect(fireFilter);
       fireFilter.connect(fireGain);
@@ -183,7 +186,7 @@
       windGain.connect(masterGain);
       windSrc.start(0);
 
-      // ── 4. ABBEY BELLS CHANNEL (Inharmonic Cathedral Resonance) ──
+      // ── 4. ABBEY BELLS CHANNEL (Cathedral Chimes with Periodic Cycle) ──
       bellsGain = audioCtx.createGain();
       bellsGain.gain.setValueAtTime(1.0, audioCtx.currentTime);
       bellsGain.connect(masterGain);
@@ -195,9 +198,9 @@
   }
 
   const BELL_FREQS = [
-    [220, 442, 665, 1120],
-    [277, 554, 831, 1386],
-    [330, 660, 990, 1650]
+    [220, 442, 665, 1120],  // Deep A
+    [277, 554, 831, 1386],  // C#
+    [330, 660, 990, 1650]   // E
   ];
 
   function tollAbbeyBell(freqIndex = 0) {
@@ -206,7 +209,7 @@
     try {
       const now = audioCtx.currentTime;
       const fSet = BELL_FREQS[freqIndex % BELL_FREQS.length];
-      const gains = [0.32, 0.18, 0.10, 0.05];
+      const gains = [0.35, 0.20, 0.12, 0.06];
 
       fSet.forEach((freq, idx) => {
         const osc = audioCtx.createOscillator();
@@ -230,7 +233,7 @@
       if (isAudioPlaying && SOUND_STATES.bells) {
         tollAbbeyBell(bellCycleIndex++);
       }
-    }, 13000);
+    }, 10000);
   }
 
   function toggleSoundTrack(soundKey) {
@@ -239,7 +242,7 @@
 
     const targetGains = {
       rain: 0.35,
-      fire: 0.52,
+      fire: 0.55,
       wind: 0.38,
       bells: 1.0
     };
@@ -263,7 +266,7 @@
       } else if (soundKey === 'bells') {
         if (SOUND_STATES.bells) {
           tollAbbeyBell(bellCycleIndex++);
-          showToast('🔔 Cathedral Bells active (tolling periodically)');
+          showToast('🔔 Abbey Bells active (tolling periodically)');
         }
       }
     }
@@ -279,43 +282,55 @@
     if (!audioDockEl) return;
     audioDockEl.querySelectorAll('.lc-sound-chip').forEach(chip => {
       const sound = chip.getAttribute('data-sound');
-      chip.classList.toggle('is-active', !!SOUND_STATES[sound]);
+      const isActive = !!SOUND_STATES[sound];
+      chip.classList.toggle('is-active', isActive);
+      if (isActive) {
+        chip.style.setProperty('background', 'rgba(255, 23, 68, 0.2)', 'important');
+        chip.style.setProperty('border-color', 'var(--lc-red-bright, #ff1744)', 'important');
+        chip.style.setProperty('color', '#ffffff', 'important');
+        chip.style.setProperty('box-shadow', '0 0 12px rgba(255, 23, 68, 0.4)', 'important');
+      } else {
+        chip.style.setProperty('background', 'rgba(255, 255, 255, 0.07)', 'important');
+        chip.style.setProperty('border-color', 'rgba(255, 255, 255, 0.15)', 'important');
+        chip.style.setProperty('color', 'var(--lc-muted, #9b8fb3)', 'important');
+        chip.style.setProperty('box-shadow', 'none', 'important');
+      }
     });
   }
 
   function renderAudioDock() {
     if (audioDockEl) return;
     audioDockEl = document.createElement('div');
-    audioDockEl.className = 'lc-audio-dock';
+    audioDockEl.className = 'lc-audio-dock is-visible';
     audioDockEl.id = 'lc-audio-dock';
+    audioDockEl.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;align-items:center;background:rgba(18,8,14,0.94);border:1px solid rgba(255,50,75,0.35);border-radius:50px;padding:6px 14px;box-shadow:0 12px 35px rgba(0,0,0,0.9),0 0 22px rgba(255,23,68,0.28);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);font-family:Inter,sans-serif;color:#fff;gap:10px;white-space:nowrap;';
+
     audioDockEl.innerHTML = `
-      <div class="lc-audio-capsule">
-        <div class="lc-audio-status">
-          <span class="lc-audio-glow-dot"></span>
-          <span class="lc-audio-status-label">Sanctuary</span>
-        </div>
-
-        <div class="lc-sound-toggles">
-          <button class="lc-sound-chip ${SOUND_STATES.rain ? 'is-active' : ''}" data-sound="rain" type="button" title="Toggle Rainfall">
-            <span class="lc-chip-emoji">🌧️</span> <span class="lc-chip-text">Rain</span>
-          </button>
-          <button class="lc-sound-chip ${SOUND_STATES.fire ? 'is-active' : ''}" data-sound="fire" type="button" title="Toggle Hearth Fire">
-            <span class="lc-chip-emoji">🔥</span> <span class="lc-chip-text">Fire</span>
-          </button>
-          <button class="lc-sound-chip ${SOUND_STATES.wind ? 'is-active' : ''}" data-sound="wind" type="button" title="Toggle Cathedral Wind">
-            <span class="lc-chip-emoji">🌬️</span> <span class="lc-chip-text">Wind</span>
-          </button>
-          <button class="lc-sound-chip ${SOUND_STATES.bells ? 'is-active' : ''}" data-sound="bells" type="button" title="Toggle Abbey Bells (Periodic Chime)">
-            <span class="lc-chip-emoji">🔔</span> <span class="lc-chip-text">Bells</span>
-          </button>
-        </div>
-
-        <div class="lc-audio-slider-wrap">
-          <input type="range" class="lc-audio-dock-vol" id="lc-master-vol" min="0" max="1" step="0.05" value="0.75" title="Master Volume">
-        </div>
-
-        <button class="lc-dock-close" type="button" title="Close soundscape">&times;</button>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#ff1744;box-shadow:0 0 8px #ff1744;display:inline-block;animation:pulse 2s infinite;"></span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#e2d9f3;">Sanctuary</span>
       </div>
+
+      <div class="lc-sound-toggles" style="display:flex;align-items:center;gap:5px;">
+        <button class="lc-sound-chip ${SOUND_STATES.rain ? 'is-active' : ''}" data-sound="rain" type="button" title="Toggle Rainfall" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:500;cursor:pointer;line-height:1;transition:all 140ms ease;">
+          <span>🌧️</span> <span>Rain</span>
+        </button>
+        <button class="lc-sound-chip ${SOUND_STATES.fire ? 'is-active' : ''}" data-sound="fire" type="button" title="Toggle Hearth Fire" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:500;cursor:pointer;line-height:1;transition:all 140ms ease;">
+          <span>🔥</span> <span>Fire</span>
+        </button>
+        <button class="lc-sound-chip ${SOUND_STATES.wind ? 'is-active' : ''}" data-sound="wind" type="button" title="Toggle Cathedral Wind" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:500;cursor:pointer;line-height:1;transition:all 140ms ease;">
+          <span>🌬️</span> <span>Wind</span>
+        </button>
+        <button class="lc-sound-chip ${SOUND_STATES.bells ? 'is-active' : ''}" data-sound="bells" type="button" title="Toggle Abbey Bells" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:500;cursor:pointer;line-height:1;transition:all 140ms ease;">
+          <span>🔔</span> <span>Bells</span>
+        </button>
+      </div>
+
+      <div style="display:flex;align-items:center;padding:0 2px;">
+        <input type="range" class="lc-audio-dock-vol" id="lc-master-vol" min="0" max="1" step="0.05" value="0.75" title="Master Volume" style="-webkit-appearance:none;appearance:none;width:55px;height:4px;background:rgba(255,255,255,0.2);border-radius:999px;outline:none;border:none;cursor:pointer;">
+      </div>
+
+      <button class="lc-dock-close" type="button" title="Close soundscape" style="all:unset;background:transparent;border:none;color:#9b8fb3;font-size:18px;line-height:1;cursor:pointer;padding:0 2px;transition:color 120ms ease;">&times;</button>
     `;
     document.body.appendChild(audioDockEl);
 
@@ -338,6 +353,8 @@
         toggleSoundTrack(sound);
       };
     });
+
+    updateSoundPills();
   }
 
   function startAudio(silent = false) {
@@ -365,7 +382,7 @@
 
     updateAudioUI();
     updateSoundPills();
-    if (audioDockEl) audioDockEl.classList.add('is-visible');
+    if (audioDockEl) audioDockEl.style.display = 'flex';
     if (!silent) showToast('🌧️ Gothic Sanctuary: Active');
   }
 
@@ -384,7 +401,7 @@
     } catch(e) {}
 
     updateAudioUI();
-    if (audioDockEl) audioDockEl.classList.remove('is-visible');
+    if (audioDockEl) audioDockEl.style.display = 'none';
     if (!silent) showToast('Sanctuary: Paused');
   }
 
@@ -490,44 +507,46 @@
     oracleModalEl = document.createElement('div');
     oracleModalEl.className = 'lc-oracle-backdrop';
     oracleModalEl.id = 'lc-oracle-modal';
+    oracleModalEl.style.cssText = 'display:none;position:fixed;inset:0;z-index:999999;background:rgba(3,2,6,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);align-items:center;justify-content:center;padding:20px;';
+
     oracleModalEl.innerHTML = `
-      <div class="lc-oracle-modal-box" role="dialog" aria-modal="true" aria-label="Inscription Oracle">
-        <button class="lc-oracle-close" type="button" aria-label="Close Oracle">&times;</button>
+      <div class="lc-oracle-modal-box" role="dialog" aria-modal="true" aria-label="Inscription Oracle" style="position:relative;max-width:520px;width:100%;display:flex;flex-direction:column;align-items:center;">
+        <button class="lc-oracle-close" type="button" aria-label="Close Oracle" style="all:unset;position:absolute;top:-45px;right:0;background:transparent;border:none;color:#9b8fb3;font-size:32px;line-height:1;cursor:pointer;transition:color 140ms ease;">&times;</button>
         
-        <div class="lc-oracle-tarot-card" id="oracle-tarot-card">
-          <div class="lc-oracle-card-frame"></div>
+        <div class="lc-oracle-tarot-card" id="oracle-tarot-card" style="position:relative;width:100%;background:var(--lc-surface-hover, #181024);border:2px solid var(--lc-border-hover, rgba(255,23,68,0.4));border-radius:20px;padding:36px 30px 28px;box-shadow:0 25px 65px rgba(0,0,0,0.95),0 0 35px rgba(255,23,68,0.35);text-align:center;transition:transform 280ms cubic-bezier(0.16,1,0.3,1),opacity 200ms ease;">
+          <div class="lc-oracle-card-frame" style="position:absolute;inset:8px;border:1px dashed rgba(255,255,255,0.15);border-radius:12px;pointer-events:none;opacity:0.6;"></div>
           
-          <div class="lc-oracle-card-header">
-            <span class="lc-oracle-sigil">✦ ARCANUM LITERARIUM ✦</span>
-            <span class="lc-oracle-arcana" id="oracle-arcana-num">NOCTURNE VII</span>
+          <div class="lc-oracle-card-header" style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:24px;">
+            <span class="lc-oracle-sigil" style="font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--lc-red-bright, #ff1744);">✦ ARCANUM LITERARIUM ✦</span>
+            <span class="lc-oracle-arcana" id="oracle-arcana-num" style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#9b8fb3;">NOCTURNE VII</span>
           </div>
 
           <div class="lc-oracle-card-body">
-            <div class="lc-oracle-fleuron">❦</div>
-            <blockquote class="lc-oracle-quote" id="oracle-quote-text">
+            <div class="lc-oracle-fleuron" style="color:var(--lc-red-bright, #ff1744);font-size:22px;margin-bottom:14px;opacity:0.9;">❦</div>
+            <blockquote class="lc-oracle-quote" id="oracle-quote-text" style="font-family:'Playfair Display','EB Garamond',Georgia,serif;font-style:italic;font-size:clamp(18px,4vw,22px);line-height:1.75;color:#ffffff;margin-bottom:24px;padding:0 8px;">
               "And through the marble colonnade, the velvet dark consumes the shade..."
             </blockquote>
-            <div class="lc-oracle-citation">
-              <span class="lc-oracle-work" id="oracle-work-title">Carmilla</span>
-              <span class="lc-oracle-author">— Emrecan Koç</span>
+            <div class="lc-oracle-citation" style="display:flex;flex-direction:column;gap:3px;margin-bottom:26px;">
+              <span class="lc-oracle-work" id="oracle-work-title" style="font-family:'Cinzel',serif;font-size:13px;font-weight:600;letter-spacing:0.14em;color:#ffffff;">Carmilla</span>
+              <span class="lc-oracle-author" style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:0.08em;color:#9b8fb3;">— Emrecan Koç</span>
             </div>
           </div>
 
-          <div class="lc-oracle-card-actions">
-            <button class="lc-oracle-act-btn lc-oracle-draw-btn" id="oracle-draw-btn" type="button">
+          <div class="lc-oracle-card-actions" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+            <button class="lc-oracle-act-btn lc-oracle-draw-btn" id="oracle-draw-btn" type="button" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;border-radius:999px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#ffffff;transition:all 160ms ease;">
               <span>Draw Inscription ↺</span>
             </button>
-            <a class="lc-oracle-act-btn lc-oracle-read-btn" id="oracle-read-btn" href="#">
+            <a class="lc-oracle-act-btn lc-oracle-read-btn" id="oracle-read-btn" href="#" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;border-radius:999px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;background:var(--lc-red-bright, #ff1744);border:1px solid var(--lc-red-bright, #ff1744);color:#ffffff;box-shadow:0 0 16px rgba(255,23,68,0.4);transition:all 160ms ease;">
               <span>Contemplate Piece &rarr;</span>
             </a>
-            <button class="lc-oracle-act-btn lc-oracle-copy-btn" id="oracle-copy-btn" type="button" title="Copy Inscription">
+            <button class="lc-oracle-act-btn lc-oracle-copy-btn" id="oracle-copy-btn" type="button" title="Copy Inscription" style="all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.15);color:#9b8fb3;transition:all 160ms ease;">
               <span>Copy ❦</span>
             </button>
           </div>
         </div>
 
-        <div class="lc-oracle-hint">
-          <span>Press <kbd>Space</kbd> or <kbd>↵</kbd> to draw another &bull; <kbd>ESC</kbd> to exit</span>
+        <div class="lc-oracle-hint" style="margin-top:18px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:0.08em;color:#9b8fb3;">
+          <span>Press <kbd style="background:rgba(255,255,255,0.1);padding:2px 5px;border-radius:4px;">Space</kbd> or <kbd style="background:rgba(255,255,255,0.1);padding:2px 5px;border-radius:4px;">↵</kbd> to draw another &bull; <kbd style="background:rgba(255,255,255,0.1);padding:2px 5px;border-radius:4px;">ESC</kbd> to exit</span>
         </div>
       </div>
     `;
@@ -572,7 +591,8 @@
   function drawOracleCard() {
     if (!oracleModalEl) return;
     const cardEl = oracleModalEl.querySelector('#oracle-tarot-card');
-    cardEl.classList.add('is-flipping');
+    cardEl.style.transform = 'scale(0.96) rotateY(15deg)';
+    cardEl.style.opacity = '0.4';
 
     setTimeout(() => {
       const item = CANON_INSCRIPTIONS[Math.floor(Math.random() * CANON_INSCRIPTIONS.length)];
@@ -587,18 +607,25 @@
       workEl.textContent = item.title;
       readBtn.setAttribute('href', item.url);
 
-      cardEl.classList.remove('is-flipping');
+      cardEl.style.transform = 'none';
+      cardEl.style.opacity = '1';
     }, 160);
   }
 
   function openOracle() {
     renderOracleModal();
     drawOracleCard();
-    oracleModalEl.classList.add('is-open');
+    if (oracleModalEl) {
+      oracleModalEl.style.display = 'flex';
+      oracleModalEl.classList.add('is-open');
+    }
   }
 
   function closeOracle() {
-    if (oracleModalEl) oracleModalEl.classList.remove('is-open');
+    if (oracleModalEl) {
+      oracleModalEl.style.display = 'none';
+      oracleModalEl.classList.remove('is-open');
+    }
   }
 
   /* ─────────────────────────────────────────────────────────────
