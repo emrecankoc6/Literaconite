@@ -3,30 +3,32 @@
    Bespoke, World-Class Literary Architecture for Poetry & Critical Theory
    ============================================================================= */
 
-/* ── 1. ATMOSPHERE THEMES & TOKENS ────────────────────────────────────────── */
+/* ── 1. ATMOSPHERE THEMES & PRONOUNCED COLOR PALETTES ─────────────────────── */
 :root,
 html[data-theme="midnight"],
 body[data-theme="midnight"] {
-  --lc-bg:             #060405;
-  --lc-bg-gradient:    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(140, 25, 38, 0.24), transparent 70%),
-                       radial-gradient(ellipse 60% 45% at 100% 90%, rgba(95, 35, 115, 0.12), transparent 60%);
-  --lc-surface:        #0e090a;
-  --lc-surface-hover:  #181012;
-  --lc-card:           rgba(255, 255, 255, 0.03);
-  --lc-card-hover:     rgba(255, 255, 255, 0.06);
-  --lc-border:         rgba(255, 255, 255, 0.08);
-  --lc-border-hover:   rgba(255, 255, 255, 0.2);
-  --lc-text:           #eee5dc;
+  --lc-bg:             #050307;
+  --lc-bg-gradient:    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(100, 45, 175, 0.3), transparent 75%),
+                       radial-gradient(ellipse 70% 50% at 100% 90%, rgba(160, 25, 60, 0.18), transparent 60%);
+  --lc-surface:        #0c0810;
+  --lc-surface-hover:  #181020;
+  --lc-card:           rgba(170, 117, 248, 0.04);
+  --lc-card-hover:     rgba(170, 117, 248, 0.08);
+  --lc-border:         rgba(170, 117, 248, 0.14);
+  --lc-border-hover:   rgba(170, 117, 248, 0.35);
+  --lc-text:           #eee8f5;
   --lc-text-pure:      #ffffff;
-  --lc-muted:          #9e8f86;
-  --lc-faint:          rgba(238, 229, 220, 0.45);
+  --lc-muted:          #a494b8;
+  --lc-faint:          rgba(238, 232, 245, 0.45);
   --lc-red:            #9e2a2b;
-  --lc-red-bright:     #cf3a3a;
-  --lc-red-glow:       rgba(207, 58, 58, 0.32);
-  --lc-purple:         #7c56ad;
+  --lc-red-bright:     #aa75f8;
+  --lc-red-glow:       rgba(170, 117, 248, 0.35);
+  --lc-purple:         #9d72dc;
   --lc-gold:           #c9a24d;
   --lc-gold-glow:      rgba(201, 162, 77, 0.28);
-  --lc-selection:      rgba(158, 42, 43, 0.45);
+  --lc-selection:      rgba(170, 117, 248, 0.45);
+  --lc-progress-grad:  linear-gradient(90deg, #9e2a2b, #aa75f8, #ffffff);
+  --lc-lead-line:      linear-gradient(90deg, transparent, #aa75f8, #cf3a3a, transparent);
 
   --nav-max-width:     1180px;
   --article-max-width: 760px;
@@ -36,50 +38,54 @@ body[data-theme="midnight"] {
 
 html[data-theme="candlelight"],
 body[data-theme="candlelight"] {
-  --lc-bg:             #0c0908;
-  --lc-bg-gradient:    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(185, 120, 35, 0.22), transparent 70%),
-                       radial-gradient(ellipse 60% 45% at 0% 100%, rgba(140, 60, 20, 0.12), transparent 60%);
-  --lc-surface:        #16110f;
-  --lc-surface-hover:  #221a17;
-  --lc-card:           rgba(212, 163, 89, 0.045);
-  --lc-card-hover:     rgba(212, 163, 89, 0.09);
-  --lc-border:         rgba(212, 163, 89, 0.14);
-  --lc-border-hover:   rgba(212, 163, 89, 0.32);
-  --lc-text:           #f5ede0;
-  --lc-text-pure:      #fffdf8;
-  --lc-muted:          #b5a494;
-  --lc-faint:          rgba(245, 237, 224, 0.5);
-  --lc-red:            #c98838;
-  --lc-red-bright:     #e5a34c;
-  --lc-red-glow:       rgba(201, 136, 56, 0.35);
-  --lc-purple:         #a87d55;
-  --lc-gold:           #d8b36e;
-  --lc-gold-glow:      rgba(216, 179, 110, 0.35);
-  --lc-selection:      rgba(201, 136, 56, 0.38);
+  --lc-bg:             #120c08;
+  --lc-bg-gradient:    radial-gradient(ellipse 90% 60% at 50% -5%, rgba(245, 160, 45, 0.35), transparent 75%),
+                       radial-gradient(ellipse 75% 50% at 0% 100%, rgba(185, 95, 20, 0.25), transparent 60%);
+  --lc-surface:        #1c130c;
+  --lc-surface-hover:  #2a1c12;
+  --lc-card:           rgba(245, 190, 88, 0.06);
+  --lc-card-hover:     rgba(245, 190, 88, 0.12);
+  --lc-border:         rgba(245, 190, 88, 0.2);
+  --lc-border-hover:   rgba(245, 190, 88, 0.45);
+  --lc-text:           #fff5e6;
+  --lc-text-pure:      #ffffff;
+  --lc-muted:          #cbb596;
+  --lc-faint:          rgba(255, 245, 230, 0.55);
+  --lc-red:            #e2872f;
+  --lc-red-bright:     #f5be58;
+  --lc-red-glow:       rgba(245, 190, 88, 0.42);
+  --lc-purple:         #d49755;
+  --lc-gold:           #f5be58;
+  --lc-gold-glow:      rgba(245, 190, 88, 0.45);
+  --lc-selection:      rgba(245, 190, 88, 0.45);
+  --lc-progress-grad:  linear-gradient(90deg, #e2872f, #f5be58, #ffffff);
+  --lc-lead-line:      linear-gradient(90deg, transparent, #e2872f, #f5be58, transparent);
 }
 
 html[data-theme="crimson"],
 body[data-theme="crimson"] {
-  --lc-bg:             #090103;
-  --lc-bg-gradient:    radial-gradient(ellipse 85% 55% at 50% -5%, rgba(200, 25, 45, 0.28), transparent 75%),
-                       radial-gradient(ellipse 60% 45% at 100% 100%, rgba(120, 10, 25, 0.2), transparent 60%);
-  --lc-surface:        #140507;
-  --lc-surface-hover:  #22080b;
-  --lc-card:           rgba(255, 255, 255, 0.038);
-  --lc-card-hover:     rgba(200, 35, 55, 0.12);
-  --lc-border:         rgba(200, 35, 55, 0.2);
-  --lc-border-hover:   rgba(200, 35, 55, 0.45);
-  --lc-text:           #f7eae9;
+  --lc-bg:             #100003;
+  --lc-bg-gradient:    radial-gradient(ellipse 95% 65% at 50% -5%, rgba(255, 35, 65, 0.4), transparent 75%),
+                       radial-gradient(ellipse 75% 55% at 100% 100%, rgba(180, 10, 35, 0.3), transparent 60%);
+  --lc-surface:        #1c0207;
+  --lc-surface-hover:  #2d040c;
+  --lc-card:           rgba(255, 42, 75, 0.065);
+  --lc-card-hover:     rgba(255, 42, 75, 0.14);
+  --lc-border:         rgba(255, 42, 75, 0.25);
+  --lc-border-hover:   rgba(255, 42, 75, 0.55);
+  --lc-text:           #fff0f2;
   --lc-text-pure:      #ffffff;
-  --lc-muted:          #b39296;
-  --lc-faint:          rgba(247, 234, 233, 0.48);
-  --lc-red:            #c42b37;
-  --lc-red-bright:     #e63946;
-  --lc-red-glow:       rgba(196, 43, 55, 0.38);
-  --lc-purple:         #9d4edd;
-  --lc-gold:           #d4af37;
-  --lc-gold-glow:      rgba(212, 175, 55, 0.3);
-  --lc-selection:      rgba(196, 43, 55, 0.48);
+  --lc-muted:          #cca2a9;
+  --lc-faint:          rgba(255, 240, 242, 0.52);
+  --lc-red:            #d90429;
+  --lc-red-bright:     #ff2a4b;
+  --lc-red-glow:       rgba(255, 42, 75, 0.48);
+  --lc-purple:         #b5179e;
+  --lc-gold:           #ff758f;
+  --lc-gold-glow:      rgba(255, 117, 143, 0.35);
+  --lc-selection:      rgba(255, 42, 75, 0.5);
+  --lc-progress-grad:  linear-gradient(90deg, #9e0b1d, #ff2a4b, #ffffff);
+  --lc-lead-line:      linear-gradient(90deg, transparent, #ff2a4b, #ff758f, transparent);
 }
 
 /* ── 2. GLOBAL RESET & BASE STYLING ───────────────────────────────────────── */
@@ -376,8 +382,8 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(9, 1, 3, 0.9); }
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--lc-red-bright), var(--lc-gold), transparent);
-  opacity: 0.8;
+  background: var(--lc-lead-line);
+  opacity: 0.9;
 }
 
 .lc-lead-card:hover {
@@ -1134,7 +1140,7 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(9, 1, 3, 0.9); }
   left: 0;
   height: 3px;
   width: 0%;
-  background: linear-gradient(90deg, var(--lc-red), var(--lc-gold), var(--lc-red-bright));
+  background: var(--lc-progress-grad);
   z-index: 10001;
   box-shadow: 0 0 10px var(--lc-red-glow);
   transition: width 60ms linear;
