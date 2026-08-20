@@ -2,125 +2,316 @@
 <html lang="en" data-theme="midnight">
 <head>
   <meta charset="utf-8">
-  <title>Gothic Rain Sanctuary | Literaconite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gothic Sound Sanctuary &amp; Multi-Layer Mixer | Literaconite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: #060405;
-      color: #eee5dc;
+      background: #040207;
+      color: #eee6fa;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
       padding: 1.5rem;
       user-select: none;
-      background-image: radial-gradient(ellipse 80% 60% at 50% 10%, rgba(140, 25, 38, 0.35), transparent 80%);
+      background-image: radial-gradient(ellipse 100% 70% at 50% -5%, rgba(130, 70, 245, 0.45), transparent 75%),
+                        radial-gradient(ellipse 80% 60% at 100% 90%, rgba(180, 20, 80, 0.25), transparent 60%);
     }
-    .glyph { font-size: 2.2rem; margin-bottom: 0.5rem; color: #cf3a3a; animation: pulse 2.5s infinite ease-in-out; }
-    @keyframes pulse { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
-    h1 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.3rem; color: #fff; }
-    p { font-size: 0.75rem; color: #9e8f86; margin-bottom: 1.2rem; letter-spacing: 0.08em; }
+    .glyph { font-size: 2.4rem; margin-bottom: 0.4rem; color: #c084fc; animation: pulse 2.5s infinite ease-in-out; }
+    @keyframes pulse { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+    h1 { font-family: 'Cinzel', serif; font-size: 1.15rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.2rem; color: #fff; text-align: center; }
+    .sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.82rem; color: #b5a2cf; margin-bottom: 1.4rem; text-align: center; }
+    
+    .master-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
     .btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(168, 105, 255, 0.14);
+      border: 1px solid rgba(168, 105, 255, 0.4);
       color: #fff;
-      padding: 0.6rem 1.4rem;
+      padding: 0.6rem 1.6rem;
       border-radius: 999px;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       cursor: pointer;
-      margin-bottom: 1.2rem;
       transition: all 160ms ease;
     }
-    .btn:hover { background: rgba(207, 58, 58, 0.25); border-color: #cf3a3a; }
-    .vol-box { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; color: #9e8f86; }
-    input[type=range] { accent-color: #cf3a3a; width: 140px; }
+    .btn:hover { background: rgba(168, 105, 255, 0.3); border-color: #c084fc; box-shadow: 0 0 16px rgba(192, 132, 252, 0.4); }
+    .btn.is-active { background: #a855f7; border-color: #c084fc; color: #fff; }
+
+    .mixer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.9rem 1.2rem;
+      width: 100%;
+      max-width: 380px;
+      background: rgba(14, 9, 24, 0.85);
+      border: 1px solid rgba(168, 105, 255, 0.25);
+      border-radius: 14px;
+      padding: 1.2rem;
+      backdrop-filter: blur(16px);
+      margin-bottom: 1.2rem;
+    }
+    .track { display: flex; flex-direction: column; gap: 0.35rem; }
+    .track-head { display: flex; justify-content: space-between; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: #b5a2cf; }
+    .track-val { font-weight: 600; color: #c084fc; }
+    input[type=range] { accent-color: #c084fc; width: 100%; height: 4px; cursor: pointer; }
+
+    .presets { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; max-width: 380px; }
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(168, 105, 255, 0.2);
+      color: #b5a2cf;
+      padding: 0.28rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 140ms ease;
+    }
+    .preset-btn:hover { background: rgba(168, 105, 255, 0.2); color: #fff; border-color: #c084fc; }
   </style>
 </head>
 <body>
   <div class="glyph">🌧️</div>
-  <h1>Gothic Rain Sanctuary</h1>
-  <p>Procedural rainfall &amp; cathedral drone companion</p>
-  <button class="btn" id="toggle">Play Rain</button>
-  <div class="vol-box">
-    <span>Vol</span>
-    <input type="range" id="vol" min="0" max="1" step="0.05" value="0.7">
+  <h1>Gothic Sound Sanctuary</h1>
+  <p class="sub">Procedural 4-Channel Atmospheric Mixer</p>
+
+  <div class="master-row">
+    <button class="btn" id="toggle">Play Sanctuary</button>
+    <button class="preset-btn" id="toll-btn" title="Strike the Abbey Bell">🔔 Toll Bell</button>
+  </div>
+
+  <div class="mixer-grid">
+    <div class="track">
+      <div class="track-head"><span>🌧️ Rain</span><span class="track-val" id="val-rain">70%</span></div>
+      <input type="range" id="vol-rain" min="0" max="1" step="0.05" value="0.7">
+    </div>
+    <div class="track">
+      <div class="track-head"><span>🔥 Fireplace</span><span class="track-val" id="val-fire">40%</span></div>
+      <input type="range" id="vol-fire" min="0" max="1" step="0.05" value="0.4">
+    </div>
+    <div class="track">
+      <div class="track-head"><span>🌬️ Wind</span><span class="track-val" id="val-wind">50%</span></div>
+      <input type="range" id="vol-wind" min="0" max="1" step="0.05" value="0.5">
+    </div>
+    <div class="track">
+      <div class="track-head"><span>🔔 Abbey Bells</span><span class="track-val" id="val-bells">60%</span></div>
+      <input type="range" id="vol-bells" min="0" max="1" step="0.05" value="0.6">
+    </div>
+  </div>
+
+  <div class="presets">
+    <button class="preset-btn" data-preset="rain">Rainstorm</button>
+    <button class="preset-btn" data-preset="hearth">Hearthside</button>
+    <button class="preset-btn" data-preset="nocturne">Abbey Nocturne</button>
+    <button class="preset-btn" data-preset="storm">Grand Sanctum</button>
   </div>
 
   <script>
-    let ctx = null, masterGain = null, isPlaying = false, noiseNode = null, droneOsc = null;
+    let ctx = null, masterGain = null, isPlaying = false;
+    let rainGain = null, fireGain = null, windGain = null, bellsGain = null;
+    let bellTimer = null;
 
     function initAudio() {
       if (ctx) return;
       ctx = new (window.AudioContext || window.webkitAudioContext)();
+
       masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(0.7 * 0.22, ctx.currentTime);
+      masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
       masterGain.connect(ctx.destination);
 
-      const bufferSize = ctx.sampleRate * 4;
-      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const out = noiseBuffer.getChannelData(0);
-      let last = 0;
-      for (let i = 0; i < bufferSize; i++) {
+      // 1. Rain Channel
+      const rainBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+      const rainData = rainBuffer.getChannelData(0);
+      let lastOut = 0.0;
+      for (let i = 0; i < rainBuffer.length; i++) {
         const white = Math.random() * 2 - 1;
-        out[i] = (last + 0.02 * white) / 1.02;
-        last = out[i];
-        out[i] *= 3.5;
+        rainData[i] = (lastOut + 0.02 * white) / 1.02;
+        lastOut = rainData[i];
+        rainData[i] *= 3.5;
       }
-      noiseNode = ctx.createBufferSource();
-      noiseNode.buffer = noiseBuffer;
-      noiseNode.loop = true;
+      const rainSrc = ctx.createBufferSource();
+      rainSrc.buffer = rainBuffer;
+      rainSrc.loop = true;
+      const rainFilter = ctx.createBiquadFilter();
+      rainFilter.type = 'lowpass';
+      rainFilter.frequency.value = 850;
+      rainGain = ctx.createGain();
+      rainGain.gain.value = 0.7 * 0.22;
+      rainSrc.connect(rainFilter);
+      rainFilter.connect(rainGain);
+      rainGain.connect(masterGain);
+      rainSrc.start(0);
 
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(750, ctx.currentTime);
-      noiseNode.connect(filter);
-      filter.connect(masterGain);
+      // 2. Fireplace Channel (Brown noise + crackle spikes)
+      const fireBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+      const fireData = fireBuffer.getChannelData(0);
+      let fireLast = 0.0;
+      for (let i = 0; i < fireBuffer.length; i++) {
+        const white = Math.random() * 2 - 1;
+        fireLast = (fireLast + (0.015 * white)) / 1.015;
+        // Random crackle pop
+        const pop = (Math.random() < 0.0008) ? (Math.random() * 2 - 1) * 3 : 0;
+        fireData[i] = (fireLast * 2.8) + pop;
+      }
+      const fireSrc = ctx.createBufferSource();
+      fireSrc.buffer = fireBuffer;
+      fireSrc.loop = true;
+      const fireFilter = ctx.createBiquadFilter();
+      fireFilter.type = 'bandpass';
+      fireFilter.frequency.value = 450;
+      fireFilter.Q.value = 1.2;
+      fireGain = ctx.createGain();
+      fireGain.gain.value = 0.4 * 0.18;
+      fireSrc.connect(fireFilter);
+      fireFilter.connect(fireGain);
+      fireGain.connect(masterGain);
+      fireSrc.start(0);
 
-      droneOsc = ctx.createOscillator();
-      droneOsc.type = 'sine';
-      droneOsc.frequency.setValueAtTime(55, ctx.currentTime);
+      // 3. Wind Channel (LFO swept filter + sub drone)
+      const windBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+      const windData = windBuffer.getChannelData(0);
+      for (let i = 0; i < windBuffer.length; i++) {
+        windData[i] = (Math.random() * 2 - 1) * 0.9;
+      }
+      const windSrc = ctx.createBufferSource();
+      windSrc.buffer = windBuffer;
+      windSrc.loop = true;
+      const windFilter = ctx.createBiquadFilter();
+      windFilter.type = 'lowpass';
+      windFilter.frequency.value = 350;
+      windFilter.Q.value = 3.0;
+
+      // LFO for wind howling gusts
+      const windLfo = ctx.createOscillator();
+      windLfo.frequency.value = 0.12;
+      const windLfoGain = ctx.createGain();
+      windLfoGain.gain.value = 240;
+      windLfo.connect(windLfoGain);
+      windLfoGain.connect(windFilter.frequency);
+      windLfo.start(0);
+
+      const drone = ctx.createOscillator();
+      drone.frequency.value = 55;
       const droneGain = ctx.createGain();
-      droneGain.gain.setValueAtTime(0.04, ctx.currentTime);
-      droneOsc.connect(droneGain);
-      droneGain.connect(masterGain);
+      droneGain.gain.value = 0.03;
+      drone.connect(droneGain);
+      drone.start(0);
 
-      noiseNode.start(0);
-      droneOsc.start(0);
+      windGain = ctx.createGain();
+      windGain.gain.value = 0.5 * 0.20;
+      windSrc.connect(windFilter);
+      windFilter.connect(windGain);
+      droneGain.connect(windGain);
+      windGain.connect(masterGain);
+      windSrc.start(0);
+
+      // 4. Abbey Bell Channel (FM Additive Synthesis)
+      bellsGain = ctx.createGain();
+      bellsGain.gain.value = 0.6;
+      bellsGain.connect(masterGain);
+
+      // Auto bell tolling every 50 seconds
+      scheduleBellToll();
+    }
+
+    function tollBell() {
+      if (!ctx || !bellsGain) return;
+      const now = ctx.currentTime;
+      const freqs = [220, 442, 665, 1120];
+      const gains = [0.25, 0.14, 0.08, 0.04];
+
+      freqs.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = idx === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+        g.gain.setValueAtTime(gains[idx], now);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 4.5);
+        osc.connect(g);
+        g.connect(bellsGain);
+        osc.start(now);
+        osc.stop(now + 4.6);
+      });
+    }
+
+    function scheduleBellToll() {
+      clearTimeout(bellTimer);
+      bellTimer = setTimeout(() => {
+        if (isPlaying) tollBell();
+        scheduleBellToll();
+      }, 45000 + Math.random() * 20000);
     }
 
     const btn = document.getElementById('toggle');
-    const vol = document.getElementById('vol');
-
     btn.onclick = () => {
       initAudio();
       if (ctx.state === 'suspended') ctx.resume();
       if (!isPlaying) {
-        masterGain.gain.linearRampToValueAtTime(vol.value * 0.22, ctx.currentTime + 0.5);
+        masterGain.gain.linearRampToValueAtTime(1.0, ctx.currentTime + 0.6);
         isPlaying = true;
-        btn.textContent = 'Pause Rain';
+        btn.textContent = 'Pause Sanctuary';
+        btn.classList.add('is-active');
       } else {
-        masterGain.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+        masterGain.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
         isPlaying = false;
-        btn.textContent = 'Play Rain';
+        btn.textContent = 'Play Sanctuary';
+        btn.classList.remove('is-active');
       }
     };
 
-    vol.oninput = () => {
-      if (masterGain && isPlaying) {
-        masterGain.gain.setValueAtTime(vol.value * 0.22, ctx.currentTime);
-      }
+    document.getElementById('toll-btn').onclick = () => {
+      if (!isPlaying) btn.click();
+      tollBell();
     };
 
-    // Auto-start on click
+    // Sliders
+    function bindSlider(id, valId, gainNode, scale) {
+      const el = document.getElementById(id);
+      const valEl = document.getElementById(valId);
+      el.oninput = () => {
+        const v = parseFloat(el.value);
+        valEl.textContent = Math.round(v * 100) + '%';
+        if (gainNode && ctx) {
+          gainNode.gain.setValueAtTime(v * scale, ctx.currentTime);
+        }
+      };
+    }
+
+    bindSlider('vol-rain', 'val-rain', rainGain, 0.22);
+    bindSlider('vol-fire', 'val-fire', fireGain, 0.18);
+    bindSlider('vol-wind', 'val-wind', windGain, 0.20);
+    bindSlider('vol-bells', 'val-bells', bellsGain, 0.8);
+
+    // Presets
+    const PRESETS = {
+      rain: { rain: 0.9, fire: 0.1, wind: 0.4, bells: 0.2 },
+      hearth: { rain: 0.3, fire: 0.9, wind: 0.2, bells: 0.1 },
+      nocturne: { rain: 0.2, fire: 0.2, wind: 0.7, bells: 0.85 },
+      storm: { rain: 0.85, fire: 0.6, wind: 0.75, bells: 0.7 }
+    };
+
+    document.querySelectorAll('[data-preset]').forEach(b => {
+      b.onclick = () => {
+        const p = PRESETS[b.getAttribute('data-preset')];
+        if (!p) return;
+        ['rain', 'fire', 'wind', 'bells'].forEach(k => {
+          const s = document.getElementById(`vol-${k}`);
+          s.value = p[k];
+          s.dispatchEvent(new Event('input'));
+        });
+        if (!isPlaying) btn.click();
+      };
+    });
+
     window.addEventListener('click', () => {
       if (!isPlaying) btn.click();
     }, { once: true });

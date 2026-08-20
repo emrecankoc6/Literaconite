@@ -1,6 +1,6 @@
 /**
- * LITERACONITE CORE INTERACTIVE SYSTEM & CONTINUOUS AUDIO SANCTUARY
- * Pure Vanilla JavaScript — High Performance, Zero Dependencies, Seamless PJAX
+ * LITERACONITE CORE INTERACTIVE SYSTEM & GOTHIC SANCTUARY
+ * Pure Vanilla JavaScript — Zero Dependencies, Web Audio Synth, Bibliomancy Oracle, Constellation Graph & PJAX
  */
 
 (function () {
@@ -48,16 +48,29 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
-     Persistent continuous audio with Floating Dock & Pop-Out
+     2. GOTHIC PROCEDURAL 4-CHANNEL SOUNDBOARD ENGINE (Web Audio API)
+     Rain + Fireplace + Cathedral Wind + Abbey Bell Chimes
      ───────────────────────────────────────────────────────────── */
   let audioCtx = window.__lc_audioCtx || null;
   let isAudioPlaying = false;
-  let noiseNode = null;
-  let filterNode = null;
-  let droneGain = null;
   let masterGain = null;
+  let rainGain = null, fireGain = null, windGain = null, bellsGain = null;
+  let bellTimer = null;
   let audioDockEl = null;
+
+  const TRACK_LEVELS = {
+    rain: 0.70,
+    fire: 0.40,
+    wind: 0.50,
+    bells: 0.60
+  };
+
+  const SOUND_PRESETS = {
+    rainstorm: { rain: 0.95, fire: 0.10, wind: 0.45, bells: 0.20 },
+    hearthside: { rain: 0.25, fire: 0.90, wind: 0.20, bells: 0.15 },
+    nocturne: { rain: 0.15, fire: 0.20, wind: 0.75, bells: 0.85 },
+    sanctum: { rain: 0.75, fire: 0.55, wind: 0.65, bells: 0.70 }
+  };
 
   function getStoredAudioPref() {
     try {
@@ -79,45 +92,138 @@
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // Pink/Brown noise buffer for gentle rainfall (4-second loop)
-      const bufferSize = audioCtx.sampleRate * 4;
-      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      let lastOut = 0.0;
-      for (let i = 0; i < bufferSize; i++) {
+      // ── 1. RAINFALL CHANNEL ──
+      const rainBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
+      const rainData = rainBuffer.getChannelData(0);
+      let rLast = 0.0;
+      for (let i = 0; i < rainBuffer.length; i++) {
         const white = Math.random() * 2 - 1;
-        output[i] = (lastOut + (0.02 * white)) / 1.02;
-        lastOut = output[i];
-        output[i] *= 3.5;
+        rLast = (rLast + 0.02 * white) / 1.02;
+        rainData[i] = rLast * 3.6;
       }
+      const rainSrc = audioCtx.createBufferSource();
+      rainSrc.buffer = rainBuffer;
+      rainSrc.loop = true;
 
-      noiseNode = audioCtx.createBufferSource();
-      noiseNode.buffer = noiseBuffer;
-      noiseNode.loop = true;
+      const rainFilter = audioCtx.createBiquadFilter();
+      rainFilter.type = 'lowpass';
+      rainFilter.frequency.setValueAtTime(820, audioCtx.currentTime);
 
-      filterNode = audioCtx.createBiquadFilter();
-      filterNode.type = 'lowpass';
-      filterNode.frequency.setValueAtTime(680, audioCtx.currentTime);
+      rainGain = audioCtx.createGain();
+      rainGain.gain.setValueAtTime(TRACK_LEVELS.rain * 0.22, audioCtx.currentTime);
 
-      noiseNode.connect(filterNode);
-      filterNode.connect(masterGain);
+      rainSrc.connect(rainFilter);
+      rainFilter.connect(rainGain);
+      rainGain.connect(masterGain);
+      rainSrc.start(0);
 
-      // Deep cathedral 55Hz drone oscillator
+      // ── 2. FIREPLACE CHANNEL (Brown noise + random crackle pops) ──
+      const fireBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
+      const fireData = fireBuffer.getChannelData(0);
+      let fLast = 0.0;
+      for (let i = 0; i < fireBuffer.length; i++) {
+        const white = Math.random() * 2 - 1;
+        fLast = (fLast + (0.014 * white)) / 1.014;
+        const pop = (Math.random() < 0.0009) ? (Math.random() * 2 - 1) * 3.2 : 0;
+        fireData[i] = (fLast * 2.8) + pop;
+      }
+      const fireSrc = audioCtx.createBufferSource();
+      fireSrc.buffer = fireBuffer;
+      fireSrc.loop = true;
+
+      const fireFilter = audioCtx.createBiquadFilter();
+      fireFilter.type = 'bandpass';
+      fireFilter.frequency.setValueAtTime(420, audioCtx.currentTime);
+      fireFilter.Q.setValueAtTime(1.2, audioCtx.currentTime);
+
+      fireGain = audioCtx.createGain();
+      fireGain.gain.setValueAtTime(TRACK_LEVELS.fire * 0.18, audioCtx.currentTime);
+
+      fireSrc.connect(fireFilter);
+      fireFilter.connect(fireGain);
+      fireGain.connect(masterGain);
+      fireSrc.start(0);
+
+      // ── 3. CATHEDRAL WIND CHANNEL (LFO Swept Filter + 55Hz Drone) ──
+      const windBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
+      const windData = windBuffer.getChannelData(0);
+      for (let i = 0; i < windBuffer.length; i++) {
+        windData[i] = (Math.random() * 2 - 1) * 0.9;
+      }
+      const windSrc = audioCtx.createBufferSource();
+      windSrc.buffer = windBuffer;
+      windSrc.loop = true;
+
+      const windFilter = audioCtx.createBiquadFilter();
+      windFilter.type = 'lowpass';
+      windFilter.frequency.setValueAtTime(320, audioCtx.currentTime);
+      windFilter.Q.setValueAtTime(3.2, audioCtx.currentTime);
+
+      const windLfo = audioCtx.createOscillator();
+      windLfo.frequency.setValueAtTime(0.11, audioCtx.currentTime);
+      const windLfoGain = audioCtx.createGain();
+      windLfoGain.gain.setValueAtTime(260, audioCtx.currentTime);
+      windLfo.connect(windLfoGain);
+      windLfoGain.connect(windFilter.frequency);
+      windLfo.start(0);
+
       const droneOsc = audioCtx.createOscillator();
-      droneOsc.type = 'sine';
       droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
-
-      droneGain = audioCtx.createGain();
-      droneGain.gain.setValueAtTime(0.038, audioCtx.currentTime);
-
+      const droneGain = audioCtx.createGain();
+      droneGain.gain.setValueAtTime(0.035, audioCtx.currentTime);
       droneOsc.connect(droneGain);
-      droneGain.connect(masterGain);
-
-      noiseNode.start(0);
       droneOsc.start(0);
+
+      windGain = audioCtx.createGain();
+      windGain.gain.setValueAtTime(TRACK_LEVELS.wind * 0.20, audioCtx.currentTime);
+
+      windSrc.connect(windFilter);
+      windFilter.connect(windGain);
+      droneGain.connect(windGain);
+      windGain.connect(masterGain);
+      windSrc.start(0);
+
+      // ── 4. ABBEY BELL CHIMES CHANNEL (Inharmonic Additive Synthesis) ──
+      bellsGain = audioCtx.createGain();
+      bellsGain.gain.setValueAtTime(TRACK_LEVELS.bells, audioCtx.currentTime);
+      bellsGain.connect(masterGain);
+
+      scheduleBellToll();
     } catch(e) {
       console.warn('Web Audio init error', e);
     }
+  }
+
+  function tollAbbeyBell() {
+    if (!audioCtx || !bellsGain) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    try {
+      const now = audioCtx.currentTime;
+      const freqs = [220, 442, 665, 1120];
+      const gains = [0.22, 0.12, 0.07, 0.035];
+
+      freqs.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = idx === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+        g.gain.setValueAtTime(gains[idx], now);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 4.8);
+        osc.connect(g);
+        g.connect(bellsGain);
+        osc.start(now);
+        osc.stop(now + 4.9);
+      });
+      showToast('🔔 Abbey Bell tolled in the distance');
+    } catch(e) {}
+  }
+
+  function scheduleBellToll() {
+    clearTimeout(bellTimer);
+    bellTimer = setTimeout(() => {
+      if (isAudioPlaying) tollAbbeyBell();
+      scheduleBellToll();
+    }, 45000 + Math.random() * 25000);
   }
 
   function renderAudioDock() {
@@ -125,34 +231,120 @@
     audioDockEl = document.createElement('div');
     audioDockEl.className = 'lc-audio-dock';
     audioDockEl.innerHTML = `
-      <div class="lc-audio-dock-info">
-        <span class="lc-audio-dock-icon">🌧️</span>
-        <span class="lc-audio-dock-text">Rain Sanctuary</span>
+      <div class="lc-audio-dock-bar">
+        <div class="lc-audio-dock-info">
+          <span class="lc-audio-dock-icon">🌧️</span>
+          <span class="lc-audio-dock-text">Gothic Sanctuary</span>
+        </div>
+        <div class="lc-audio-dock-actions">
+          <input type="range" class="lc-audio-dock-vol" min="0" max="1" step="0.05" value="0.7" title="Master Volume">
+          <button class="lc-dock-btn lc-dock-mixer-btn" type="button" title="Expand Soundboard Mixer">🎛️ Mixer</button>
+          <button class="lc-dock-btn lc-dock-pop" type="button" title="Open persistent pop-out companion player">↗ Pop-out</button>
+          <button class="lc-dock-close" type="button" title="Close soundscape">&times;</button>
+        </div>
       </div>
-      <input type="range" class="lc-audio-dock-vol" min="0" max="1" step="0.05" value="0.7" title="Adjust Volume">
-      <button class="lc-audio-dock-pop" type="button" title="Open persistent pop-out companion player">↗ Pop-out</button>
-      <button class="lc-audio-dock-close" type="button" title="Close soundscape">&times;</button>
+
+      <!-- Expandable Multi-Channel Mixer Tray -->
+      <div class="lc-mixer-tray" id="lc-mixer-tray">
+        <div class="lc-mixer-header">
+          <span>Atmospheric Soundboard</span>
+          <button class="lc-mixer-toll" type="button" id="lc-dock-toll">🔔 Toll Bell</button>
+        </div>
+        <div class="lc-mixer-grid">
+          <div class="lc-mixer-track">
+            <div class="lc-track-head"><span>🌧️ Rain</span><span id="txt-rain">70%</span></div>
+            <input type="range" id="mix-rain" min="0" max="1" step="0.05" value="0.7">
+          </div>
+          <div class="lc-mixer-track">
+            <div class="lc-track-head"><span>🔥 Fire</span><span id="txt-fire">40%</span></div>
+            <input type="range" id="mix-fire" min="0" max="1" step="0.05" value="0.4">
+          </div>
+          <div class="lc-mixer-track">
+            <div class="lc-track-head"><span>🌬️ Wind</span><span id="txt-wind">50%</span></div>
+            <input type="range" id="mix-wind" min="0" max="1" step="0.05" value="0.5">
+          </div>
+          <div class="lc-mixer-track">
+            <div class="lc-track-head"><span>🔔 Bells</span><span id="txt-bells">60%</span></div>
+            <input type="range" id="mix-bells" min="0" max="1" step="0.05" value="0.6">
+          </div>
+        </div>
+        <div class="lc-mixer-presets">
+          <button class="lc-preset-chip" type="button" data-preset="rainstorm">Rainstorm</button>
+          <button class="lc-preset-chip" type="button" data-preset="hearthside">Hearthside</button>
+          <button class="lc-preset-chip" type="button" data-preset="nocturne">Nocturne</button>
+          <button class="lc-preset-chip" type="button" data-preset="sanctum">Grand Sanctum</button>
+        </div>
+      </div>
     `;
     document.body.appendChild(audioDockEl);
 
-    const vol = audioDockEl.querySelector('.lc-audio-dock-vol');
-    const pop = audioDockEl.querySelector('.lc-audio-dock-pop');
-    const close = audioDockEl.querySelector('.lc-audio-dock-close');
+    const masterSlider = audioDockEl.querySelector('.lc-audio-dock-vol');
+    const mixerToggle = audioDockEl.querySelector('.lc-dock-mixer-btn');
+    const mixerTray = audioDockEl.querySelector('#lc-mixer-tray');
+    const popBtn = audioDockEl.querySelector('.lc-dock-pop');
+    const closeBtn = audioDockEl.querySelector('.lc-dock-close');
+    const tollBtn = audioDockEl.querySelector('#lc-dock-toll');
 
-    vol.oninput = () => {
+    mixerToggle.onclick = () => {
+      mixerTray.classList.toggle('is-open');
+      mixerToggle.classList.toggle('is-active', mixerTray.classList.contains('is-open'));
+    };
+
+    tollBtn.onclick = () => {
+      tollAbbeyBell();
+    };
+
+    masterSlider.oninput = () => {
       if (masterGain && audioCtx && isAudioPlaying) {
-        masterGain.gain.setValueAtTime(parseFloat(vol.value) * 0.22, audioCtx.currentTime);
+        masterGain.gain.setValueAtTime(parseFloat(masterSlider.value), audioCtx.currentTime);
       }
     };
 
-    pop.onclick = () => {
+    popBtn.onclick = () => {
       pauseAudio(true);
-      window.open('/sanctuary/', 'LiteraconiteSanctuary', 'width=340,height=280,resizable=no,scrollbars=no');
+      window.open('/sanctuary/', 'LiteraconiteSanctuary', 'width=380,height=360,resizable=no,scrollbars=no');
     };
 
-    close.onclick = () => {
+    closeBtn.onclick = () => {
       pauseAudio();
     };
+
+    // Bind sub-track sliders
+    const tracks = [
+      { id: 'mix-rain', txt: 'txt-rain', key: 'rain', gain: () => rainGain, scale: 0.22 },
+      { id: 'mix-fire', txt: 'txt-fire', key: 'fire', gain: () => fireGain, scale: 0.18 },
+      { id: 'mix-wind', txt: 'txt-wind', key: 'wind', gain: () => windGain, scale: 0.20 },
+      { id: 'mix-bells', txt: 'txt-bells', key: 'bells', gain: () => bellsGain, scale: 0.80 }
+    ];
+
+    tracks.forEach(t => {
+      const slider = audioDockEl.querySelector(`#${t.id}`);
+      const txt = audioDockEl.querySelector(`#${t.txt}`);
+      slider.oninput = () => {
+        const val = parseFloat(slider.value);
+        TRACK_LEVELS[t.key] = val;
+        txt.textContent = Math.round(val * 100) + '%';
+        const g = t.gain();
+        if (g && audioCtx) {
+          g.gain.setValueAtTime(val * t.scale, audioCtx.currentTime);
+        }
+      };
+    });
+
+    // Preset chips
+    audioDockEl.querySelectorAll('.lc-preset-chip').forEach(chip => {
+      chip.onclick = () => {
+        const pKey = chip.getAttribute('data-preset');
+        const p = SOUND_PRESETS[pKey];
+        if (!p) return;
+        tracks.forEach(t => {
+          const slider = audioDockEl.querySelector(`#${t.id}`);
+          slider.value = p[t.key];
+          slider.dispatchEvent(new Event('input'));
+        });
+        showToast(`Soundboard: ${chip.textContent}`);
+      };
+    });
   }
 
   function startAudio(silent = false) {
@@ -170,7 +362,7 @@
       const vol = volInput ? parseFloat(volInput.value) : 0.7;
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(vol * 0.22, audioCtx.currentTime + 0.8);
+      masterGain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + 0.8);
     }
 
     isAudioPlaying = true;
@@ -180,7 +372,7 @@
 
     updateAudioUI();
     if (audioDockEl) audioDockEl.classList.add('is-visible');
-    if (!silent) showToast('🌧️ Rain Soundscape: Active');
+    if (!silent) showToast('🌧️ Gothic Sound Sanctuary: Active');
   }
 
   function pauseAudio(silent = false) {
@@ -199,7 +391,7 @@
 
     updateAudioUI();
     if (audioDockEl) audioDockEl.classList.remove('is-visible');
-    if (!silent) showToast('Rain Soundscape: Paused');
+    if (!silent) showToast('Sound Sanctuary: Paused');
   }
 
   function toggleAudio() {
@@ -235,7 +427,535 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     3. BULLETPROOF CAPTURE-PHASE PJAX NAVIGATION
+     3. THE INSCRIPTION ORACLE / GOTHIC BIBLIOMANCY (Cmd+O)
+     Divination cards drawing from the canon
+     ───────────────────────────────────────────────────────────── */
+  let oracleModalEl = null;
+  let allInscriptions = [];
+  let isOracleLoading = false;
+
+  const FALLBACK_INSCRIPTIONS = [
+    {
+      title: 'Carmilla',
+      section: 'poetry',
+      url: '/poetry/carmilla/',
+      quote: 'And through the marble colonnade, the velvet dark consumes the shade; Where love and thirst are one and deep, we wake while dying angels sleep.'
+    },
+    {
+      title: 'The Catacomb Litany',
+      section: 'poetry',
+      url: '/poetry/the-catacomb-litany/',
+      quote: 'Beneath the vaulted stone we keep the solemn vigil of our grief; No sun shall pierce this holy deep, nor autumn wind shake down a leaf.'
+    },
+    {
+      title: 'Mircalla',
+      section: 'poetry',
+      url: '/poetry/mircalla/',
+      quote: 'In moonlight pale and shadows thin, she whispered of the ancient sin; The portrait smiles upon the wall, as empire and cathedral fall.'
+    },
+    {
+      title: 'On the Gothic Sublime',
+      section: 'review',
+      url: '/review/gothic-sublime/',
+      quote: 'Terror is not the destruction of thought, but its darkest expansion. It is the moment when the mind recognizes the vastness of its own haunted architecture.'
+    }
+  ];
+
+  async function loadOracleData() {
+    if (allInscriptions.length > 0 || isOracleLoading) return;
+    isOracleLoading = true;
+    try {
+      const res = await fetch('/index.json');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          allInscriptions = data.map(item => ({
+            title: item.title,
+            section: item.section || 'poetry',
+            url: item.permalink || item.relpermalink,
+            summary: item.summary,
+            content: item.content,
+            tags: item.tags || []
+          }));
+        }
+      }
+    } catch(e) {
+      console.warn('Oracle index fallback', e);
+    } finally {
+      if (allInscriptions.length === 0) allInscriptions = FALLBACK_INSCRIPTIONS;
+      isOracleLoading = false;
+    }
+  }
+
+  function renderOracleModal() {
+    if (oracleModalEl) return;
+    oracleModalEl = document.createElement('div');
+    oracleModalEl.className = 'lc-oracle-backdrop';
+    oracleModalEl.innerHTML = `
+      <div class="lc-oracle-modal" role="dialog" aria-modal="true" aria-label="Inscription Oracle">
+        <button class="lc-oracle-close" type="button" aria-label="Close Oracle">&times;</button>
+        
+        <div class="lc-oracle-card" id="oracle-card-frame">
+          <div class="lc-oracle-card-border"></div>
+          <div class="lc-oracle-header">
+            <span class="lc-oracle-sigil">✦ ARCANUM LITERARIUM ✦</span>
+            <span class="lc-oracle-arcana" id="oracle-arcana-num">NOCTURNE VII</span>
+          </div>
+
+          <div class="lc-oracle-body">
+            <div class="lc-oracle-fleuron">❦</div>
+            <blockquote class="lc-oracle-quote" id="oracle-quote-text">
+              "Through the marble colonnade, the velvet dark consumes the shade..."
+            </blockquote>
+            <div class="lc-oracle-citation">
+              <span class="lc-oracle-work" id="oracle-work-title">Carmilla</span>
+              <span class="lc-oracle-author">— Emrecan Koç</span>
+            </div>
+          </div>
+
+          <div class="lc-oracle-actions">
+            <button class="lc-oracle-btn lc-oracle-draw-btn" id="oracle-draw-btn" type="button">
+              <span>Draw Inscription ↺</span>
+            </button>
+            <a class="lc-oracle-btn lc-oracle-read-btn" id="oracle-read-btn" href="#">
+              <span>Contemplate Piece &rarr;</span>
+            </a>
+            <button class="lc-oracle-btn lc-oracle-copy-btn" id="oracle-copy-btn" type="button" title="Copy with Citation">
+              <span>Copy ❦</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="lc-oracle-hint">
+          <span>Press <kbd>Space</kbd> or <kbd>↵</kbd> to draw another &bull; <kbd>ESC</kbd> to dismiss</span>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(oracleModalEl);
+
+    const closeBtn = oracleModalEl.querySelector('.lc-oracle-close');
+    const drawBtn = oracleModalEl.querySelector('#oracle-draw-btn');
+    const readBtn = oracleModalEl.querySelector('#oracle-read-btn');
+    const copyBtn = oracleModalEl.querySelector('#oracle-copy-btn');
+
+    oracleModalEl.addEventListener('click', e => {
+      if (e.target === oracleModalEl) closeOracle();
+    });
+
+    closeBtn.onclick = closeOracle;
+
+    drawBtn.onclick = () => {
+      drawOracleCard();
+    };
+
+    readBtn.onclick = e => {
+      const url = readBtn.getAttribute('href');
+      if (url && url !== '#') {
+        e.preventDefault();
+        closeOracle();
+        navigateTo(url, true);
+      }
+    };
+
+    copyBtn.onclick = () => {
+      const quote = oracleModalEl.querySelector('#oracle-quote-text').textContent.trim();
+      const work = oracleModalEl.querySelector('#oracle-work-title').textContent.trim();
+      const url = readBtn.getAttribute('href') || window.location.href;
+      const citation = `> ${quote}\n\n— Emrecan Koç, *${work}* (${window.location.origin}${url})`;
+      navigator.clipboard.writeText(citation).then(() => {
+        showToast('✦ Oracle inscription clipped with citation!');
+      });
+    };
+  }
+
+  const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV'];
+
+  function drawOracleCard() {
+    if (allInscriptions.length === 0) return;
+    const cardFrame = oracleModalEl.querySelector('#oracle-card-frame');
+    cardFrame.classList.add('is-flipping');
+
+    setTimeout(() => {
+      const item = allInscriptions[Math.floor(Math.random() * allInscriptions.length)];
+      const quoteEl = oracleModalEl.querySelector('#oracle-quote-text');
+      const workEl = oracleModalEl.querySelector('#oracle-work-title');
+      const readBtn = oracleModalEl.querySelector('#oracle-read-btn');
+      const arcanaNum = oracleModalEl.querySelector('#oracle-arcana-num');
+
+      // Extract a striking 2-4 line excerpt from content or summary
+      let text = item.quote || item.summary || item.content || '';
+      if (item.content && item.content.length > 80) {
+        const sentences = item.content.split(/[.\n]/).filter(s => s.trim().length > 25);
+        if (sentences.length > 0) {
+          text = sentences.slice(0, 2).join('. ').trim() + '.';
+        }
+      }
+
+      const roman = ROMAN_NUMERALS[Math.floor(Math.random() * ROMAN_NUMERALS.length)];
+      arcanaNum.textContent = `ARCANUM ${roman} • ${(item.section || 'POETRY').toUpperCase()}`;
+      quoteEl.textContent = `"${text.replace(/^["']|["']$/g, '')}"`;
+      workEl.textContent = item.title;
+      readBtn.setAttribute('href', item.url || '#');
+
+      cardFrame.classList.remove('is-flipping');
+    }, 180);
+  }
+
+  async function openOracle() {
+    renderOracleModal();
+    await loadOracleData();
+    drawOracleCard();
+    oracleModalEl.classList.add('is-open');
+  }
+
+  function closeOracle() {
+    if (oracleModalEl) oracleModalEl.classList.remove('is-open');
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     4. THEMATIC CONSTELLATION GRAPH ENGINE (Canvas Physics)
+     Interactive force-directed node graph in /archives/
+     ───────────────────────────────────────────────────────────── */
+  let constellationAnimId = null;
+
+  function initConstellationGraph() {
+    const canvas = document.getElementById('lc-constellation-canvas');
+    const wrapper = document.getElementById('constellation-wrapper');
+    if (!canvas || !wrapper) return;
+
+    if (constellationAnimId) {
+      cancelAnimationFrame(constellationAnimId);
+      constellationAnimId = null;
+    }
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = wrapper.clientWidth);
+    let height = (canvas.height = Math.min(520, window.innerHeight * 0.65));
+
+    function handleResize() {
+      if (!wrapper || !canvas) return;
+      width = canvas.width = wrapper.clientWidth;
+      height = canvas.height = Math.min(520, window.innerHeight * 0.65);
+    }
+    window.addEventListener('resize', handleResize);
+
+    // Central Motif Hubs
+    const MOTIF_HUBS = [
+      { id: 'm-gothic', label: 'Gothic Romanticism', type: 'theme', x: width * 0.35, y: height * 0.38, radius: 16, color: '#c084fc' },
+      { id: 'm-carmilla', label: 'Vampirism & Carmilla', type: 'theme', x: width * 0.65, y: height * 0.35, radius: 16, color: '#ff1744' },
+      { id: 'm-sublime', label: 'The Sublime & Ruin', type: 'theme', x: width * 0.25, y: height * 0.65, radius: 15, color: '#fbbf24' },
+      { id: 'm-criticism', label: 'Dramatic Theory', type: 'theme', x: width * 0.75, y: height * 0.65, radius: 15, color: '#38bdf8' },
+      { id: 'm-cinema', label: 'Cinema & Shadows', type: 'theme', x: width * 0.50, y: height * 0.75, radius: 14, color: '#e879f9' }
+    ];
+
+    let nodes = [...MOTIF_HUBS];
+    let links = [];
+
+    // Populate article nodes from loaded search index or fallback
+    const items = allInscriptions.length > 0 ? allInscriptions : FALLBACK_INSCRIPTIONS;
+    items.slice(0, 32).forEach((item, idx) => {
+      const isPoetry = item.section === 'poetry';
+      const angle = (idx / 32) * Math.PI * 2;
+      const dist = 110 + Math.random() * 110;
+      const hubIdx = idx % MOTIF_HUBS.length;
+      const hub = MOTIF_HUBS[hubIdx];
+
+      const node = {
+        id: `art-${idx}`,
+        label: item.title,
+        type: item.section || 'poetry',
+        url: item.url,
+        summary: item.summary || item.content || 'A gothic piece in contemplation.',
+        x: hub.x + Math.cos(angle) * dist,
+        y: hub.y + Math.sin(angle) * dist,
+        vx: 0,
+        vy: 0,
+        radius: isPoetry ? 7 : 8,
+        color: isPoetry ? '#aa75f8' : (item.section === 'review' ? '#38bdf8' : '#fbbf24')
+      };
+
+      nodes.push(node);
+      links.push({ source: node, target: hub });
+
+      // Cross-link some nodes
+      if (Math.random() < 0.25) {
+        const otherHub = MOTIF_HUBS[(hubIdx + 1) % MOTIF_HUBS.length];
+        links.push({ source: node, target: otherHub });
+      }
+    });
+
+    let activeFilter = 'all';
+    let hoveredNode = null;
+    let draggedNode = null;
+    let mouse = { x: -1000, y: -1000 };
+
+    // Tooltip card elements
+    const card = document.getElementById('constellation-card');
+    const nodeType = document.getElementById('node-type');
+    const nodeTitle = document.getElementById('node-title');
+    const nodeDesc = document.getElementById('node-desc');
+    const nodeLink = document.getElementById('node-link');
+    const nodeClose = document.getElementById('node-close');
+
+    if (nodeClose && card) {
+      nodeClose.onclick = () => card.classList.remove('is-visible');
+    }
+
+    if (nodeLink) {
+      nodeLink.onclick = e => {
+        const url = nodeLink.getAttribute('href');
+        if (url && url !== '#') {
+          e.preventDefault();
+          navigateTo(url, true);
+        }
+      };
+    }
+
+    // Filter Pills
+    const filterBtns = wrapper.querySelectorAll('[data-graph-filter]');
+    filterBtns.forEach(b => {
+      b.onclick = () => {
+        filterBtns.forEach(el => el.classList.remove('is-active'));
+        b.classList.add('is-active');
+        activeFilter = b.getAttribute('data-graph-filter');
+      };
+    });
+
+    const resetBtn = wrapper.querySelector('.lc-constellation-reset');
+    if (resetBtn) {
+      resetBtn.onclick = () => {
+        nodes.forEach(n => {
+          n.vx = (Math.random() - 0.5) * 4;
+          n.vy = (Math.random() - 0.5) * 4;
+        });
+      };
+    }
+
+    function getNodeAt(x, y) {
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        const n = nodes[i];
+        const dx = n.x - x;
+        const dy = n.y - y;
+        if (dx * dx + dy * dy < (n.radius + 6) * (n.radius + 6)) {
+          return n;
+        }
+      }
+      return null;
+    }
+
+    canvas.onmousemove = e => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      if (!draggedNode) {
+        hoveredNode = getNodeAt(mouse.x, mouse.y);
+        canvas.style.cursor = hoveredNode ? 'pointer' : 'crosshair';
+      }
+    };
+
+    canvas.onmouseleave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+      hoveredNode = null;
+    };
+
+    canvas.onmousedown = e => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      const target = getNodeAt(clickX, clickY);
+
+      if (target) {
+        draggedNode = target;
+        selectNode(target);
+      }
+    };
+
+    window.onmouseup = () => {
+      draggedNode = null;
+    };
+
+    // Touch support for phones
+    canvas.ontouchstart = e => {
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      const tx = touch.clientX - rect.left;
+      const ty = touch.clientY - rect.top;
+      const target = getNodeAt(tx, ty);
+      if (target) {
+        draggedNode = target;
+        selectNode(target);
+      }
+    };
+
+    canvas.ontouchmove = e => {
+      if (draggedNode && e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        draggedNode.x = touch.clientX - rect.left;
+        draggedNode.y = touch.clientY - rect.top;
+      }
+    };
+
+    canvas.ontouchend = () => {
+      draggedNode = null;
+    };
+
+    function selectNode(n) {
+      if (!card) return;
+      nodeType.textContent = (n.type || 'NODE').toUpperCase();
+      nodeTitle.textContent = n.label;
+      nodeDesc.textContent = n.summary || (n.type === 'theme' ? 'Core motif cluster across Literaconite writings.' : '');
+      if (n.url) {
+        nodeLink.style.display = 'inline-block';
+        nodeLink.setAttribute('href', n.url);
+      } else {
+        nodeLink.style.display = 'none';
+      }
+      card.classList.add('is-visible');
+    }
+
+    // Force Simulation Loop
+    function updatePhysics() {
+      // Repulsion between nodes
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const distSq = dx * dx + dy * dy || 1;
+          if (distSq < 22000) {
+            const force = 180 / distSq;
+            const fx = (dx / Math.sqrt(distSq)) * force;
+            const fy = (dy / Math.sqrt(distSq)) * force;
+            a.vx -= fx;
+            a.vy -= fy;
+            b.vx += fx;
+            b.vy += fy;
+          }
+        }
+      }
+
+      // Spring attraction along links
+      links.forEach(l => {
+        const dx = l.target.x - l.source.x;
+        const dy = l.target.y - l.source.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const targetDist = l.target.type === 'theme' ? 85 : 120;
+        const force = (dist - targetDist) * 0.0035;
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+        l.source.vx += fx;
+        l.source.vy += fy;
+        l.target.vx -= fx * 0.5;
+        l.target.vy -= fy * 0.5;
+      });
+
+      // Damping & Bounds
+      nodes.forEach(n => {
+        if (n === draggedNode) {
+          n.x = mouse.x;
+          n.y = mouse.y;
+          n.vx = 0;
+          n.vy = 0;
+          return;
+        }
+
+        // Center gravity
+        n.vx += (width / 2 - n.x) * 0.0004;
+        n.vy += (height / 2 - n.y) * 0.0004;
+
+        n.vx *= 0.88;
+        n.vy *= 0.88;
+        n.x += n.vx;
+        n.y += n.vy;
+
+        // Keep inside canvas
+        n.x = Math.max(n.radius + 10, Math.min(width - n.radius - 10, n.x));
+        n.y = Math.max(n.radius + 10, Math.min(height - n.radius - 10, n.y));
+      });
+    }
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw Constellation Lines
+      links.forEach(l => {
+        const isSrcActive = activeFilter === 'all' || l.source.type === activeFilter;
+        const isTgtActive = activeFilter === 'all' || l.target.type === activeFilter;
+        const isHoveredLink = hoveredNode && (l.source === hoveredNode || l.target === hoveredNode);
+
+        if (!isSrcActive && !isTgtActive && !isHoveredLink) return;
+
+        ctx.beginPath();
+        ctx.moveTo(l.source.x, l.source.y);
+        ctx.lineTo(l.target.x, l.target.y);
+
+        if (isHoveredLink) {
+          ctx.strokeStyle = '#ff1744';
+          ctx.lineWidth = 1.8;
+          ctx.shadowColor = 'rgba(255, 23, 68, 0.7)';
+          ctx.shadowBlur = 8;
+        } else {
+          ctx.strokeStyle = 'rgba(168, 105, 255, 0.15)';
+          ctx.lineWidth = 0.8;
+          ctx.shadowBlur = 0;
+        }
+        ctx.stroke();
+      });
+      ctx.shadowBlur = 0;
+
+      // Draw Nodes
+      nodes.forEach(n => {
+        const isActive = activeFilter === 'all' || n.type === activeFilter;
+        const isHovered = n === hoveredNode;
+        const alpha = isActive || isHovered ? 1 : 0.18;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        // Outer glow
+        if (n.type === 'theme' || isHovered) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius + 6, 0, Math.PI * 2);
+          ctx.fillStyle = n.color || '#a855f7';
+          ctx.globalAlpha = isHovered ? 0.4 : 0.15;
+          ctx.fill();
+          ctx.globalAlpha = alpha;
+        }
+
+        // Star body
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = n.color || '#aa75f8';
+        ctx.fill();
+
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = isHovered ? 2.5 : 1.2;
+        ctx.stroke();
+
+        // Node Label
+        if (n.type === 'theme' || isHovered || width > 600) {
+          ctx.font = n.type === 'theme' ? '600 11px Cinzel, serif' : '400 10px Inter, sans-serif';
+          ctx.fillStyle = isHovered ? '#ffffff' : (n.type === 'theme' ? '#fde68a' : '#b5a2cf');
+          ctx.textAlign = 'center';
+          ctx.fillText(n.label, n.x, n.y + n.radius + 14);
+        }
+
+        ctx.restore();
+      });
+
+      updatePhysics();
+      constellationAnimId = requestAnimationFrame(renderCanvas);
+    }
+
+    renderCanvas();
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     5. BULLETPROOF CAPTURE-PHASE PJAX NAVIGATION
      ───────────────────────────────────────────────────────────── */
   let isNavigating = false;
 
@@ -298,6 +1018,7 @@
       initReadingProgress();
       initVerseFocus();
       initStreamFilter();
+      initConstellationGraph();
 
     } catch (err) {
       console.warn('PJAX fallback to direct load', err);
@@ -359,7 +1080,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     4. TOAST NOTIFICATIONS
+     6. TOAST NOTIFICATIONS
      ───────────────────────────────────────────────────────────── */
   let toastEl = null;
   let toastTimer = null;
@@ -379,7 +1100,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     5. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
+     7. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
      ───────────────────────────────────────────────────────────── */
   let paletteEl = null;
   let searchIndex = [];
@@ -387,12 +1108,15 @@
 
   const STATIC_COMMANDS = [
     { title: 'Frontispiece', subtitle: 'Return to front page', url: '/', icon: '✦' },
+    { title: 'The Inscription Oracle', subtitle: 'Consult Tarot bibliomancy (⌘O)', action: 'oracle', icon: '🔮' },
+    { title: 'Soundboard Mixer', subtitle: 'Rain, fire, wind & bells audio', action: 'audio', icon: '🎛️' },
+    { title: 'Thematic Constellation', subtitle: 'Interactive motif & archives map', url: '/archives/', icon: '🕸️' },
     { title: 'Poetry & Verse', subtitle: 'Original Gothic and Romantic verse', url: '/poetry/', icon: '📜' },
     { title: 'Criticism & Close Readings', subtitle: 'Dramatic essays and literary theory', url: '/review/', icon: '🖋️' },
-    { title: 'Chronological Archive', subtitle: 'Full index of all writings', url: '/archives/', icon: '📂' },
+    { title: 'Chronological Archive', subtitle: 'Full ledger of all writings', url: '/archives/', icon: '📂' },
     { title: 'Fragments & Miscellaneous', subtitle: 'Scraps, fragments, and art', url: '/miscellaneous/', icon: '✨' },
     { title: 'Atmosphere: Toggle Theme', subtitle: 'Switch Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
-    { title: 'Soundscape: Toggle Rain', subtitle: 'Ambient procedural rainfall', action: 'audio', icon: '🌧️' },
+    { title: 'Toll Abbey Bell', subtitle: 'Strike distant bell chime', action: 'toll', icon: '🔔' },
     { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://boxd.it/3s7QH', icon: '🎞️', external: true }
   ];
 
@@ -405,7 +1129,7 @@
         if (Array.isArray(data)) {
           searchIndex = data.map(item => ({
             title: item.title,
-            subtitle: item.description || item.summary || item.section || 'Article',
+            subtitle: item.summary || item.section || 'Article',
             url: item.permalink || item.relpermalink,
             icon: (item.section === 'poetry' ? '📜' : '🖋️')
           }));
@@ -425,7 +1149,7 @@
       <div class="lc-palette-modal" role="dialog" aria-modal="true" aria-label="Command Palette">
         <div class="lc-palette-header">
           <span class="lc-palette-icon">✦</span>
-          <input type="text" class="lc-palette-input" placeholder="Search inscriptions or jump to section (Esc to exit)..." autocomplete="off" spellcheck="false" />
+          <input type="text" class="lc-palette-input" placeholder="Search inscriptions, consult oracle, or switch mood (Esc to exit)..." autocomplete="off" spellcheck="false" />
           <kbd class="lc-palette-kbd">ESC</kbd>
         </div>
         <div class="lc-palette-results"></div>
@@ -515,6 +1239,10 @@
           cycleTheme();
         } else if (item.action === 'audio') {
           toggleAudio();
+        } else if (item.action === 'oracle') {
+          openOracle();
+        } else if (item.action === 'toll') {
+          tollAbbeyBell();
         } else if (item.url) {
           if (item.external) {
             window.open(item.url, '_blank', 'noopener');
@@ -547,24 +1275,32 @@
     if (paletteEl) paletteEl.classList.remove('is-open');
   }
 
+  // Keyboard Shortcuts (⌘K search, ⌘O oracle, / quick open, Esc)
   document.addEventListener('keydown', e => {
     if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
       e.preventDefault();
-      if (paletteEl && paletteEl.classList.contains('is-open')) {
-        closePalette();
-      } else {
-        openPalette();
-      }
+      if (paletteEl && paletteEl.classList.contains('is-open')) closePalette();
+      else openPalette();
+    } else if ((e.metaKey || e.ctrlKey) && (e.key === 'o' || e.key === 'O')) {
+      e.preventDefault();
+      if (oracleModalEl && oracleModalEl.classList.contains('is-open')) closeOracle();
+      else openOracle();
     } else if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
       e.preventDefault();
       openPalette();
-    } else if (e.key === 'Escape' && paletteEl && paletteEl.classList.contains('is-open')) {
-      closePalette();
+    } else if (e.key === 'Escape') {
+      if (paletteEl && paletteEl.classList.contains('is-open')) closePalette();
+      if (oracleModalEl && oracleModalEl.classList.contains('is-open')) closeOracle();
+    } else if ((e.key === ' ' || e.key === 'Enter') && oracleModalEl && oracleModalEl.classList.contains('is-open')) {
+      if (!['BUTTON', 'A'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        drawOracleCard();
+      }
     }
   });
 
   /* ─────────────────────────────────────────────────────────────
-     6. VERSE FOCUS & STANZA INTERACTION
+     8. VERSE FOCUS & STANZA INTERACTION
      ───────────────────────────────────────────────────────────── */
   function initVerseFocus() {
     const proseContainer = document.querySelector('.lc-verse-mode') || document.querySelector('.is-poetry-article .lc-prose');
@@ -598,7 +1334,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     7. GOTHIC EXCERPT & CITATION TOOLTIP
+     9. GOTHIC EXCERPT & CITATION TOOLTIP
      ───────────────────────────────────────────────────────────── */
   let quoteTooltip = null;
 
@@ -657,7 +1393,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     8. READING PROGRESS BAR
+     10. READING PROGRESS BAR
      ───────────────────────────────────────────────────────────── */
   function initReadingProgress() {
     const progressBar = document.querySelector('#reading-progress');
@@ -676,7 +1412,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     9. HOMEPAGE STREAM FILTER
+     11. HOMEPAGE STREAM FILTER
      ───────────────────────────────────────────────────────────── */
   function initStreamFilter() {
     const filterContainer = document.querySelector('.lc-filter-pills');
@@ -703,7 +1439,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     10. DOM INITIALIZATION
+     12. DOM INITIALIZATION
      ───────────────────────────────────────────────────────────── */
   function init() {
     applyTheme(getStoredTheme());
@@ -724,6 +1460,13 @@
       };
     });
 
+    document.querySelectorAll('.lc-oracle-trigger').forEach(btn => {
+      btn.onclick = e => {
+        e.preventDefault();
+        openOracle();
+      };
+    });
+
     document.querySelectorAll('.lc-audio-btn').forEach(btn => {
       btn.onclick = e => {
         e.preventDefault();
@@ -735,6 +1478,7 @@
     initQuoteTooltip();
     initVerseFocus();
     initStreamFilter();
+    initConstellationGraph();
     initPjax();
   }
 
@@ -749,8 +1493,11 @@
     startAudio,
     pauseAudio,
     toggleAudio,
+    tollAbbeyBell,
     openPalette,
     closePalette,
+    openOracle,
+    closeOracle,
     showToast,
     navigateTo
   };

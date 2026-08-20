@@ -1,0 +1,18 @@
+{{- $.Scratch.Add "index" slice -}}
+{{- range site.RegularPages -}}
+    {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) (ne .Layout `sanctuary`) }}
+    {{- $.Scratch.Add "index" (dict 
+        "title" .Title 
+        "permalink" .RelPermalink 
+        "summary" (.Summary | plainify | truncate 180)
+        "content" (.Plain | truncate 600)
+        "section" .Section 
+        "tags" (.Params.tags | default slice)
+        "categories" (.Params.categories | default slice)
+        "date" (.Date.Format "January 2, 2006")
+        "year" (.Date.Format "2006")
+        "readingTime" .ReadingTime
+    ) -}}
+    {{- end }}
+{{- end -}}
+{{- $.Scratch.Get "index" | jsonify -}}
