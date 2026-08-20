@@ -5,65 +5,23 @@
   <header class="lc-list-header">
     <div class="lc-list-badge">
       <span class="lc-badge-ornament">✦</span>
-      <span class="lc-badge-text">CHRONOLOGICAL LEDGER &amp; MOTIF MAP</span>
+      <span class="lc-badge-text">CHRONOLOGICAL CANON</span>
       <span class="lc-badge-ornament">✦</span>
     </div>
-    <h1 class="lc-list-title">Archives &amp; Constellation</h1>
+    <h1 class="lc-list-title">Archives</h1>
     <p class="lc-list-desc">
-      An interactive network of themes, motifs, and chronological writings across the canon of Literaconite.
+      A chronological index of original Gothic poetry, dramatic analysis, and close literary criticism.
     </p>
   </header>
 
-  <!-- Thematic Constellation Interactive Section -->
-  <section class="lc-constellation-section" aria-label="Thematic Constellation Graph">
-    <div class="lc-constellation-header">
-      <div class="lc-constellation-title-box">
-        <span class="lc-constellation-icon">🕸️</span>
-        <h2 class="lc-constellation-heading">Thematic Constellation</h2>
-      </div>
-      <div class="lc-constellation-controls">
-        <button class="lc-filter-pill is-active" type="button" data-graph-filter="all">All Stars</button>
-        <button class="lc-filter-pill" type="button" data-graph-filter="poetry">Poetry</button>
-        <button class="lc-filter-pill" type="button" data-graph-filter="review">Criticism</button>
-        <button class="lc-filter-pill" type="button" data-graph-filter="theme">Motifs</button>
-        <button class="lc-constellation-reset" type="button" title="Reset Force Layout">↺ Reset</button>
-      </div>
-    </div>
-
-    <!-- Canvas Container -->
-    <div class="lc-constellation-canvas-wrapper" id="constellation-wrapper">
-      <canvas id="lc-constellation-canvas"></canvas>
-      
-      <!-- Interactive Tooltip / Selected Node Card -->
-      <div class="lc-constellation-card" id="constellation-card">
-        <div class="lc-constellation-card-header">
-          <span class="lc-constellation-card-type" id="node-type">POEM</span>
-          <button class="lc-constellation-card-close" id="node-close" type="button">&times;</button>
-        </div>
-        <h3 class="lc-constellation-card-title" id="node-title">Carmilla</h3>
-        <p class="lc-constellation-card-desc" id="node-desc">A gothic reverie on nocturnal beauty and devotion.</p>
-        <a class="lc-constellation-card-link" id="node-link" href="#">Contemplate Piece &rarr;</a>
-      </div>
-
-      <div class="lc-constellation-hint">
-        <span>✦ Drag nodes to reshape &bull; Hover to trace motifs &bull; Click to contemplate</span>
-      </div>
-    </div>
-  </section>
-
   <!-- Chronological Archive Ledger -->
   <section class="lc-archive-ledger" aria-label="Chronological Ledger">
-    <div class="lc-ledger-divider">
-      <span class="lc-ledger-ornament">☩ ❦ ☩</span>
-      <h2 class="lc-ledger-heading">Chronological Index</h2>
-    </div>
-
     {{ $pages := where site.RegularPages "Type" "in" (slice "poetry" "review" "miscellaneous") }}
     {{ range $pages.GroupByPublishDate "2006" }}
       {{ if ne .Key "0001" }}
       <div class="lc-archive-year-group">
         <div class="lc-archive-year-header">
-          <h3 class="lc-archive-year-title">{{ .Key }}</h3>
+          <h2 class="lc-archive-year-title">{{ .Key }}</h2>
           <span class="lc-archive-year-count">{{ len .Pages }} inscriptions</span>
         </div>
 
@@ -76,11 +34,11 @@
                 <span class="lc-section-pill lc-pill-{{ .Section }}">{{ if eq .Section "poetry" }}Poem{{ else if eq .Section "review" }}Criticism{{ else }}Fragment{{ end }}</span>
                 <span class="lc-archive-entry-readtime">{{ .ReadingTime }} min read</span>
               </div>
-              <h4 class="lc-archive-entry-title">
+              <h3 class="lc-archive-entry-title">
                 <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-              </h4>
+              </h3>
               {{ with .Summary }}
-              <p class="lc-archive-entry-desc">{{ . | plainify | truncate 130 }}</p>
+              <p class="lc-archive-entry-desc">{{ . | plainify | truncate 140 }}</p>
               {{ end }}
             </div>
           </article>

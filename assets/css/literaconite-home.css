@@ -1427,194 +1427,120 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
 .lc-audio-dock-icon {
   font-size: 0.95rem;
   color: #38bdf8;
-/* ── 13. SOUND SANCTUARY DOCK & MULTI-TRACK SOUNDBOARD MIXER ────────────── */
+/* ── 13. GOTHIC SOUND SANCTUARY CAPSULE ────────────────────────────── */
 .lc-audio-dock {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
   z-index: 9500;
-  background: var(--lc-surface-hover);
-  border: 1px solid var(--lc-border-hover);
-  border-radius: 16px;
-  padding: 0.5rem 0.9rem;
   display: none;
-  flex-direction: column;
-  gap: 0.6rem;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.85), 0 0 25px var(--lc-red-glow);
   font-family: 'Inter', sans-serif;
-  font-size: 0.72rem;
-  color: var(--lc-text-pure);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 380px;
+  animation: fadeIn 200ms ease;
 }
 
 .lc-audio-dock.is-visible {
-  display: flex !important;
+  display: block !important;
 }
 
-.lc-audio-dock-bar {
+.lc-audio-capsule {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  width: 100%;
+  background: var(--lc-surface-hover);
+  border: 1px solid var(--lc-border-hover);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85), 0 0 24px var(--lc-red-glow);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.lc-audio-dock-info {
+.lc-audio-status {
   display: flex;
   align-items: center;
   gap: 0.45rem;
+  padding-right: 0.2rem;
 }
 
-.lc-audio-dock-icon {
-  font-size: 0.95rem;
-  color: var(--lc-red-bright);
-  animation: pulse 2.5s infinite ease-in-out;
+.lc-audio-glow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lc-red-bright);
+  box-shadow: 0 0 8px var(--lc-red-bright);
+  animation: pulse 2.2s infinite ease-in-out;
 }
 
-.lc-audio-dock-text {
+.lc-audio-status-label {
+  font-size: 0.68rem;
   font-weight: 600;
-  white-space: nowrap;
-  letter-spacing: 0.06em;
-}
-
-.lc-audio-dock-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.lc-audio-dock-vol {
-  width: 65px;
-  height: 4px;
-  accent-color: var(--lc-red-bright);
-  cursor: pointer;
-}
-
-.lc-dock-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--lc-border);
-  color: var(--lc-muted);
-  padding: 0.22rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.64rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--lc-text-pure);
+  white-space: nowrap;
+}
+
+.lc-sound-toggles {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lc-sound-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--lc-border);
+  color: var(--lc-muted);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
   white-space: nowrap;
   transition: all 140ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 
-.lc-dock-btn:hover,
-.lc-dock-btn.is-active {
+.lc-sound-chip:hover {
+  background: var(--lc-card-hover);
+  color: var(--lc-text-pure);
+  border-color: var(--lc-border-hover);
+}
+
+.lc-sound-chip.is-active {
   background: var(--lc-card-hover);
   border-color: var(--lc-red-bright);
   color: var(--lc-text-pure);
+  box-shadow: 0 0 10px var(--lc-red-glow);
+}
+
+.lc-audio-slider-wrap {
+  display: flex;
+  align-items: center;
+  padding: 0 0.2rem;
+}
+
+.lc-audio-dock-vol {
+  width: 55px;
+  height: 3px;
+  accent-color: var(--lc-red-bright);
+  cursor: pointer;
 }
 
 .lc-dock-close {
   background: transparent;
   border: none;
   color: var(--lc-muted);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
   padding: 0 0.15rem;
+  transition: color 120ms ease;
 }
 
 .lc-dock-close:hover { color: var(--lc-red-bright); }
-
-/* Expandable Soundboard Mixer Tray */
-.lc-mixer-tray {
-  display: none;
-  flex-direction: column;
-  gap: 0.7rem;
-  padding-top: 0.6rem;
-  border-top: 1px solid var(--lc-border);
-  margin-top: 0.2rem;
-  animation: fadeIn 200ms ease;
-}
-
-.lc-mixer-tray.is-open {
-  display: flex !important;
-}
-
-.lc-mixer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--lc-muted);
-}
-
-.lc-mixer-toll {
-  background: transparent;
-  border: 1px solid var(--lc-border);
-  color: var(--lc-text-pure);
-  padding: 0.15rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.62rem;
-  cursor: pointer;
-  transition: all 120ms ease;
-}
-
-.lc-mixer-toll:hover { border-color: var(--lc-red-bright); background: var(--lc-card-hover); }
-
-.lc-mixer-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem 0.8rem;
-}
-
-.lc-mixer-track {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.lc-track-head {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.62rem;
-  color: var(--lc-muted);
-}
-
-.lc-mixer-track input[type=range] {
-  width: 100%;
-  height: 3px;
-  accent-color: var(--lc-red-bright);
-  cursor: pointer;
-}
-
-.lc-mixer-presets {
-  display: flex;
-  gap: 0.35rem;
-  flex-wrap: wrap;
-  padding-top: 0.2rem;
-}
-
-.lc-preset-chip {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--lc-border);
-  color: var(--lc-muted);
-  padding: 0.15rem 0.45rem;
-  border-radius: 999px;
-  font-size: 0.58rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 120ms ease;
-}
-
-.lc-preset-chip:hover {
-  background: var(--lc-card-hover);
-  border-color: var(--lc-red-bright);
-  color: var(--lc-text-pure);
-}
 
 /* ── 14. THE INSCRIPTION ORACLE / GOTHIC BIBLIOMANCY (TAROT MODAL) ────────── */
 .lc-oracle-backdrop {
@@ -1622,24 +1548,23 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
   position: fixed;
   inset: 0;
   z-index: 10010;
-  background: rgba(3, 2, 6, 0.85);
+  background: rgba(3, 2, 6, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  animation: fadeIn 220ms ease;
+  animation: fadeIn 200ms ease;
 }
 
 .lc-oracle-backdrop.is-open {
   display: flex !important;
 }
 
-.lc-oracle-modal {
+.lc-oracle-modal-box {
   position: relative;
-  max-width: 540px;
+  max-width: 520px;
   width: 100%;
-  perspective: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1652,41 +1577,40 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
   background: transparent;
   border: none;
   color: var(--lc-muted);
-  font-size: 1.8rem;
+  font-size: 2rem;
   cursor: pointer;
   transition: color 140ms ease;
 }
 
 .lc-oracle-close:hover { color: var(--lc-red-bright); }
 
-.lc-oracle-card {
+.lc-oracle-tarot-card {
   position: relative;
   width: 100%;
   background: var(--lc-surface-hover);
   border: 2px solid var(--lc-border-hover);
   border-radius: 20px;
   padding: 2.8rem 2.4rem 2.2rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px var(--lc-red-glow);
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.95), 0 0 35px var(--lc-red-glow);
   text-align: center;
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms ease;
-  transform-style: preserve-3d;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease;
 }
 
-.lc-oracle-card.is-flipping {
-  transform: rotateY(90deg) scale(0.95);
+.lc-oracle-tarot-card.is-flipping {
+  transform: scale(0.96) rotateY(15deg);
   opacity: 0.4;
 }
 
-.lc-oracle-card-border {
+.lc-oracle-card-frame {
   position: absolute;
   inset: 8px;
   border: 1px dashed var(--lc-border);
   border-radius: 12px;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-.lc-oracle-header {
+.lc-oracle-card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1751,14 +1675,14 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
   color: var(--lc-muted);
 }
 
-.lc-oracle-actions {
+.lc-oracle-card-actions {
   display: flex;
   gap: 0.6rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.lc-oracle-btn {
+.lc-oracle-act-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1818,200 +1742,17 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
   color: var(--lc-muted);
 }
 
-/* ── 15. THEMATIC CONSTELLATION GRAPH & BESPOKE ARCHIVE ───────────────────── */
+/* ── 15. CHRONOLOGICAL ARCHIVE LEDGER ────────────────────────────── */
 .lc-archive-page {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 3.5rem;
 }
 
-.lc-constellation-section {
-  background: var(--lc-surface);
-  border: 1px solid var(--lc-border);
-  border-radius: 16px;
-  padding: 1.8rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
-}
-
-.lc-constellation-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.4rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--lc-border);
-}
-
-.lc-constellation-title-box {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.lc-constellation-icon { font-size: 1.2rem; }
-
-.lc-constellation-heading {
-  font-family: 'Cinzel', serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--lc-text-pure);
-}
-
-.lc-constellation-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-
-.lc-constellation-reset {
-  background: transparent;
-  border: 1px solid var(--lc-border);
-  color: var(--lc-muted);
-  border-radius: 999px;
-  padding: 0.25rem 0.65rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
-  cursor: pointer;
-  transition: all 140ms ease;
-}
-
-.lc-constellation-reset:hover {
-  border-color: var(--lc-red-bright);
-  color: var(--lc-text-pure);
-}
-
-.lc-constellation-canvas-wrapper {
-  position: relative;
-  width: 100%;
-  border-radius: 12px;
-  background: rgba(3, 2, 6, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  overflow: hidden;
-}
-
-#lc-constellation-canvas {
-  display: block;
-  width: 100%;
-  height: 520px;
-}
-
-.lc-constellation-card {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  max-width: 280px;
-  background: var(--lc-surface-hover);
-  border: 1px solid var(--lc-border-hover);
-  border-radius: 12px;
-  padding: 1.2rem;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.85), 0 0 20px var(--lc-red-glow);
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-  z-index: 10;
-  animation: fadeIn 180ms ease;
-}
-
-.lc-constellation-card.is-visible {
-  display: flex !important;
-}
-
-.lc-constellation-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.lc-constellation-card-type {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--lc-red-bright);
-  text-transform: uppercase;
-}
-
-.lc-constellation-card-close {
-  background: transparent;
-  border: none;
-  color: var(--lc-muted);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.lc-constellation-card-title {
-  font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--lc-text-pure);
-  line-height: 1.3;
-}
-
-.lc-constellation-card-desc {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: var(--lc-muted);
-}
-
-.lc-constellation-card-link {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--lc-red-bright);
-  margin-top: 0.3rem;
-}
-
-.lc-constellation-hint {
-  position: absolute;
-  bottom: 0.8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Inter', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  color: var(--lc-muted);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-/* Chronological Archive Ledger */
 .lc-archive-ledger {
   display: flex;
   flex-direction: column;
   gap: 2.8rem;
-}
-
-.lc-ledger-divider {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.lc-ledger-ornament {
-  color: var(--lc-red-bright);
-  font-size: 1.1rem;
-  margin-bottom: 0.6rem;
-  display: block;
-  opacity: 0.8;
-}
-
-.lc-ledger-heading {
-  font-family: 'Cinzel', serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--lc-text-pure);
 }
 
 .lc-archive-year-group {
@@ -2122,17 +1863,22 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
 }
 
 @media (max-width: 768px) {
-  .lc-oracle-card { padding: 2rem 1.4rem 1.6rem; }
-  .lc-constellation-card {
-    position: static;
-    max-width: 100%;
-    margin-top: 0.8rem;
+  .lc-audio-dock {
+    bottom: 1rem;
+    right: 0.8rem;
+    left: 0.8rem;
   }
+  .lc-audio-capsule {
+    justify-content: space-between;
+    padding: 0.35rem 0.7rem;
+    overflow-x: auto;
+  }
+  .lc-audio-status-label { display: none; }
+  .lc-oracle-tarot-card { padding: 2rem 1.4rem 1.6rem; }
   .lc-archive-entry {
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem 1.1rem;
   }
-  #lc-constellation-canvas { height: 380px; }
-  .lc-constellation-hint { font-size: 0.58rem; width: 90%; text-align: center; }
 }
+
