@@ -1,0 +1,81 @@
+{{- define "main" }}
+
+<div id="reading-progress"></div>
+
+<article class="post-single {{ if eq .Section "poetry" }}is-poetry{{ end }}">
+  <header class="post-header">
+    <div class="post-section-badge">
+      <span class="lc-chip">{{ .Section }}</span>
+    </div>
+
+    <h1 class="post-title">
+      {{ .Title }}
+    </h1>
+
+    {{- if .Description }}
+    <div class="post-description">
+      {{ .Description }}
+    </div>
+    {{- end }}
+
+    <div class="post-meta">
+      <span class="lc-meta-item">
+        <time>{{ .Date.Format "2 January 2006" }}</time>
+      </span>
+      <span class="lc-meta-sep">&bull;</span>
+      <span class="lc-meta-item">
+        {{ .ReadingTime }} min read
+      </span>
+      <span class="lc-meta-sep">&bull;</span>
+      <span class="lc-meta-item">
+        {{ .WordCount }} words
+      </span>
+    </div>
+  </header>
+
+  {{- if (.Param "ShowToc") }}
+  <details class="toc" {{ if (.Param "TocOpen") }}open{{ end }}>
+    <summary accesskey="c" title="(Alt + C)">
+      <span class="details">✦ Table of Contents</span>
+    </summary>
+    <div class="inner">
+      {{- .TableOfContents }}
+    </div>
+  </details>
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content {{ if eq .Section "poetry" }}lc-verse-container{{ end }}">
+    {{ .Content }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- with .Params.tags }}
+    <ul class="post-tags">
+      {{- range . }}
+      <li><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/">#{{ . }}</a></li>
+      {{- end }}
+    </ul>
+    {{- end }}
+
+    {{- if (.Param "ShowPostNavLinks") }}
+    <nav class="paginav">
+      {{- with .PrevInSection }}
+      <a class="prev" href="{{ .RelPermalink }}">
+        <span class="title">« Previous</span>
+        <span>{{ .Title }}</span>
+      </a>
+      {{- end }}
+      {{- with .NextInSection }}
+      <a class="next" href="{{ .RelPermalink }}">
+        <span class="title">Next »</span>
+        <span>{{ .Title }}</span>
+      </a>
+      {{- end }}
+    </nav>
+    {{- end }}
+  </footer>
+</article>
+
+{{- end }}

@@ -1,14 +1,6 @@
 /**
  * LITERACONITE CORE INTERACTIVE ENGINE
- * Pure Vanilla JS, zero dependencies.
- * Features:
- *  - Atmosphere Mood Switcher (Midnight, Candlelight, Crimson)
- *  - Command Palette (Cmd+K / Ctrl+K)
- *  - Gothic Web Audio Sanctuary (Procedural Rainfall & Ambient Drone)
- *  - Verse Focus Mode (Stanza illumination for poetry)
- *  - Gothic Excerpt Tool (Floating citation copier)
- *  - Reading Progress & Floating Scroll Indicator
- *  - Stream Category Filter & Rotating Epigraph Generator
+ * Pure Vanilla JS, zero external dependencies.
  */
 
 (function () {
@@ -30,15 +22,24 @@
   };
 
   function getStoredTheme() {
-    return localStorage.getItem('lc-theme') || 'midnight';
+    try {
+      return localStorage.getItem('lc-theme') || 'midnight';
+    } catch(e) {
+      return 'midnight';
+    }
   }
 
   function applyTheme(theme) {
     if (!THEMES.includes(theme)) theme = 'midnight';
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('lc-theme', theme);
+    if (document.body) {
+      document.body.setAttribute('data-theme', theme);
+    }
+    try {
+      localStorage.setItem('lc-theme', theme);
+    } catch(e) {}
 
-    // Update theme toggle buttons if present
+    // Update theme toggle button icons
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
       btn.setAttribute('title', `Theme: ${THEME_NAMES[theme]} (Click to cycle)`);
       const iconSpan = btn.querySelector('.lc-theme-icon');
@@ -51,11 +52,11 @@
     const nextIndex = (THEMES.indexOf(current) + 1) % THEMES.length;
     const nextTheme = THEMES[nextIndex];
     applyTheme(nextTheme);
-    showToast(`Atmosphere: ${THEME_NAMES[nextTheme]}`);
+    showToast(`✦ Atmosphere: ${THEME_NAMES[nextTheme]}`);
     return nextTheme;
   }
 
-  // Initialize theme immediately
+  // Initial apply
   applyTheme(getStoredTheme());
 
   /* ─────────────────────────────────────────────────────────────
@@ -70,51 +71,55 @@
 
   function initWebAudio() {
     if (audioCtx) return;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    audioCtx = new AudioContext();
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      audioCtx = new AudioContext();
 
-    masterGain = audioCtx.createGain();
-    masterGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-    masterGain.connect(audioCtx.destination);
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      masterGain.connect(audioCtx.destination);
 
-    // Pink/Brown noise generator for continuous rain
-    const bufferSize = audioCtx.sampleRate * 2;
-    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
-    let lastOut = 0.0;
-    for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      output[i] = (lastOut + (0.02 * white)) / 1.02; // Brown noise filter
-      lastOut = output[i];
-      output[i] *= 3.5;
+      // Pink/Brown noise generator for rainfall
+      const bufferSize = audioCtx.sampleRate * 2;
+      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      let lastOut = 0.0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        output[i] = (lastOut + (0.02 * white)) / 1.02;
+        lastOut = output[i];
+        output[i] *= 3.5;
+      }
+
+      noiseNode = audioCtx.createBufferSource();
+      noiseNode.buffer = noiseBuffer;
+      noiseNode.loop = true;
+
+      // Lowpass filter for muffled rain
+      filterNode = audioCtx.createBiquadFilter();
+      filterNode.type = 'lowpass';
+      filterNode.frequency.setValueAtTime(750, audioCtx.currentTime);
+
+      noiseNode.connect(filterNode);
+      filterNode.connect(masterGain);
+
+      // Atmospheric drone oscillator (55Hz A1)
+      const droneOsc = audioCtx.createOscillator();
+      droneOsc.type = 'sine';
+      droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
+
+      droneGain = audioCtx.createGain();
+      droneGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+
+      droneOsc.connect(droneGain);
+      droneGain.connect(masterGain);
+
+      noiseNode.start(0);
+      droneOsc.start(0);
+    } catch(e) {
+      console.warn('Web Audio error', e);
     }
-
-    noiseNode = audioCtx.createBufferSource();
-    noiseNode.buffer = noiseBuffer;
-    noiseNode.loop = true;
-
-    // Filter for muffled soothing rainfall
-    filterNode = audioCtx.createBiquadFilter();
-    filterNode.type = 'lowpass';
-    filterNode.frequency.setValueAtTime(800, audioCtx.currentTime);
-
-    noiseNode.connect(filterNode);
-    filterNode.connect(masterGain);
-
-    // Low gothic atmospheric drone oscillator (subtle 55Hz root note)
-    const droneOsc = audioCtx.createOscillator();
-    droneOsc.type = 'sine';
-    droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // A1 note
-
-    droneGain = audioCtx.createGain();
-    droneGain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-
-    droneOsc.connect(droneGain);
-    droneGain.connect(masterGain);
-
-    noiseNode.start(0);
-    droneOsc.start(0);
   }
 
   function toggleAudio() {
@@ -126,14 +131,12 @@
     }
 
     if (!isAudioPlaying) {
-      // Fade in smoothly
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.2);
+      masterGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 1.0);
       isAudioPlaying = true;
       showToast('🌧️ Gothic Soundscape: Active');
     } else {
-      // Fade out smoothly
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
       masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
@@ -167,7 +170,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     4. COMMAND PALETTE (Cmd+K / Ctrl+K)
+     4. COMMAND PALETTE (Cmd+K / Ctrl+K / /)
      ───────────────────────────────────────────────────────────── */
   let paletteEl = null;
   let searchIndex = [];
@@ -178,11 +181,12 @@
     { title: 'Poetry', subtitle: 'Read Gothic & Romantic verse', url: '/poetry/', icon: '📜' },
     { title: 'Reviews & Criticism', subtitle: 'Close readings and essays', url: '/review/', icon: '🖋️' },
     { title: 'Archives', subtitle: 'Chronological archive of all writings', url: '/archives/', icon: '📂' },
-    { title: 'Search', subtitle: 'Open dedicated full-text search', url: '/search/', icon: '🔍' },
+    { title: 'Search', subtitle: 'Open full search page', url: '/search/', icon: '🔍' },
     { title: 'Miscellaneous', subtitle: 'Fragments, notes, and visual scraps', url: '/miscellaneous/', icon: '✨' },
-    { title: 'Atmosphere: Switch Theme', subtitle: 'Toggle Midnight, Candlelight, Crimson', action: 'theme', icon: '🕯️' },
-    { title: 'Soundscape: Toggle Ambient Rain', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
-    { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true }
+    { title: 'Atmosphere: Cycle Theme', subtitle: 'Toggle Midnight / Candlelight / Crimson', action: 'theme', icon: '🕯️' },
+    { title: 'Soundscape: Toggle Rain Sanctuary', subtitle: 'Procedural Web Audio rainfall', action: 'audio', icon: '🌧️' },
+    { title: 'Letterboxd Diary', subtitle: 'Film diary by Emrecan Koç', url: 'https://letterboxd.com/scyllaborder', icon: '🎞️', external: true },
+    { title: 'GitHub Code', subtitle: 'Literaconite repository', url: 'https://github.com/emrecankoc6', icon: '💻', external: true }
   ];
 
   async function loadSearchIndex() {
@@ -201,7 +205,7 @@
         }
       }
     } catch (e) {
-      console.warn('Literaconite search index fallback', e);
+      console.warn('Search index load', e);
     }
     isIndexLoaded = true;
   }
@@ -214,14 +218,14 @@
       <div class="lc-palette-modal" role="dialog" aria-modal="true" aria-label="Command Palette">
         <div class="lc-palette-header">
           <span class="lc-palette-icon">✦</span>
-          <input type="text" class="lc-palette-input" placeholder="Type a title, section, or action (Esc to close)..." autocomplete="off" spellcheck="false" />
+          <input type="text" class="lc-palette-input" placeholder="Search poetry, essays, or jump to section (Esc to exit)..." autocomplete="off" spellcheck="false" />
           <kbd class="lc-palette-kbd">ESC</kbd>
         </div>
         <div class="lc-palette-results"></div>
         <div class="lc-palette-footer">
-          <span><kbd>↑</kbd><kbd>↓</kbd> to navigate</span>
-          <span><kbd>↵</kbd> to select</span>
-          <span><kbd>ESC</kbd> to close</span>
+          <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+          <span><kbd>↵</kbd> select</span>
+          <span><kbd>ESC</kbd> dismiss</span>
         </div>
       </div>
     `;
@@ -282,7 +286,7 @@
 
     container.innerHTML = '';
     if (filtered.length === 0) {
-      container.innerHTML = `<div class="lc-palette-empty">No shadows found for "${query}"</div>`;
+      container.innerHTML = `<div class="lc-palette-empty">No inscriptions found for "${query}"</div>`;
       return;
     }
 
@@ -354,33 +358,50 @@
   });
 
   /* ─────────────────────────────────────────────────────────────
-     5. VERSE FOCUS MODE (Poetry Stanza Illumination)
+     5. VERSE FOCUS MODE (Stanza Illumination)
      ───────────────────────────────────────────────────────────── */
   function initVerseFocus() {
-    const isPoetrySection = document.body.classList.contains('section-poetry') ||
-                            window.location.pathname.includes('/poetry/');
-    const postContent = document.querySelector('.post-content');
-    if (!postContent || !isPoetrySection) return;
+    // Detect poetry container or poetry path
+    const container = document.querySelector('.lc-verse-container') ||
+                      document.querySelector('.is-poetry .post-content') ||
+                      (window.location.pathname.includes('/poetry/') ? document.querySelector('.post-content') : null);
 
-    const paragraphs = postContent.querySelectorAll('p');
-    if (paragraphs.length < 2) return;
+    if (!container) return;
 
-    postContent.classList.add('lc-verse-container');
+    container.classList.add('lc-verse-container');
+    const paragraphs = Array.from(container.querySelectorAll('p'));
+    if (paragraphs.length === 0) return;
 
     paragraphs.forEach(p => {
       p.classList.add('lc-stanza');
-      p.addEventListener('mouseenter', () => {
-        paragraphs.forEach(other => {
-          if (other !== p) other.classList.add('is-dimmed');
-        });
-        p.classList.add('is-illuminated');
-      });
 
-      p.addEventListener('mouseleave', () => {
+      function focusStanza() {
+        container.classList.add('is-focused-mode');
         paragraphs.forEach(other => {
-          other.classList.remove('is-dimmed', 'is-illuminated');
+          if (other === p) {
+            other.classList.add('is-illuminated');
+            other.classList.remove('is-dimmed');
+          } else {
+            other.classList.add('is-dimmed');
+            other.classList.remove('is-illuminated');
+          }
         });
-      });
+      }
+
+      p.addEventListener('mouseenter', focusStanza);
+      p.addEventListener('click', focusStanza);
+    });
+
+    container.addEventListener('mouseleave', () => {
+      container.classList.remove('is-focused-mode');
+      paragraphs.forEach(p => p.classList.remove('is-dimmed', 'is-illuminated'));
+    });
+
+    document.addEventListener('click', e => {
+      if (!container.contains(e.target)) {
+        container.classList.remove('is-focused-mode');
+        paragraphs.forEach(p => p.classList.remove('is-dimmed', 'is-illuminated'));
+      }
     });
   }
 
@@ -419,9 +440,9 @@
     document.addEventListener('mouseup', () => {
       setTimeout(() => {
         const selection = window.getSelection();
-        const text = selection.toString().trim();
+        const text = selection ? selection.toString().trim() : '';
 
-        if (text.length > 12 && !selection.isCollapsed) {
+        if (text.length > 10 && !selection.isCollapsed) {
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
           if (rect.width > 0 && rect.height > 0) {
@@ -432,7 +453,7 @@
           }
         }
         quoteTooltip.classList.remove('is-visible');
-      }, 10);
+      }, 20);
     });
 
     document.addEventListener('mousedown', e => {
@@ -474,8 +495,8 @@
 
     const circleVal = topBtn.querySelector('.lc-progress-val');
 
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
+    function updateProgress() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
@@ -485,12 +506,16 @@
         circleVal.setAttribute('stroke-dasharray', `${Math.min(100, Math.round(progress))}, 100`);
       }
 
-      if (scrollTop > 300) {
+      if (scrollTop > 250) {
         topBtn.classList.add('is-visible');
       } else {
         topBtn.classList.remove('is-visible');
       }
-    }, { passive: true });
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -563,7 +588,6 @@
       });
     }
 
-    // Set initial random quote
     currentIndex = Math.floor(Math.random() * EPIGRAPHS.length);
     renderQuote(currentIndex);
   }
@@ -572,7 +596,9 @@
      10. DOM INITIALIZATION
      ───────────────────────────────────────────────────────────── */
   function init() {
-    // Header triggers
+    applyTheme(getStoredTheme());
+
+    // Header buttons
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
@@ -607,7 +633,6 @@
     init();
   }
 
-  // Export to window for debugging or manual hooks
   window.Literaconite = {
     cycleTheme,
     toggleAudio,
