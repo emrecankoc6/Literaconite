@@ -1,6 +1,6 @@
 /**
- * LITERACONITE CORE INTERACTIVE SYSTEM & PERSISTENT AUDIO ENGINE
- * Pure Vanilla JavaScript — High-Performance, Zero Dependencies
+ * LITERACONITE CORE INTERACTIVE SYSTEM & CONTINUOUS AUDIO SANCTUARY
+ * Pure Vanilla JavaScript — Zero Dependencies, 100% Seamless PJAX
  */
 
 (function () {
@@ -49,7 +49,7 @@
 
   /* ─────────────────────────────────────────────────────────────
      2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
-     Persistent across seamless page transitions & stored in localStorage
+     Continuous procedural rainfall that never unloads or stops
      ───────────────────────────────────────────────────────────── */
   let audioCtx = null;
   let isAudioPlaying = false;
@@ -77,7 +77,7 @@
       masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
       masterGain.connect(audioCtx.destination);
 
-      // Pink/Brown noise buffer for rainfall
+      // Pink/Brown noise buffer for gentle rainfall
       const bufferSize = audioCtx.sampleRate * 2;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -100,7 +100,7 @@
       noiseNode.connect(filterNode);
       filterNode.connect(masterGain);
 
-      // Deep cathedral 55Hz drone
+      // Deep cathedral 55Hz drone oscillator
       const droneOsc = audioCtx.createOscillator();
       droneOsc.type = 'sine';
       droneOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
@@ -135,7 +135,7 @@
     } catch(e) {}
 
     updateAudioUI();
-    if (!silent) showToast('Rain Soundscape: Active');
+    if (!silent) showToast('🌧️ Rain Soundscape: Active');
   }
 
   function pauseAudio(silent = false) {
@@ -169,7 +169,6 @@
     });
   }
 
-  // Restore audio on first interaction if user previously enabled it
   function checkAutoResumeAudio() {
     if (getStoredAudioPref() && !isAudioPlaying) {
       const resumeHandler = () => {
@@ -180,14 +179,15 @@
         document.removeEventListener('keydown', resumeHandler);
         document.removeEventListener('touchstart', resumeHandler);
       };
-      document.addEventListener('click', resumeHandler, { once: true });
-      document.addEventListener('keydown', resumeHandler, { once: true });
-      document.addEventListener('touchstart', resumeHandler, { once: true });
+      document.addEventListener('click', resumeHandler, { once: true, capture: true });
+      document.addEventListener('keydown', resumeHandler, { once: true, capture: true });
+      document.addEventListener('touchstart', resumeHandler, { once: true, capture: true });
     }
   }
 
   /* ─────────────────────────────────────────────────────────────
-     3. SEAMLESS GOTHIC PJAX NAVIGATION (Keeps Audio Playing!)
+     3. BULLETPROOF CAPTURE-PHASE PJAX NAVIGATION
+     Intercepts ALL internal link clicks before anything can stop propagation
      ───────────────────────────────────────────────────────────── */
   let isNavigating = false;
 
@@ -195,12 +195,17 @@
     if (isNavigating) return;
     isNavigating = true;
 
+    // Ensure audio stays alive
+    if (isAudioPlaying && audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
     const mainContainer = document.querySelector('.lc-container');
     if (mainContainer) mainContainer.classList.add('is-transitioning');
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Navigation failed');
+      const response = await fetch(url, { headers: { 'X-Requested-With': 'Literaconite-PJAX' } });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
       const htmlText = await response.text();
 
       const parser = new DOMParser();
@@ -218,15 +223,16 @@
         mainContainer.innerHTML = newMain.innerHTML;
       }
 
-      // Update History
+      // Update History State
       if (pushHistory) {
         window.history.pushState({ url }, '', url);
       }
 
       // Update Active Navigation Links in Header
+      const cleanPath = window.location.pathname.replace(/\/$/, '') || '/';
       document.querySelectorAll('.lc-nav-list a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && (window.location.pathname === href || (href !== '/' && window.location.pathname.startsWith(href)))) {
+        const linkPath = link.getAttribute('href')?.replace(/\/$/, '') || '/';
+        if (linkPath === cleanPath || (linkPath !== '/' && cleanPath.startsWith(linkPath))) {
           link.classList.add('is-active');
         } else {
           link.classList.remove('is-active');
@@ -236,13 +242,13 @@
       // Scroll smoothly to top
       window.scrollTo(0, 0);
 
-      // Re-initialize dynamic page listeners
+      // Re-initialize dynamic page interactive components
       initReadingProgress();
       initVerseFocus();
       initStreamFilter();
 
     } catch (err) {
-      console.warn('Seamless navigation fallback to native reload', err);
+      console.warn('PJAX fallback to hard navigation', err);
       window.location.href = url;
     } finally {
       setTimeout(() => {
@@ -253,43 +259,48 @@
   }
 
   function initPjax() {
+    // CAPTURE PHASE LISTENER: catches every click before child stopPropagation
     document.addEventListener('click', e => {
-      // Don't intercept clicks with modifier keys (cmd/ctrl/shift/alt)
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.defaultPrevented) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
       const link = e.target.closest('a');
       if (!link) return;
 
-      const href = link.getAttribute('href');
-      if (!href) return;
+      const rawHref = link.getAttribute('href');
+      if (!rawHref) return;
 
-      // Ignore external links, mailto, tel, anchors, and target="_blank"
+      // Ignore external, mailto, tel, hash anchors, javascript, target="_blank"
       if (
         link.target === '_blank' ||
-        href.startsWith('#') ||
-        href.startsWith('mailto:') ||
-        href.startsWith('tel:') ||
-        href.startsWith('javascript:') ||
+        rawHref.startsWith('#') ||
+        rawHref.startsWith('mailto:') ||
+        rawHref.startsWith('tel:') ||
+        rawHref.startsWith('javascript:') ||
         link.getAttribute('rel')?.includes('external')
       ) {
         return;
       }
 
-      // Check if it is same-origin
       try {
         const targetUrl = new URL(link.href, window.location.origin);
         if (targetUrl.origin === window.location.origin) {
-          // If navigating to the exact current URL hashless, just scroll top
-          if (targetUrl.pathname === window.location.pathname && !targetUrl.hash) {
+          // Normalize paths for hashless self-navigation
+          const curPath = window.location.pathname.replace(/\/$/, '') || '/';
+          const tgtPath = targetUrl.pathname.replace(/\/$/, '') || '/';
+
+          if (curPath === tgtPath && !targetUrl.hash) {
             e.preventDefault();
+            e.stopImmediatePropagation();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
           }
+
           e.preventDefault();
+          e.stopImmediatePropagation();
           navigateTo(targetUrl.href, true);
         }
       } catch(err) {}
-    });
+    }, true); // TRUE = Capture phase!
 
     window.addEventListener('popstate', () => {
       navigateTo(window.location.href, false);
@@ -511,8 +522,10 @@
     const paragraphs = Array.from(proseContainer.querySelectorAll('p')).filter(p => !p.closest('figcaption'));
 
     paragraphs.forEach((p, idx) => {
-      p.addEventListener('click', e => {
-        e.stopPropagation();
+      p.onclick = e => {
+        // If clicking a link inside the stanza, do not lock stanza
+        if (e.target.closest('a')) return;
+
         const isAlreadyLocked = p.classList.contains('is-locked-stanza');
 
         paragraphs.forEach(el => el.classList.remove('is-locked-stanza'));
@@ -523,7 +536,7 @@
           proseContainer.classList.add('has-locked-stanza');
           showToast(`Stanza ${idx + 1} locked in contemplation`);
         }
-      });
+      };
     });
 
     document.addEventListener('click', e => {
@@ -607,8 +620,8 @@
       progressBar.style.width = `${progress}%`;
     }
 
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress, { passive: true });
+    window.onscroll = updateProgress;
+    window.onresize = updateProgress;
     updateProgress();
   }
 
@@ -620,7 +633,7 @@
     const cards = document.querySelectorAll('.lc-grid-card');
     if (!filterContainer || cards.length === 0) return;
 
-    filterContainer.addEventListener('click', e => {
+    filterContainer.onclick = e => {
       const btn = e.target.closest('.lc-filter-pill');
       if (!btn) return;
 
@@ -636,7 +649,7 @@
           card.style.display = 'none';
         }
       });
-    });
+    };
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -648,24 +661,24 @@
     checkAutoResumeAudio();
 
     document.querySelectorAll('.lc-theme-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
+      btn.onclick = e => {
         e.preventDefault();
         cycleTheme();
-      });
+      };
     });
 
     document.querySelectorAll('.lc-palette-trigger').forEach(btn => {
-      btn.addEventListener('click', e => {
+      btn.onclick = e => {
         e.preventDefault();
         openPalette();
-      });
+      };
     });
 
     document.querySelectorAll('.lc-audio-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
+      btn.onclick = e => {
         e.preventDefault();
         toggleAudio();
-      });
+      };
     });
 
     initReadingProgress();
