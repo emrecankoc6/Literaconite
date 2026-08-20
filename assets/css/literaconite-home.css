@@ -1198,3 +1198,97 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(9, 1, 3, 0.9); }
   opacity: 1;
   transform: translate(-50%, 0);
 }
+
+/* ── 13. FLOATING SOUND SANCTUARY DOCK ────────────────────────────────────── */
+.lc-audio-dock {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9500;
+  background: var(--lc-surface-hover);
+  border: 1px solid var(--lc-border-hover);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  display: none;
+  align-items: center;
+  gap: 0.9rem;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.85), 0 0 20px var(--lc-red-glow);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--lc-text-pure);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 220ms ease;
+}
+
+.lc-audio-dock.is-visible {
+  display: flex !important;
+}
+
+.lc-audio-dock-info {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.lc-audio-dock-icon {
+  font-size: 0.95rem;
+  color: #38bdf8;
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+.lc-audio-dock-text {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.lc-audio-dock-vol {
+  width: 75px;
+  height: 4px;
+  accent-color: var(--lc-red-bright);
+  cursor: pointer;
+}
+
+.lc-audio-dock-pop {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--lc-border);
+  color: var(--lc-muted);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 140ms ease;
+}
+
+.lc-audio-dock-pop:hover {
+  background: var(--lc-card-hover);
+  border-color: var(--lc-red-bright);
+  color: var(--lc-text-pure);
+}
+
+.lc-audio-dock-close {
+  background: transparent;
+  border: none;
+  color: var(--lc-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.2rem;
+}
+
+.lc-audio-dock-close:hover {
+  color: var(--lc-red-bright);
+}
+
+@media (max-width: 600px) {
+  .lc-audio-dock {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    left: 1.2rem;
+    justify-content: space-between;
+  }
+}

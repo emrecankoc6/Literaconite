@@ -49,7 +49,7 @@
 
   /* ─────────────────────────────────────────────────────────────
      2. GOTHIC PROCEDURAL AUDIO SANCTUARY (Web Audio API)
-     Persistent continuous audio that never unloads or pauses
+     Persistent continuous audio with Floating Dock & Pop-Out
      ───────────────────────────────────────────────────────────── */
   let audioCtx = window.__lc_audioCtx || null;
   let isAudioPlaying = false;
@@ -57,6 +57,7 @@
   let filterNode = null;
   let droneGain = null;
   let masterGain = null;
+  let audioDockEl = null;
 
   function getStoredAudioPref() {
     try {
@@ -119,6 +120,41 @@
     }
   }
 
+  function renderAudioDock() {
+    if (audioDockEl) return;
+    audioDockEl = document.createElement('div');
+    audioDockEl.className = 'lc-audio-dock';
+    audioDockEl.innerHTML = `
+      <div class="lc-audio-dock-info">
+        <span class="lc-audio-dock-icon">🌧️</span>
+        <span class="lc-audio-dock-text">Rain Sanctuary</span>
+      </div>
+      <input type="range" class="lc-audio-dock-vol" min="0" max="1" step="0.05" value="0.7" title="Adjust Volume">
+      <button class="lc-audio-dock-pop" type="button" title="Open persistent pop-out companion player">↗ Pop-out</button>
+      <button class="lc-audio-dock-close" type="button" title="Close soundscape">&times;</button>
+    `;
+    document.body.appendChild(audioDockEl);
+
+    const vol = audioDockEl.querySelector('.lc-audio-dock-vol');
+    const pop = audioDockEl.querySelector('.lc-audio-dock-pop');
+    const close = audioDockEl.querySelector('.lc-audio-dock-close');
+
+    vol.oninput = () => {
+      if (masterGain && audioCtx && isAudioPlaying) {
+        masterGain.gain.setValueAtTime(parseFloat(vol.value) * 0.22, audioCtx.currentTime);
+      }
+    };
+
+    pop.onclick = () => {
+      pauseAudio(true);
+      window.open('/sanctuary/', 'LiteraconiteSanctuary', 'width=340,height=280,resizable=no,scrollbars=no');
+    };
+
+    close.onclick = () => {
+      pauseAudio();
+    };
+  }
+
   function startAudio(silent = false) {
     if (!audioCtx) initWebAudio();
     if (!audioCtx) return;
@@ -127,10 +163,14 @@
       audioCtx.resume();
     }
 
+    renderAudioDock();
+
     if (masterGain) {
+      const volInput = audioDockEl?.querySelector('.lc-audio-dock-vol');
+      const vol = volInput ? parseFloat(volInput.value) : 0.7;
       masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
       masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 0.8);
+      masterGain.gain.linearRampToValueAtTime(vol * 0.22, audioCtx.currentTime + 0.8);
     }
 
     isAudioPlaying = true;
@@ -139,6 +179,7 @@
     } catch(e) {}
 
     updateAudioUI();
+    if (audioDockEl) audioDockEl.classList.add('is-visible');
     if (!silent) showToast('🌧️ Rain Soundscape: Active');
   }
 
@@ -157,6 +198,7 @@
     } catch(e) {}
 
     updateAudioUI();
+    if (audioDockEl) audioDockEl.classList.remove('is-visible');
     if (!silent) showToast('Rain Soundscape: Paused');
   }
 
@@ -194,7 +236,6 @@
 
   /* ─────────────────────────────────────────────────────────────
      3. BULLETPROOF CAPTURE-PHASE PJAX NAVIGATION
-     Intercepts all internal clicks and transitions smoothly
      ───────────────────────────────────────────────────────────── */
   let isNavigating = false;
 

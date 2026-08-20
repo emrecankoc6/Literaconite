@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+<head>
+  <meta charset="utf-8">
+  <title>Gothic Rain Sanctuary | Literaconite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #060405;
+      color: #eee5dc;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      user-select: none;
+      background-image: radial-gradient(ellipse 80% 60% at 50% 10%, rgba(140, 25, 38, 0.35), transparent 80%);
+    }
+    .glyph { font-size: 2.2rem; margin-bottom: 0.5rem; color: #cf3a3a; animation: pulse 2.5s infinite ease-in-out; }
+    @keyframes pulse { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+    h1 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.3rem; color: #fff; }
+    p { font-size: 0.75rem; color: #9e8f86; margin-bottom: 1.2rem; letter-spacing: 0.08em; }
+    .btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-bottom: 1.2rem;
+      transition: all 160ms ease;
+    }
+    .btn:hover { background: rgba(207, 58, 58, 0.25); border-color: #cf3a3a; }
+    .vol-box { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; color: #9e8f86; }
+    input[type=range] { accent-color: #cf3a3a; width: 140px; }
+  </style>
+</head>
+<body>
+  <div class="glyph">🌧️</div>
+  <h1>Gothic Rain Sanctuary</h1>
+  <p>Procedural rainfall &amp; cathedral drone companion</p>
+  <button class="btn" id="toggle">Play Rain</button>
+  <div class="vol-box">
+    <span>Vol</span>
+    <input type="range" id="vol" min="0" max="1" step="0.05" value="0.7">
+  </div>
+
+  <script>
+    let ctx = null, masterGain = null, isPlaying = false, noiseNode = null, droneOsc = null;
+
+    function initAudio() {
+      if (ctx) return;
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.7 * 0.22, ctx.currentTime);
+      masterGain.connect(ctx.destination);
+
+      const bufferSize = ctx.sampleRate * 4;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const out = noiseBuffer.getChannelData(0);
+      let last = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        out[i] = (last + 0.02 * white) / 1.02;
+        last = out[i];
+        out[i] *= 3.5;
+      }
+      noiseNode = ctx.createBufferSource();
+      noiseNode.buffer = noiseBuffer;
+      noiseNode.loop = true;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(750, ctx.currentTime);
+      noiseNode.connect(filter);
+      filter.connect(masterGain);
+
+      droneOsc = ctx.createOscillator();
+      droneOsc.type = 'sine';
+      droneOsc.frequency.setValueAtTime(55, ctx.currentTime);
+      const droneGain = ctx.createGain();
+      droneGain.gain.setValueAtTime(0.04, ctx.currentTime);
+      droneOsc.connect(droneGain);
+      droneGain.connect(masterGain);
+
+      noiseNode.start(0);
+      droneOsc.start(0);
+    }
+
+    const btn = document.getElementById('toggle');
+    const vol = document.getElementById('vol');
+
+    btn.onclick = () => {
+      initAudio();
+      if (ctx.state === 'suspended') ctx.resume();
+      if (!isPlaying) {
+        masterGain.gain.linearRampToValueAtTime(vol.value * 0.22, ctx.currentTime + 0.5);
+        isPlaying = true;
+        btn.textContent = 'Pause Rain';
+      } else {
+        masterGain.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+        isPlaying = false;
+        btn.textContent = 'Play Rain';
+      }
+    };
+
+    vol.oninput = () => {
+      if (masterGain && isPlaying) {
+        masterGain.gain.setValueAtTime(vol.value * 0.22, ctx.currentTime);
+      }
+    };
+
+    // Auto-start on click
+    window.addEventListener('click', () => {
+      if (!isPlaying) btn.click();
+    }, { once: true });
+  </script>
+</body>
+</html>
