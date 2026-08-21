@@ -1165,9 +1165,10 @@
     if (!hourglassModal) {
       _buildHourglassModal();
     }
+    // Open modal first — audio is optional and must not block the UI
     hourglassModal.classList.add('is-open');
     _updateHourglassUI();
-    if (!isAudioPlaying) toggleAudio();
+    try { if (!isAudioPlaying) toggleAudio(); } catch(e) {}
   }
 
   function _buildHourglassModal() {
