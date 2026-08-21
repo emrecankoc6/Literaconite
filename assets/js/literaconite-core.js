@@ -1149,8 +1149,11 @@
      12. HOURGLASS OF THE DAMNED (POMODORO)
      ───────────────────────────────────────────────────────────── */
   let hourglassTimer = null;
-  let hourglassSeconds = 1500; // 25 mins
+  let hourglassTotalSeconds = 1500;
+  let hourglassSeconds = 1500;
   let isHourglassRunning = false;
+  let hourglassSessions = 0;
+  let hourglassModal = null;
 
   function formatTime(sec) {
     const m = Math.floor(sec / 60);
@@ -1159,30 +1162,190 @@
   }
 
   function toggleHourglass() {
-    const label = document.querySelector('.lc-hourglass-time');
+    if (!hourglassModal) {
+      _buildHourglassModal();
+    }
+    hourglassModal.classList.add('is-open');
+    _updateHourglassUI();
+    if (!isAudioPlaying) toggleAudio();
+  }
+
+  function _buildHourglassModal() {
+    hourglassModal = document.createElement('div');
+    hourglassModal.id = 'lc-hourglass-modal';
+    hourglassModal.className = 'lc-hg-modal';
+    hourglassModal.innerHTML = `
+      <div class="lc-hg-bg"></div>
+      <div class="lc-hg-vignette"></div>
+      <div class="lc-hg-ui">
+        <div class="lc-hg-header">
+          <span class="lc-hg-title">The Study</span>
+          <div class="lc-hg-header-right">
+            <span class="lc-hg-sessions" id="hg-sessions">&#9670; 0 sessions complete</span>
+            <button class="lc-hg-exit" id="hg-exit" aria-label="Exit Focus Mode">&#10005;</button>
+          </div>
+        </div>
+
+        <div class="lc-hg-center">
+          <div class="lc-hg-ring-wrap">
+            <svg class="lc-hg-ring" viewBox="0 0 200 200">
+              <circle class="lc-hg-ring-track" cx="100" cy="100" r="88"/>
+              <circle class="lc-hg-ring-fill" id="hg-ring-fill" cx="100" cy="100" r="88"
+                stroke-dasharray="553"
+                stroke-dashoffset="0"
+                stroke-linecap="round"/>
+            </svg>
+            <div class="lc-hg-clock">
+              <span class="lc-hg-time" id="hg-time">25:00</span>
+              <span class="lc-hg-status" id="hg-status">Ready</span>
+            </div>
+          </div>
+
+          <div class="lc-hg-controls">
+            <button class="lc-hg-btn lc-hg-btn-main" id="hg-toggle">&#9654; Begin Session</button>
+            <button class="lc-hg-btn lc-hg-btn-ghost" id="hg-reset">Reset</button>
+          </div>
+
+          <div class="lc-hg-presets">
+            <button class="lc-hg-preset" data-min="15">15 min</button>
+            <button class="lc-hg-preset active" data-min="25">25 min</button>
+            <button class="lc-hg-preset" data-min="45">45 min</button>
+            <button class="lc-hg-preset" data-min="60">60 min</button>
+            <button class="lc-hg-preset lc-hg-custom-trigger" id="hg-custom-trigger">Custom</button>
+          </div>
+
+          <div class="lc-hg-custom" id="hg-custom-row" style="display:none">
+            <input type="number" id="hg-custom-input" class="lc-hg-custom-input" min="1" max="180" value="30" placeholder="Minutes">
+            <button class="lc-hg-btn lc-hg-btn-ghost" id="hg-custom-set">Set</button>
+          </div>
+        </div>
+
+        <div class="lc-hg-footer">
+          <span class="lc-hg-quote" id="hg-quote">&ldquo;Time is the devourer of all things.&rdquo;</span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(hourglassModal);
+
+    const focusQuotes = [
+      '&ldquo;Time is the devourer of all things.&rdquo; — Ovid',
+      '&ldquo;I have wasted my hours.&rdquo; — Leonardo da Vinci',
+      '&ldquo;Lost time is never found again.&rdquo; — Benjamin Franklin',
+      '&ldquo;The cradle rocks above an abyss.&rdquo; — Nabokov',
+      '&ldquo;An hour of reading is the sovereign remedy.&rdquo; — Voltaire',
+      '&ldquo;He who has a why to live can bear almost any how.&rdquo; — Nietzsche',
+      '&ldquo;The art of reading is in great part that of acquiring a better understanding of life from one&rsquo;s encounter with it in a book.&rdquo; — Edith Hamilton',
+    ];
+    document.getElementById('hg-quote').innerHTML = focusQuotes[Math.floor(Math.random() * focusQuotes.length)];
+
+    // Exit
+    document.getElementById('hg-exit').addEventListener('click', _closeHourglass);
+    document.addEventListener('keydown', function hgEsc(e) {
+      if (e.key === 'Escape' && hourglassModal && hourglassModal.classList.contains('is-open')) {
+        _closeHourglass();
+      }
+    });
+
+    // Toggle play/pause
+    document.getElementById('hg-toggle').addEventListener('click', _tickHourglass);
+
+    // Reset
+    document.getElementById('hg-reset').addEventListener('click', function() {
+      clearInterval(hourglassTimer);
+      isHourglassRunning = false;
+      hourglassSeconds = hourglassTotalSeconds;
+      _updateHourglassUI();
+      document.getElementById('hg-toggle').innerHTML = '&#9654; Begin Session';
+      document.getElementById('hg-status').textContent = 'Ready';
+    });
+
+    // Preset buttons
+    hourglassModal.querySelectorAll('.lc-hg-preset[data-min]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (isHourglassRunning) return;
+        hourglassModal.querySelectorAll('.lc-hg-preset').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const mins = parseInt(this.dataset.min);
+        hourglassTotalSeconds = mins * 60;
+        hourglassSeconds = hourglassTotalSeconds;
+        document.getElementById('hg-custom-row').style.display = 'none';
+        _updateHourglassUI();
+      });
+    });
+
+    // Custom input toggle
+    document.getElementById('hg-custom-trigger').addEventListener('click', function() {
+      const row = document.getElementById('hg-custom-row');
+      row.style.display = row.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    document.getElementById('hg-custom-set').addEventListener('click', function() {
+      if (isHourglassRunning) return;
+      const val = parseInt(document.getElementById('hg-custom-input').value);
+      if (!val || val < 1 || val > 180) return;
+      hourglassModal.querySelectorAll('.lc-hg-preset').forEach(b => b.classList.remove('active'));
+      document.getElementById('hg-custom-trigger').classList.add('active');
+      hourglassTotalSeconds = val * 60;
+      hourglassSeconds = hourglassTotalSeconds;
+      document.getElementById('hg-custom-row').style.display = 'none';
+      _updateHourglassUI();
+    });
+  }
+
+  function _tickHourglass() {
+    const btn = document.getElementById('hg-toggle');
+    const status = document.getElementById('hg-status');
     if (isHourglassRunning) {
       clearInterval(hourglassTimer);
       isHourglassRunning = false;
-      showToast('Hourglass suspended.');
-      if (label) label.textContent = formatTime(hourglassSeconds);
+      if (btn) btn.innerHTML = '&#9654; Resume';
+      if (status) status.textContent = 'Paused';
     } else {
+      if (hourglassSeconds <= 0) {
+        hourglassSeconds = hourglassTotalSeconds;
+      }
       isHourglassRunning = true;
-      if (hourglassSeconds <= 0) hourglassSeconds = 1500;
-      showToast('Hourglass inverted. Time trickles away.');
-      if (!isAudioPlaying) toggleAudio(); // Start rain for focus
-      
+      if (btn) btn.innerHTML = '&#9646;&#9646; Pause';
+      if (status) status.textContent = 'Focusing...';
       hourglassTimer = setInterval(() => {
         hourglassSeconds--;
-        if (label) label.textContent = formatTime(hourglassSeconds);
-        
+        _updateHourglassUI();
+        // Header label
+        const headerLabel = document.querySelector('.lc-hourglass-time');
+        if (headerLabel) headerLabel.textContent = formatTime(hourglassSeconds);
+
         if (hourglassSeconds <= 0) {
           clearInterval(hourglassTimer);
           isHourglassRunning = false;
-          tollAbbeyBell(0); // Toll the bell
-          showToast('The Hourglass has run empty.');
+          hourglassSessions++;
+          tollAbbeyBell(0);
+          if (btn) btn.innerHTML = '&#9654; Begin Session';
+          if (status) status.textContent = 'Session complete!';
+          const sessEl = document.getElementById('hg-sessions');
+          if (sessEl) sessEl.textContent = `\u25C6 ${hourglassSessions} session${hourglassSessions > 1 ? 's' : ''} complete`;
+          showToast('The Hourglass has run empty. The bell tolls.');
         }
       }, 1000);
     }
+  }
+
+  function _updateHourglassUI() {
+    const timeEl = document.getElementById('hg-time');
+    const ringEl = document.getElementById('hg-ring-fill');
+    const headerLabel = document.querySelector('.lc-hourglass-time');
+
+    if (timeEl) timeEl.textContent = formatTime(hourglassSeconds);
+    if (headerLabel) headerLabel.textContent = formatTime(hourglassSeconds);
+
+    if (ringEl) {
+      const circumference = 553;
+      const fraction = hourglassSeconds / hourglassTotalSeconds;
+      ringEl.style.strokeDashoffset = circumference * (1 - fraction);
+    }
+  }
+
+  function _closeHourglass() {
+    if (hourglassModal) hourglassModal.classList.remove('is-open');
   }
 
   /* ─────────────────────────────────────────────────────────────

@@ -1931,6 +1931,291 @@ html[data-theme="crimson"] .lc-site-header { background: rgba(24, 0, 4, 0.95); }
 }
 
 /* ─────────────────────────────────────────────────────────────
+   GOTHIC FOCUS MODE — HOURGLASS OF THE DAMNED
+   ───────────────────────────────────────────────────────────── */
+.lc-hg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms ease;
+  display: flex;
+  align-items: stretch;
+}
+.lc-hg-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Background image */
+.lc-hg-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/gothic-study.jpg');
+  background-size: cover;
+  background-position: center 20%;
+  transform: scale(1.04);
+  transition: transform 800ms ease;
+  filter: brightness(0.55) saturate(0.85);
+}
+.lc-hg-modal.is-open .lc-hg-bg {
+  transform: scale(1);
+}
+
+/* Dark vignette overlay */
+.lc-hg-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.65) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 20%, transparent 75%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+}
+
+/* Main UI layer */
+.lc-hg-ui {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem 2rem;
+}
+
+/* Header bar */
+.lc-hg-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lc-hg-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 240, 220, 0.6);
+}
+.lc-hg-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.lc-hg-sessions {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 200, 160, 0.5);
+  text-transform: uppercase;
+}
+.lc-hg-exit {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.4);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 200ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lc-hg-exit:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Center area */
+.lc-hg-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* SVG Ring */
+.lc-hg-ring-wrap {
+  position: relative;
+  width: 240px;
+  height: 240px;
+}
+.lc-hg-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.lc-hg-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 5;
+}
+.lc-hg-ring-fill {
+  fill: none;
+  stroke: url(#hg-gradient);
+  stroke-width: 5;
+  transition: stroke-dashoffset 1s linear;
+  filter: drop-shadow(0 0 8px rgba(220, 130, 60, 0.6));
+}
+/* Inline SVG gradient via CSS (approx amber/crimson) */
+.lc-hg-ring-fill { stroke: #e8a060; }
+
+.lc-hg-clock {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+.lc-hg-time {
+  font-family: 'Cinzel', serif;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: #fff8ef;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 20px rgba(220, 130, 60, 0.4), 0 0 40px rgba(0,0,0,0.8);
+  line-height: 1;
+}
+.lc-hg-status {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 200, 160, 0.6);
+}
+
+/* Controls */
+.lc-hg-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.lc-hg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 200ms ease;
+  user-select: none;
+}
+.lc-hg-btn-main {
+  background: linear-gradient(135deg, #6b2010, #3d0d0d);
+  border: 1px solid rgba(220, 100, 60, 0.5);
+  color: #fff8ef;
+  box-shadow: 0 4px 20px rgba(100, 20, 10, 0.4);
+}
+.lc-hg-btn-main:hover {
+  background: linear-gradient(135deg, #8b3015, #5a1510);
+  border-color: rgba(220, 100, 60, 0.8);
+  box-shadow: 0 6px 28px rgba(150, 40, 10, 0.5);
+  transform: translateY(-1px);
+}
+.lc-hg-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 240, 220, 0.6);
+}
+.lc-hg-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+/* Time presets */
+.lc-hg-presets {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.lc-hg-preset {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 240, 220, 0.5);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 200ms ease;
+  user-select: none;
+}
+.lc-hg-preset:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff8ef;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.lc-hg-preset.active {
+  background: rgba(220, 100, 60, 0.25);
+  border-color: rgba(220, 100, 60, 0.6);
+  color: #ffd5b0;
+}
+
+/* Custom input */
+.lc-hg-custom {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: -0.5rem;
+}
+.lc-hg-custom-input {
+  width: 90px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(220, 100, 60, 0.3);
+  border-radius: 4px;
+  color: #fff8ef;
+  padding: 0.5rem 0.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 200ms ease;
+  -moz-appearance: textfield;
+}
+.lc-hg-custom-input::-webkit-outer-spin-button,
+.lc-hg-custom-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.lc-hg-custom-input:focus {
+  border-color: rgba(220, 100, 60, 0.7);
+  box-shadow: 0 0 12px rgba(220, 100, 60, 0.15);
+}
+
+/* Footer quote */
+.lc-hg-footer {
+  width: 100%;
+  text-align: center;
+}
+.lc-hg-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(255, 230, 200, 0.35);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .lc-hg-time { font-size: 2.8rem; }
+  .lc-hg-ring-wrap { width: 190px; height: 190px; }
+  .lc-hg-center { gap: 1.4rem; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
    VOTIVE LEDGER MODAL (global – available on every page)
    ───────────────────────────────────────────────────────────── */
 .lc-votive-modal {
