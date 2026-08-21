@@ -1188,28 +1188,35 @@
       votiveModal = document.createElement('div');
       votiveModal.className = 'lc-votive-modal';
       votiveModal.innerHTML = `
-        <div class="lc-votive-overlay" onclick="window.Literaconite.closeVotive()"></div>
+        <div class="lc-votive-overlay"></div>
         <div class="lc-votive-content">
-          <button class="lc-votive-close" onclick="window.Literaconite.closeVotive()">×</button>
+          <button class="lc-votive-close" aria-label="Close Ledger">&times;</button>
           <div class="lc-votive-header">
             <h3>The Votive Ledger</h3>
-            <p>Leave a whisper in the dark, a confession, or an inscription.</p>
+            <p>Leave a whisper in the dark &mdash; a confession, a fear, an inscription.</p>
           </div>
           <div class="lc-votive-entries" id="votive-entries">
-            <!-- Entries populate here -->
-            <div class="lc-votive-entry">"We wake while dying angels sleep."</div>
-            <div class="lc-votive-entry">"A wrong is unredressed when retribution overtakes its redresser."</div>
+            <div class="lc-votive-entry">&ldquo;He&rsquo;s more myself than I am. Whatever our souls are made of, his and mine are the same.&rdquo;</div>
+            <div class="lc-votive-entry">&ldquo;A wrong is unredressed when retribution overtakes its redresser.&rdquo;</div>
+            <div class="lc-votive-entry">&ldquo;I beheld the wretch &mdash; the miserable monster whom I had created.&rdquo;</div>
+            <div class="lc-votive-entry">&ldquo;The veil between the worlds is made of language.&rdquo;</div>
           </div>
-          <form class="lc-votive-form" onsubmit="window.Literaconite.submitVotive(event)">
+          <form class="lc-votive-form" id="votive-form">
             <input type="text" id="votive-input" placeholder="Inscribe your whisper..." required autocomplete="off">
-            <button type="submit">Leave Offering 🕯️</button>
+            <button type="submit">Offer &nbsp;&#128367;&#65039;</button>
           </form>
         </div>
       `;
       document.body.appendChild(votiveModal);
+      votiveModal.querySelector('.lc-votive-overlay').addEventListener('click', closeVotive);
+      votiveModal.querySelector('.lc-votive-close').addEventListener('click', closeVotive);
+      votiveModal.querySelector('#votive-form').addEventListener('submit', submitVotive);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && votiveModal && votiveModal.classList.contains('is-open')) closeVotive();
+      });
     }
     votiveModal.classList.add('is-open');
-    setTimeout(() => { document.getElementById('votive-input').focus(); }, 100);
+    setTimeout(() => { const inp = document.getElementById('votive-input'); if (inp) inp.focus(); }, 120);
   }
 
   function closeVotive() {
@@ -1225,10 +1232,10 @@
     const entriesBox = document.getElementById('votive-entries');
     const newEntry = document.createElement('div');
     newEntry.className = 'lc-votive-entry new-entry';
-    newEntry.textContent = '"' + text + '"';
+    newEntry.innerHTML = '&ldquo;' + text + '&rdquo;';
     entriesBox.appendChild(newEntry);
     entriesBox.scrollTop = entriesBox.scrollHeight;
-    
+
     input.value = '';
     showToast('Your whisper has been bound to the ledger.');
   }
