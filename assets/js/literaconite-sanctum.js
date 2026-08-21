@@ -600,6 +600,9 @@
     const appContainer = document.getElementById('lc-sanctum-app');
     if (!appContainer) return;
 
+    // Clear any previously injected content so a fresh tool is rendered
+    appContainer.innerHTML = '';
+
     const appType = appContainer.getAttribute('data-app');
 
     switch (appType) {
@@ -617,8 +620,9 @@
   /* ─────────────────────────────────────────────────────────────
      EXPOSE GLOBALS & BOOT
      ───────────────────────────────────────────────────────────── */
-  // Expose before init so any inline handlers created during init can call them
+  // Expose globals BEFORE init so inline handlers created during init can call them
   window.LiteraconiteSanctum = {
+    init: initSanctum,
     summonSpirit,
     toggleIngredient,
     brewPotion,
@@ -628,11 +632,14 @@
     moveCrypt,
   };
 
-  // Boot: defer guarantees DOM is ready, but we guard both states
+  // Boot on initial hard load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSanctum);
   } else {
     initSanctum();
   }
+
+  // Re-boot after every PJAX navigation (lc:navigate fired by literaconite-core.js)
+  document.addEventListener('lc:navigate', initSanctum);
 
 })();

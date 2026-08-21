@@ -683,6 +683,13 @@
       initVerseFocus();
       initStreamFilter();
 
+      // Re-initialise Sanctum tools after PJAX swap
+      if (window.LiteraconiteSanctum && typeof window.LiteraconiteSanctum.init === 'function') {
+        window.LiteraconiteSanctum.init();
+      }
+      // Also fire a custom event for any other listeners
+      document.dispatchEvent(new CustomEvent('lc:navigate', { detail: { url } }));
+
     } catch (err) {
       console.warn('PJAX fallback to direct load', err);
       window.location.href = url;
