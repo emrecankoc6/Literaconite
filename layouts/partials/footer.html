@@ -14,3 +14,10 @@
   {{ $js := . | resources.Minify | resources.Fingerprint }}
   <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}
+
+{{ if or (eq .Section "sanctum") (eq .Type "sanctum") }}
+  {{ with resources.Get "js/literaconite-sanctum.js" }}
+    {{ $js := . | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+  {{ end }}
+{{ end }}

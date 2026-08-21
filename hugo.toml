@@ -27,7 +27,7 @@ buildDrafts = false
   ShowToc = true
   disableSpecial1stPost = true
   TocOpen = false
-  mainSections = ["poetry","review","miscellaneous"]
+  mainSections = ["poetry","review","miscellaneous","sanctum"]
   description = "Literaconite is a literary journal of original Gothic poetry and close criticism, dark, romantic, and haunted by the canon."
   author = "Emrecan Koc"
   DateFormat = "January 2, 2006"
@@ -57,6 +57,13 @@ buildDrafts = false
   title = "Literary criticism and close readings"
 
 [[menu.main]]
+  name = "Sanctum"
+  url = "/sanctum/"
+  weight = 25
+  title = "Interactive curiosities and witchcraft"
+
+
+[[menu.main]]
   name = "Search"
   url = "/search/"
   weight = 30
@@ -70,6 +77,7 @@ buildDrafts = false
 
 [markup.goldmark.renderer]
   hardWraps = true
+  unsafe = true
 
 [markup.highlight]
   style = "monokai"

@@ -29,6 +29,13 @@
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ end }}
 
+{{ if or (eq .Section "sanctum") (eq .Type "sanctum") }}
+  {{ with resources.Get "css/extended/sanctum.css" }}
+    {{ $css := . | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{ end }}
+{{ end }}
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="alternate" type="application/rss+xml" href="{{ "/index.xml" | absURL }}" title="{{ site.Title }}">
 <link rel="alternate" type="application/json" href="{{ "/index.json" | absURL }}" title="{{ site.Title }}">

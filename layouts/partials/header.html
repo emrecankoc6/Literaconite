@@ -21,6 +21,16 @@
           <kbd class="lc-tool-kbd">⌘O</kbd>
         </button>
 
+        <button class="lc-tool-btn lc-hourglass-trigger" type="button" aria-label="Hourglass of the Damned" onclick="window.Literaconite && window.Literaconite.toggleHourglass ? window.Literaconite.toggleHourglass() : null">
+          <span class="lc-oracle-icon">⏳</span>
+          <span class="lc-tool-text lc-hourglass-time">25:00</span>
+        </button>
+
+        <button class="lc-tool-btn lc-votive-trigger" type="button" aria-label="Votive Ledger" onclick="window.Literaconite && window.Literaconite.openVotive ? window.Literaconite.openVotive() : null">
+          <span class="lc-oracle-icon">🕯️</span>
+          <span class="lc-tool-text">Ledger</span>
+        </button>
+
         <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood" onclick="window.Literaconite && window.Literaconite.cycleTheme ? window.Literaconite.cycleTheme() : null">
           <span class="lc-status-dot lc-theme-dot"></span>
           <span class="lc-theme-label">Midnight</span>
@@ -51,6 +61,12 @@
           <a href="{{ "/archives/" | absLangURL }}"
             {{- if eq $.RelPermalink ("/archives/" | absLangURL) }} class="is-active"{{ end }}>
             Archive
+          </a>
+        </li>
+        <li>
+          <a href="{{ "/sanctum/" | absLangURL }}"
+            {{- if eq $.RelPermalink ("/sanctum/" | absLangURL) }} class="is-active"{{ end }}>
+            Sanctum
           </a>
         </li>
         <li>

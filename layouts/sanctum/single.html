@@ -1,0 +1,33 @@
+{{ define "main" }}
+<article class="lc-article-page lc-sanctum-app-page">
+  <header class="lc-article-header">
+    <div class="lc-article-badge">
+      <span class="lc-section-pill lc-pill-sanctum">The Sanctum</span>
+    </div>
+    <h1 class="lc-article-title">{{ .Title }}</h1>
+    {{ with .Description }}
+    <p class="lc-article-description">{{ . }}</p>
+    {{ end }}
+    <div class="lc-header-separator">
+      <span>✦</span>
+    </div>
+  </header>
+
+  <div class="lc-sanctum-container">
+    {{ .Content }}
+  </div>
+
+  <div class="lc-post-fleuron">
+    <span>☩ &nbsp; ❦ &nbsp; ☩</span>
+  </div>
+  
+  <footer class="lc-article-footer">
+    <nav class="lc-pagination">
+      <a class="lc-pag-link lc-pag-prev" href="/sanctum/">
+        <span class="lc-pag-label">&laquo; Return to The Sanctum</span>
+        <span class="lc-pag-title">Curiosities Hub</span>
+      </a>
+    </nav>
+  </footer>
+</article>
+{{ end }}

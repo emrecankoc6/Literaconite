@@ -1138,6 +1138,101 @@
     initPjax();
   }
 
+  /* ─────────────────────────────────────────────────────────────
+     12. HOURGLASS OF THE DAMNED (POMODORO)
+     ───────────────────────────────────────────────────────────── */
+  let hourglassTimer = null;
+  let hourglassSeconds = 1500; // 25 mins
+  let isHourglassRunning = false;
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function toggleHourglass() {
+    const label = document.querySelector('.lc-hourglass-time');
+    if (isHourglassRunning) {
+      clearInterval(hourglassTimer);
+      isHourglassRunning = false;
+      showToast('Hourglass suspended.');
+      if (label) label.textContent = formatTime(hourglassSeconds);
+    } else {
+      isHourglassRunning = true;
+      if (hourglassSeconds <= 0) hourglassSeconds = 1500;
+      showToast('Hourglass inverted. Time trickles away.');
+      if (!isAudioPlaying) toggleAudio(); // Start rain for focus
+      
+      hourglassTimer = setInterval(() => {
+        hourglassSeconds--;
+        if (label) label.textContent = formatTime(hourglassSeconds);
+        
+        if (hourglassSeconds <= 0) {
+          clearInterval(hourglassTimer);
+          isHourglassRunning = false;
+          tollAbbeyBell(0); // Toll the bell
+          showToast('The Hourglass has run empty.');
+        }
+      }, 1000);
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     13. VOTIVE LEDGER (WALL OF WHISPERS)
+     ───────────────────────────────────────────────────────────── */
+  let votiveModal = null;
+
+  function openVotive() {
+    if (!votiveModal) {
+      votiveModal = document.createElement('div');
+      votiveModal.className = 'lc-votive-modal';
+      votiveModal.innerHTML = `
+        <div class="lc-votive-overlay" onclick="window.Literaconite.closeVotive()"></div>
+        <div class="lc-votive-content">
+          <button class="lc-votive-close" onclick="window.Literaconite.closeVotive()">×</button>
+          <div class="lc-votive-header">
+            <h3>The Votive Ledger</h3>
+            <p>Leave a whisper in the dark, a confession, or an inscription.</p>
+          </div>
+          <div class="lc-votive-entries" id="votive-entries">
+            <!-- Entries populate here -->
+            <div class="lc-votive-entry">"We wake while dying angels sleep."</div>
+            <div class="lc-votive-entry">"A wrong is unredressed when retribution overtakes its redresser."</div>
+          </div>
+          <form class="lc-votive-form" onsubmit="window.Literaconite.submitVotive(event)">
+            <input type="text" id="votive-input" placeholder="Inscribe your whisper..." required autocomplete="off">
+            <button type="submit">Leave Offering 🕯️</button>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(votiveModal);
+    }
+    votiveModal.classList.add('is-open');
+    setTimeout(() => { document.getElementById('votive-input').focus(); }, 100);
+  }
+
+  function closeVotive() {
+    if (votiveModal) votiveModal.classList.remove('is-open');
+  }
+
+  function submitVotive(e) {
+    e.preventDefault();
+    const input = document.getElementById('votive-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const entriesBox = document.getElementById('votive-entries');
+    const newEntry = document.createElement('div');
+    newEntry.className = 'lc-votive-entry new-entry';
+    newEntry.textContent = '"' + text + '"';
+    entriesBox.appendChild(newEntry);
+    entriesBox.scrollTop = entriesBox.scrollHeight;
+    
+    input.value = '';
+    showToast('Your whisper has been bound to the ledger.');
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -1155,6 +1250,10 @@
     closePalette,
     openOracle,
     closeOracle,
+    toggleHourglass,
+    openVotive,
+    closeVotive,
+    submitVotive,
     showToast,
     navigateTo
   };

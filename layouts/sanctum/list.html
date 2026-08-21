@@ -1,0 +1,42 @@
+{{ define "main" }}
+<div class="lc-list-page lc-sanctum-hub">
+
+  <header class="lc-list-header">
+    <div class="lc-list-badge">
+      <span class="lc-section-pill">The Sanctum</span>
+    </div>
+    <h1 class="lc-list-title">{{ .Title }}</h1>
+    {{ with .Content }}
+    <div class="lc-list-desc">{{ . }}</div>
+    {{ end }}
+    <div class="lc-header-separator">
+      <span>🔮</span>
+    </div>
+  </header>
+
+  <div class="lc-grid lc-sanctum-grid">
+    {{ range .Pages }}
+    <article class="lc-grid-card lc-card-sanctum">
+      <div class="lc-card-top">
+        <span class="lc-dot lc-dot-sanctum"></span>
+        <span class="lc-card-section">Curiosity</span>
+        <span class="lc-meta-dot">&bull;</span>
+        <span class="lc-card-time">Interactive</span>
+      </div>
+      <h3 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p class="lc-grid-desc">
+        {{ with .Description }}
+          {{ . | truncate 140 }}
+        {{ else }}
+          {{ .Summary | plainify | truncate 140 }}
+        {{ end }}
+      </p>
+      <div class="lc-grid-bottom">
+        <a class="lc-grid-link" href="{{ .RelPermalink }}">Enter Ritual &rarr;</a>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+</div>
+{{ end }}

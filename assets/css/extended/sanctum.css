@@ -1,0 +1,118 @@
+/* SANCTUM HUB GRID */
+.lc-sanctum-hub .lc-header-separator span {
+  font-size: 1.5rem;
+  color: #c084fc;
+}
+.lc-sanctum-grid {
+  margin-top: 2rem;
+}
+.lc-card-sanctum {
+  border-color: rgba(168, 105, 255, 0.2);
+  background: rgba(14, 9, 24, 0.6);
+}
+.lc-card-sanctum:hover {
+  border-color: rgba(192, 132, 252, 0.5);
+  box-shadow: 0 4px 20px rgba(168, 105, 255, 0.15);
+}
+.lc-dot-sanctum {
+  background: #c084fc;
+  box-shadow: 0 0 8px #c084fc;
+}
+.lc-pill-sanctum {
+  background: rgba(168, 105, 255, 0.2);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 105, 255, 0.4);
+}
+
+/* SANCTUM APPS GENERAL */
+.lc-sanctum-container {
+  margin: 3rem 0;
+  min-height: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.lc-app-placeholder {
+  color: #a855f7;
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* 4. BLACKOUT ALTAR */
+.lc-blackout { max-width: 600px; text-align: left; }
+.lc-blackout-text { font-family: 'EB Garamond', serif; font-size: 1.2rem; line-height: 2; padding: 2rem; background: #e0d8cc; color: #1a1a1a; border-radius: 4px; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+.lc-blackout-word { cursor: pointer; transition: background 0.3s, color 0.3s; padding: 0 2px; }
+.lc-blackout-word.redacted { background: #111; color: #111; text-shadow: none; }
+.lc-blackout-controls { margin-top: 1rem; text-align: center; }
+
+/* 5. WAX SEAL */
+.lc-wax-seal { text-align: center; }
+.lc-seal-canvas-container { margin: 2rem auto; width: 200px; height: 200px; position: relative; }
+.lc-seal-canvas { width: 100%; height: 100%; background: #a82020; border-radius: 50%; box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5), inset 10px 10px 20px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; color: #500a0a; font-family: 'Cinzel', serif; font-size: 4rem; text-shadow: 1px 1px 2px rgba(255,255,255,0.3); transition: transform 0.2s; cursor: pointer; }
+.lc-seal-canvas:hover { transform: scale(1.05); }
+.lc-seal-controls { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; }
+.lc-seal-controls input { background: rgba(0,0,0,0.5); border: 1px solid #c084fc; color: #fff; padding: 0.5rem; width: 60px; text-align: center; font-family: 'Cinzel', serif; font-size: 1.2rem; }
+
+/* 7. RELIQUARY CABINET */
+.lc-reliquary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 600px; margin: 0 auto; }
+.lc-relic { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); padding: 2rem; border-radius: 4px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+.lc-relic:hover { background: rgba(255,255,255,0.05); border-color: #c084fc; box-shadow: 0 0 20px rgba(192, 132, 252, 0.2); transform: translateY(-5px); }
+.lc-relic-icon { font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); transition: transform 0.5s; }
+.lc-relic:hover .lc-relic-icon { transform: scale(1.1) rotate(5deg); }
+.lc-relic-desc { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #aaa; position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; transition: opacity 0.3s; }
+.lc-relic:hover .lc-relic-desc { opacity: 1; }
+
+/* 8. CRYPT LABYRINTH */
+.lc-crypt { text-align: center; max-width: 600px; margin: 0 auto; }
+.lc-crypt-view { height: 300px; background: #050505; border: 2px solid #222; border-radius: 8px; margin-bottom: 2rem; position: relative; overflow: hidden; box-shadow: inset 0 0 50px #000; }
+.lc-crypt-wall { position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/black-rock.png'), linear-gradient(to bottom, #111, #000); background-blend-mode: overlay; transition: opacity 1s, transform 1s; opacity: 0; display: flex; align-items: center; justify-content: center; }
+.lc-crypt-wall.active { opacity: 1; transform: scale(1); z-index: 2;}
+.lc-crypt-wall.inactive { opacity: 0; transform: scale(1.2); z-index: 1;}
+.lc-crypt-desc { font-family: 'EB Garamond', serif; font-size: 1.5rem; color: #ccc; text-shadow: 0 2px 4px #000; padding: 2rem; }
+.lc-crypt-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; max-width: 200px; margin: 0 auto; }
+.lc-crypt-controls button { background: #111; border: 1px solid #333; color: #aaa; padding: 1rem; font-size: 1.5rem; cursor: pointer; transition: all 0.2s; border-radius: 4px; }
+.lc-crypt-controls button:hover { background: #222; color: #fff; border-color: #c084fc; }
+
+/* 6. CURSED TYPEWRITER */
+.lc-typewriter { width: 100%; max-width: 700px; margin: 0 auto; }
+.lc-typewriter-paper { background: #f4ecd8; padding: 3rem; min-height: 400px; border-radius: 4px; box-shadow: inset 0 0 50px rgba(0,0,0,0.1), 0 10px 30px rgba(0,0,0,0.5); }
+.lc-typewriter-textarea { width: 100%; height: 100%; min-height: 350px; background: transparent; border: none; resize: none; outline: none; font-family: 'Courier New', Courier, monospace; font-size: 1.2rem; color: #222; line-height: 1.6; font-weight: 600; text-shadow: 0 0 1px rgba(0,0,0,0.3); }
+.lc-typewriter-controls { display: flex; justify-content: space-between; margin-top: 1rem; }
+
+/* 1. SPIRIT BOARD */
+.lc-spirit-board { text-align: center; width: 100%; max-width: 600px; }
+.lc-board-surface { background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #2c1e16; border: 4px solid #1a0f0a; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; position: relative; box-shadow: inset 0 0 40px #000; }
+.lc-board-letters { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #d4af37; letter-spacing: 0.3em; line-height: 2; text-shadow: 0 0 5px rgba(212, 175, 55, 0.4); }
+.lc-planchette { font-size: 3rem; position: absolute; transition: all 0.5s ease-in-out; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.8)); opacity: 0.9; }
+.lc-spirit-input { width: 100%; padding: 1rem; background: rgba(0,0,0,0.5); border: 1px solid #c084fc; color: #fff; font-family: 'Inter', sans-serif; margin-bottom: 1rem; }
+.lc-spirit-output { font-family: 'Playfair Display', serif; font-style: italic; color: #c084fc; font-size: 1.2rem; min-height: 3rem; margin-top: 1rem; transition: opacity 0.3s; }
+
+/* 2. ALEMBIC */
+.lc-alembic { text-align: center; width: 100%; max-width: 600px; }
+.lc-ingredients { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+.lc-ingredient { background: rgba(168, 105, 255, 0.1); border: 1px solid rgba(168, 105, 255, 0.4); padding: 0.5rem 1rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; user-select: none; }
+.lc-ingredient.selected { background: #a855f7; color: #fff; border-color: #fff; }
+.lc-cauldron { font-size: 5rem; margin: 2rem 0; position: relative; }
+.lc-vapor { font-size: 2rem; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); opacity: 0; animation: floatUp 2s infinite ease-in; display: none; }
+.lc-cauldron.brewing .lc-vapor { display: block; }
+@keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 10px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -40px) scale(1.5); } }
+.lc-alembic-result { font-family: 'EB Garamond', serif; font-size: 1.2rem; background: rgba(0,0,0,0.3); padding: 1.5rem; border-left: 2px solid #a855f7; display: none; margin-top: 1rem;}
+
+/* 3. EPHEMERIS */
+.lc-ephemeris { text-align: center; width: 100%; max-width: 500px; }
+.lc-moon { font-size: 6rem; text-shadow: 0 0 20px rgba(255,255,255,0.4); margin-bottom: 1rem; animation: pulseMoon 4s infinite alternate; }
+@keyframes pulseMoon { from { filter: drop-shadow(0 0 10px #fff); } to { filter: drop-shadow(0 0 30px #c084fc); } }
+.lc-moon-phase { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #d8b4fe; margin-bottom: 2rem; }
+.lc-omen { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.6; border: 1px solid rgba(255,255,255,0.1); padding: 2rem; background: rgba(0,0,0,0.4); }
+
