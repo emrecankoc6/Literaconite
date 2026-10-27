@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="midnight">
+<html lang="{{ site.Language.Lang | default "en" }}" dir="ltr" data-theme="midnight">
 
 <head>
     {{- partial "head.html" . }}
 </head>
 
 <body class="{{ if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) }}list-view{{ else }}single-view{{ end }} section-{{ .Section }} {{ if .IsHome }}is-frontpage{{ end }}" id="top">
+    <a class="lc-skip-link" href="#main-content">Skip to content</a>
+    <div id="reading-progress" class="lc-progress-bar" aria-hidden="true"></div>
     {{- partial "header.html" . }}
-    <main class="lc-container">
+    <main class="lc-container" id="main-content" tabindex="-1">
         {{- block "main" . }}{{ end }}
     </main>
     {{- partial "footer.html" . }}

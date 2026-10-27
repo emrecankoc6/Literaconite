@@ -2,10 +2,18 @@
 <div class="lc-frontispiece">
 
   <section class="lc-masthead">
-    <div class="lc-masthead-ornament">✦ &nbsp; ❦ &nbsp; ✦</div>
-    <h1 class="lc-masthead-title">L I T E R A C O N I T E</h1>
+    <div class="lc-masthead-ornament" aria-hidden="true">✦ &nbsp; ❦ &nbsp; ✦</div>
+    <h1 class="lc-masthead-title">LITERACONITE</h1>
     <p class="lc-masthead-subtitle">A Journal of Gothic Verse, Dramatic Theory &amp; Close Criticism</p>
-    <div class="lc-masthead-line"></div>
+    <div class="lc-masthead-actions">
+      <button class="lc-hero-pill" type="button" data-lc-action="oracle">
+        <span aria-hidden="true">✦</span> Consult the Oracle
+      </button>
+      <a class="lc-hero-pill lc-hero-pill-ghost" href="{{ "/sanctum/" | relLangURL }}">
+        Enter The Sanctum &rarr;
+      </a>
+    </div>
+    <div class="lc-masthead-line" aria-hidden="true"></div>
   </section>
 
   {{ $pages := where .Site.RegularPages "Draft" false }}
@@ -15,11 +23,11 @@
   {{ if gt (len $pages) 0 }}
   <!-- Lead Editorial Feature -->
   {{ with index $pages 0 }}
-  <section class="lc-lead-feature">
+  <section class="lc-lead-feature" aria-label="Featured Inscription">
     <div class="lc-lead-card">
       <div class="lc-card-header">
-        <span class="lc-section-pill lc-pill-{{ .Section }}">{{ .Section }}</span>
-        <span class="lc-card-date">{{ .Date.Format "2 January 2006" }}</span>
+        <span class="lc-section-pill lc-pill-{{ .Section }}">{{ if eq .Section "review" }}Criticism{{ else }}{{ .Section }}{{ end }}</span>
+        <time class="lc-card-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
       </div>
       <h2 class="lc-lead-heading"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
       {{ with .Description }}
@@ -28,11 +36,11 @@
         <p class="lc-lead-synopsis">{{ .Summary | plainify | truncate 220 }}</p>
       {{ end }}
       <div class="lc-card-footer">
-        <a class="lc-enter-link" href="{{ .RelPermalink }}">Enter Inscription <span class="lc-arrow">&rarr;</span></a>
+        <a class="lc-enter-link" href="{{ .RelPermalink }}">Enter Inscription <span class="lc-arrow" aria-hidden="true">&rarr;</span></a>
         <div class="lc-meta-cluster">
           <span>{{ .ReadingTime }} min read</span>
           {{ with .Params.tags }}
-          <span class="lc-tag-preview">{{ index . 0 }}</span>
+          <span class="lc-tag-preview">#{{ index . 0 }}</span>
           {{ end }}
         </div>
       </div>
@@ -40,55 +48,125 @@
   </section>
   {{ end }}
 
-  <!-- The Dispatches Grid -->
-  <section class="lc-stream-section">
+  <!-- Sanctum Showcase Strip -->
+  {{ $sanctumPages := where .Site.RegularPages "Section" "sanctum" }}
+  {{ if gt (len $sanctumPages) 0 }}
+  <section class="lc-sanctum-showcase" aria-label="The Sanctum Interactive Curiosities">
     <div class="lc-stream-navbar">
-      <h3 class="lc-stream-heading">The Archives &amp; Dispatches</h3>
-      <div class="lc-filter-pills">
-        <button class="lc-filter-pill is-active" data-filter="all" type="button">All</button>
-        <button class="lc-filter-pill" data-filter="poetry" type="button">Poetry</button>
-        <button class="lc-filter-pill" data-filter="review" type="button">Criticism</button>
-        <button class="lc-filter-pill" data-filter="miscellaneous" type="button">Fragments</button>
+      <div>
+        <span class="lc-eyebrow">Interactive Cabinet</span>
+        <h2 class="lc-stream-heading">The Sanctum Curiosities</h2>
+      </div>
+      <a class="lc-view-all-link" href="{{ "/sanctum/" | relLangURL }}">Explore all {{ len $sanctumPages }} rituals &rarr;</a>
+    </div>
+    <div class="lc-sanctum-strip">
+      <a class="lc-mini-curio" href="{{ "/sanctum/spirit-board/" | relLangURL }}">
+        <span class="lc-mini-curio-glyph" aria-hidden="true">☽</span>
+        <span class="lc-mini-curio-body">
+          <strong>Spirit Board</strong>
+          <span>Literary divination</span>
+        </span>
+      </a>
+      <a class="lc-mini-curio" href="{{ "/sanctum/alembic/" | relLangURL }}">
+        <span class="lc-mini-curio-glyph" aria-hidden="true">⚗</span>
+        <span class="lc-mini-curio-body">
+          <strong>Alembic Cauldron</strong>
+          <span>15 dark elixirs</span>
+        </span>
+      </a>
+      <a class="lc-mini-curio" href="{{ "/sanctum/scrying-mirror/" | relLangURL }}">
+        <span class="lc-mini-curio-glyph" aria-hidden="true">◈</span>
+        <span class="lc-mini-curio-body">
+          <strong>Scrying Mirror</strong>
+          <span>Prosody &amp; cadence</span>
+        </span>
+      </a>
+      <a class="lc-mini-curio" href="{{ "/sanctum/wax-seal/" | relLangURL }}">
+        <span class="lc-mini-curio-glyph" aria-hidden="true">⚜</span>
+        <span class="lc-mini-curio-body">
+          <strong>Wax Seal Foundry</strong>
+          <span>Ex-Libris signet</span>
+        </span>
+      </a>
+    </div>
+  </section>
+  {{ end }}
+
+  <!-- The Dispatches Grid -->
+  <section class="lc-stream-section" aria-label="Archives and Dispatches">
+    <div class="lc-stream-navbar">
+      <div>
+        <span class="lc-eyebrow">Canon &amp; Criticism</span>
+        <h2 class="lc-stream-heading">The Archives &amp; Dispatches</h2>
+      </div>
+      <div class="lc-filter-pills" role="tablist" aria-label="Filter inscriptions by category">
+        <button class="lc-filter-pill is-active" data-filter="all" role="tab" aria-selected="true" type="button">All</button>
+        <button class="lc-filter-pill" data-filter="poetry" role="tab" aria-selected="false" type="button">Poetry</button>
+        <button class="lc-filter-pill" data-filter="review" role="tab" aria-selected="false" type="button">Criticism</button>
+        <button class="lc-filter-pill" data-filter="miscellaneous" role="tab" aria-selected="false" type="button">Fragments</button>
       </div>
     </div>
 
-    <div class="lc-grid">
+    <div class="lc-grid" id="lc-home-grid">
       {{ range after 1 $pages }}
       <article class="lc-grid-card lc-card-{{ .Section }}">
-        <div class="lc-card-top">
-          <span class="lc-dot lc-dot-{{ .Section }}"></span>
-          <span class="lc-card-section">{{ .Section }}</span>
-          <span class="lc-meta-dot">&bull;</span>
-          <time class="lc-card-time">{{ .Date.Format "Jan 2006" }}</time>
+        <div>
+          <div class="lc-card-top">
+            <span class="lc-dot lc-dot-{{ .Section }}" aria-hidden="true"></span>
+            <span class="lc-card-section">{{ if eq .Section "review" }}Criticism{{ else }}{{ .Section }}{{ end }}</span>
+            <span class="lc-meta-dot" aria-hidden="true">&bull;</span>
+            <time class="lc-card-time" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+          </div>
+          <h3 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p class="lc-grid-desc">
+            {{ with .Description }}
+              {{ . | truncate 135 }}
+            {{ else }}
+              {{ .Summary | plainify | truncate 135 }}
+            {{ end }}
+          </p>
         </div>
-        <h4 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
-        <p class="lc-grid-desc">
-          {{ with .Description }}
-            {{ . | truncate 130 }}
-          {{ else }}
-            {{ .Summary | plainify | truncate 130 }}
-          {{ end }}
-        </p>
         <div class="lc-grid-bottom">
-          <a class="lc-grid-link" href="{{ .RelPermalink }}">Read &rarr;</a>
+          <a class="lc-grid-link" href="{{ .RelPermalink }}">Read Inscription &rarr;</a>
           <span class="lc-grid-readtime">{{ .ReadingTime }} min</span>
         </div>
       </article>
       {{ end }}
+
+      <!-- Dedicated Fragments Card so the Fragments filter always surfaces the Commonplace Notebook -->
+      <article class="lc-grid-card lc-card-miscellaneous lc-fragments-feature-card" style="display: none;">
+        <div>
+          <div class="lc-card-top">
+            <span class="lc-dot lc-dot-miscellaneous" aria-hidden="true"></span>
+            <span class="lc-card-section">Fragments</span>
+            <span class="lc-meta-dot" aria-hidden="true">&bull;</span>
+            <span class="lc-card-time">Commonplace</span>
+          </div>
+          <h3 class="lc-grid-title"><a href="{{ "/miscellaneous/" | relLangURL }}">Miscellaneous &amp; Stray Fragments</a></h3>
+          <p class="lc-grid-desc">
+            Stray visual plates, marginalia, odd references, and ephemera collected outside the formal canon of verse and criticism.
+          </p>
+        </div>
+        <div class="lc-grid-bottom">
+          <a class="lc-grid-link" href="{{ "/miscellaneous/" | relLangURL }}">Open Notebook &rarr;</a>
+          <span class="lc-grid-readtime">Visuals &amp; Notes</span>
+        </div>
+      </article>
     </div>
   </section>
   {{ end }}
 
   <!-- Colophon -->
   <footer class="lc-colophon">
-    <div class="lc-colophon-ornament">❦</div>
+    <div class="lc-colophon-ornament" aria-hidden="true">❦</div>
     <p class="lc-colophon-copy">
       <strong>Literaconite</strong> is written, edited, and curated by <strong>Emrecan Koç</strong>.<br>
       A digital sanctum devoted to original Gothic poetry, dramatic analysis, and close literary criticism.
     </p>
     <div class="lc-colophon-nav">
       <a href="https://boxd.it/3s7QH" target="_blank" rel="noopener">Letterboxd Diary</a> &bull;
-      <a href="/archives/">Chronological Archive</a> &bull;
+      <a href="{{ "/archives/" | relLangURL }}">Chronological Archive</a> &bull;
+      <a href="{{ "/search/" | relLangURL }}">Full Concordance</a> &bull;
       <a href="https://github.com/emrecankoc6" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>

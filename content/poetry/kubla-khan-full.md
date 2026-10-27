@@ -9,6 +9,8 @@ description: "Samuel Taylor Coleridge'in Kubla Khan şiirinin Türkçe çevirisi
 ### Kübilay Han - Samuel Taylor Coleridge
 #### Yahut bir görü, düş içinden bir kesit.
 
+<div class="lc-verse-block">
+
 Aziz Alp nehrinin, insanoğlunun ölçüsünü
 Aşan oymakları arasından,
 Güngörmez nehre aktığı yolda,
@@ -67,6 +69,8 @@ Kapatın gözlerinizi hürmet ve huşuyla!
 Zira beslendi o cennetın çam balından,
 Ve içti cennetin sütünden!
 
+</div>
+
 ---
 
 ### A Reflection on My Process of Translation and Romantic Poetry
@@ -87,9 +91,9 @@ As for the writer, Samuel Taylor Coleridge, he was a unique literary figure in t
 
 One of the greatest figures of the movement, William Wordsworth, had a deep friendship with Coleridge, they had a collaborative work with the name of “Lyrical Ballads” that has become the manifestation of Romantic Movement. In the preface of the work, he, with the help of Coleridge, explained the characteristics of romantic poetry and explained why he wrote the poems the way he did along with explaining the subject-matter choosing process. In a part, with which I will finish my essay soon, he talks about the low and rustic life as a subject matter of Romantic poetry. In Kubla Khan, the depictions are highly rustic but at first sight, the stately pleasure dome and the Khanate may not seem “low”. However, the poetic personae, at the end of the poem, explains that if he could remember a piece of poetry, he could also build a pleasure dome in the sky, implying that he envies the palace but he is also among common people, thusly resembling “low”. And here is the quotation from the essay;
 
-Low and rustic life was generally chosen, because in that condition, the essential passions of the heart find a better soil in which they can attain their maturity, are less under restraint, and speak a plainer and more emphatic language; because in that condition of life our elementary feelings co-exist in a state of greater simplicity, and, consequently, may be more accurately contemplated, and more forcibly communicated; because the manners of rural life germinate from those elementary feelings; and, from the necessary character of rural occupations, are more easily comprehended, and are more durable; and lastly, because in that condition the passions of men are incorporated with the beautiful and permanent forms of nature.(Wordsworth, 1)
+> Low and rustic life was generally chosen, because in that condition, the essential passions of the heart find a better soil in which they can attain their maturity, are less under restraint, and speak a plainer and more emphatic language; because in that condition of life our elementary feelings co-exist in a state of greater simplicity, and, consequently, may be more accurately contemplated, and more forcibly communicated; because the manners of rural life germinate from those elementary feelings; and, from the necessary character of rural occupations, are more easily comprehended, and are more durable; and lastly, because in that condition the passions of men are incorporated with the beautiful and permanent forms of nature. (Wordsworth, 1)
 
-**Works Cited**
+### Works Cited
 * Coleridge, Samuel Taylor. “Kubla Khan by Samuel Taylor Coleridge.” Poetry Foundation.
 * Leitch, Vincent B. “Samuel Taylor Coleridge.” The Norton Anthology of Theory and Criticism, 1st ed., Norton, New York, USA, 2001, pp. 668–669.
 * Owen, Wilfred. “Dulce Et Decorum Est by Wilfred Owen.” Poetry Foundation.

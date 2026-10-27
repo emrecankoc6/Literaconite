@@ -33,14 +33,10 @@ Pamela by Samuel Richardson is also an important novel of the same period, dep
 
 When we take a closer look to the period and all the literary works produced within, we can come up with the conclusion that the social events and situations had a massive impact in the scenarios people most favoured reading, one of the leading themes of which being crime in Britain, which collected many liking from all parts of the society for its realistic views and common characters.
 
-References
+## References
 
-Emsley, Clive. Crime and Verein in England, 1750–1900. Routledge, 2018.
-
-Rosewall, Kim. "Moll Flanders Plot Summary." LitCharts. LitCharts LLC, 12 Feb 2020. Web. 7 Aug 2021.
-
-Sherwin, Oscar. “Crime and Punishment in England of the Eighteenth Century.” The American Journal of Economics and Sociology, vol. 5, no. 2, [American Journal of Economics and Sociology, Inc., Wiley], 1946, pp. 169–99, [http://www.jstor.org/stable/3483581](http://www.jstor.org/stable/3483581).
-
-Smith, Lacey Baldwin, et al. "United Kingdom". Encyclopedia Britannica, 9 Jan. 2022, https://www.britannica.com/place/United-Kingdom. Accessed 13 January 2022.
-
-Ward, Richard M. Print culture, crime and justice in 18th-century London. Bloomsbury Publishing, 2014.
+* Emsley, Clive. *Crime and Verein in England, 1750–1900*. Routledge, 2018.
+* Rosewall, Kim. "Moll Flanders Plot Summary." *LitCharts*. LitCharts LLC, 12 Feb 2020. Web. 7 Aug 2021.
+* Sherwin, Oscar. “Crime and Punishment in England of the Eighteenth Century.” *The American Journal of Economics and Sociology*, vol. 5, no. 2, [American Journal of Economics and Sociology, Inc., Wiley], 1946, pp. 169–99, [http://www.jstor.org/stable/3483581](http://www.jstor.org/stable/3483581).
+* Smith, Lacey Baldwin, et al. "United Kingdom". *Encyclopedia Britannica*, 9 Jan. 2022, https://www.britannica.com/place/United-Kingdom. Accessed 13 January 2022.
+* Ward, Richard M. *Print culture, crime and justice in 18th-century London*. Bloomsbury Publishing, 2014.

@@ -14,6 +14,6 @@ Another contributing factor for the use of travel theme in early English novel i
 
 Conclusively, early English novel heavily relied on travel theme because that was what people were interested back then, both the authors and the readers. The geo- graphical discoveries, crusades, and pilgrimages all contributed to this interest. Before the arise of the novel, the theme was already common in other genres as well. Chaucer’s frame story “Canterbury Tales” is a story of pilgrim travel.
 
-**References**
+## References
 * Adams, Percy G. *Travel Literature and the Evolution of the Novel*. University Press of Kentucky, 2014.
 * Bent, J. Theodore, et al. *Early Voyages and Travels in the Levant*. Ashgate, 2010.

@@ -2,80 +2,80 @@
   <div class="lc-header-inner">
     <div class="lc-header-brand-row">
       <div class="lc-brand">
-        <a class="lc-brand-link" href="{{ "" | absLangURL }}" accesskey="h" title="Literaconite: Frontispiece">
-          <span class="lc-brand-star">✦</span>
-          <span class="lc-brand-title">L I T E R A C O N I T E</span>
+        <a class="lc-brand-link" href="{{ "/" | relLangURL }}" accesskey="h" title="Literaconite: Frontispiece">
+          <span class="lc-brand-star" aria-hidden="true">✦</span>
+          <span class="lc-brand-title">LITERACONITE</span>
         </a>
       </div>
 
-      <div class="lc-header-tools">
-        <button class="lc-tool-btn lc-palette-trigger" type="button" aria-label="Quick Search (Cmd+K)" onclick="window.Literaconite && window.Literaconite.openPalette ? window.Literaconite.openPalette() : null">
-          <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <nav class="lc-site-nav" aria-label="Primary">
+        <ul class="lc-nav-list">
+          <li>
+            <a href="{{ "/poetry/" | relLangURL }}"
+              {{- if or (eq $.RelPermalink ("/poetry/" | relLangURL)) (eq $.Section "poetry") }} class="is-active" aria-current="page"{{ end }}>
+              Poetry
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/review/" | relLangURL }}"
+              {{- if or (eq $.RelPermalink ("/review/" | relLangURL)) (eq $.Section "review") }} class="is-active" aria-current="page"{{ end }}>
+              Criticism
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/sanctum/" | relLangURL }}"
+              {{- if or (eq $.RelPermalink ("/sanctum/" | relLangURL)) (eq $.Section "sanctum") }} class="is-active" aria-current="page"{{ end }}>
+              Sanctum
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/archives/" | relLangURL }}"
+              {{- if or (eq $.RelPermalink ("/archives/" | relLangURL)) (eq $.Layout "archives") }} class="is-active" aria-current="page"{{ end }}>
+              Archive
+            </a>
+          </li>
+          <li>
+            <a href="{{ "/miscellaneous/" | relLangURL }}"
+              {{- if or (eq $.RelPermalink ("/miscellaneous/" | relLangURL)) (eq $.Section "miscellaneous") }} class="is-active" aria-current="page"{{ end }}>
+              Fragments
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="lc-header-tools" role="toolbar" aria-label="Sanctuary Controls">
+        <button class="lc-tool-btn lc-palette-trigger" data-lc-action="palette" type="button" aria-label="Quick Search (Command+K)" title="Search Canon (⌘K)">
+          <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <span class="lc-tool-text">Search</span>
           <kbd class="lc-tool-kbd">⌘K</kbd>
         </button>
 
-        <button class="lc-tool-btn lc-oracle-trigger" type="button" aria-label="Consult Inscription Oracle (Cmd+O)" onclick="window.Literaconite && window.Literaconite.openOracle ? window.Literaconite.openOracle() : null">
-          <span class="lc-oracle-icon">🔮</span>
-          <span class="lc-tool-text">Oracle</span>
-          <kbd class="lc-tool-kbd">⌘O</kbd>
+        <button class="lc-tool-btn lc-oracle-trigger" data-lc-action="oracle" type="button" aria-label="Consult Inscription Oracle (Command+O)" title="Inscription Oracle (⌘O)">
+          <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="10" r="7"></circle><path d="M8 21h8M9.5 17l-1 4M14.5 17l1 4"></path></svg>
+          <span class="lc-tool-text lc-tool-text-collapse">Oracle</span>
         </button>
 
-        <button class="lc-tool-btn lc-hourglass-trigger" type="button" aria-label="Hourglass of the Damned" onclick="window.Literaconite && window.Literaconite.toggleHourglass ? window.Literaconite.toggleHourglass() : null">
-          <span class="lc-oracle-icon">⏳</span>
+        <button class="lc-tool-btn lc-hourglass-trigger" data-lc-action="hourglass" type="button" aria-label="Focus Study Timer" title="The Study — Focus Timer">
+          <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 3h14M5 21h14M7 3v4l5 5-5 5v4M17 3v4l-5 5 5 5v4"></path></svg>
           <span class="lc-tool-text lc-hourglass-time">25:00</span>
         </button>
 
-        <button class="lc-tool-btn lc-votive-trigger" type="button" aria-label="Votive Ledger" onclick="window.Literaconite && window.Literaconite.openVotive ? window.Literaconite.openVotive() : null">
-          <span class="lc-oracle-icon">🕯️</span>
-          <span class="lc-tool-text">Ledger</span>
+        <button class="lc-tool-btn lc-votive-trigger" data-lc-action="votive" type="button" aria-label="Open Votive Ledger" title="The Votive Ledger">
+          <svg class="lc-tool-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2c1.5 2.2 2 4 0 6-2-2-1.5-3.8 0-6z"></path><rect x="9" y="10" width="6" height="11" rx="1"></rect><path d="M6 21h12"></path></svg>
+          <span class="lc-tool-text lc-tool-text-collapse">Ledger</span>
         </button>
 
-        <button class="lc-tool-btn lc-theme-btn" type="button" aria-label="Cycle Atmosphere Mood" onclick="window.Literaconite && window.Literaconite.cycleTheme ? window.Literaconite.cycleTheme() : null">
-          <span class="lc-status-dot lc-theme-dot"></span>
-          <span class="lc-theme-label">Midnight</span>
+        <button class="lc-tool-btn lc-theme-btn" data-lc-action="theme" type="button" aria-label="Cycle Atmosphere Mood" title="Switch Atmosphere Palette">
+          <span class="lc-status-dot lc-theme-dot" aria-hidden="true"></span>
+          <span class="lc-theme-label lc-tool-text-collapse">Midnight</span>
         </button>
 
-        <button class="lc-tool-btn lc-audio-btn" type="button" aria-label="Toggle Rain Ambient Audio" onclick="window.Literaconite && window.Literaconite.toggleAudio ? window.Literaconite.toggleAudio() : null">
-          <span class="lc-status-dot lc-audio-dot"></span>
+        <button class="lc-tool-btn lc-audio-btn" data-lc-action="audio" type="button" aria-label="Toggle Ambient Soundscape" aria-pressed="false" title="Toggle Gothic Soundscape">
+          <span class="lc-status-dot lc-audio-dot" aria-hidden="true"></span>
+          <svg class="lc-tool-svg lc-audio-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
           <span class="lc-audio-label">Rain</span>
         </button>
       </div>
     </div>
-
-    <nav class="lc-site-nav" aria-label="Primary">
-      <ul class="lc-nav-list">
-        <li>
-          <a href="{{ "/poetry/" | absLangURL }}"
-            {{- if eq $.RelPermalink ("/poetry/" | absLangURL) }} class="is-active"{{ end }}>
-            Poetry
-          </a>
-        </li>
-        <li>
-          <a href="{{ "/review/" | absLangURL }}"
-            {{- if eq $.RelPermalink ("/review/" | absLangURL) }} class="is-active"{{ end }}>
-            Criticism
-          </a>
-        </li>
-        <li>
-          <a href="{{ "/archives/" | absLangURL }}"
-            {{- if eq $.RelPermalink ("/archives/" | absLangURL) }} class="is-active"{{ end }}>
-            Archive
-          </a>
-        </li>
-        <li>
-          <a href="{{ "/sanctum/" | absLangURL }}"
-            {{- if eq $.RelPermalink ("/sanctum/" | absLangURL) }} class="is-active"{{ end }}>
-            Sanctum
-          </a>
-        </li>
-        <li>
-          <a href="{{ "/miscellaneous/" | absLangURL }}"
-            {{- if eq $.RelPermalink ("/miscellaneous/" | absLangURL) }} class="is-active"{{ end }}>
-            Fragments
-          </a>
-        </li>
-      </ul>
-    </nav>
   </div>
 </header>

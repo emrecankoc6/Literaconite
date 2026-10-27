@@ -4,6 +4,7 @@ theme = 'PaperMod'
 defaultContentLanguage = 'en'
 enableRobotsTXT = true
 buildDrafts = false
+buildFuture = true
 
 [outputs]
   home = ["HTML","RSS","JSON"]
@@ -29,7 +30,7 @@ buildDrafts = false
   TocOpen = false
   mainSections = ["poetry","review","miscellaneous","sanctum"]
   description = "Literaconite is a literary journal of original Gothic poetry and close criticism, dark, romantic, and haunted by the canon."
-  author = "Emrecan Koc"
+  author = "Emrecan Koç"
   DateFormat = "January 2, 2006"
 
   [[params.socialIcons]]

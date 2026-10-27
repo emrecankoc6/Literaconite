@@ -1,12 +1,14 @@
 {{- define "main" }}
 
-<div id="reading-progress" class="lc-progress-bar"></div>
+{{- $hasVerseBlock := in .RawContent "lc-verse-block" -}}
+{{- $sectionLabel := .Section -}}
+{{- if eq .Section "review" }}{{ $sectionLabel = "Criticism" }}{{ else if eq .Section "poetry" }}{{ $sectionLabel = "Poetry" }}{{ else if eq .Section "miscellaneous" }}{{ $sectionLabel = "Fragments" }}{{ end -}}
 
-<article class="lc-article-page {{ if eq .Section "poetry" }}is-poetry-article{{ end }}">
+<article class="lc-article-page {{ if eq .Section "poetry" }}is-poetry-article{{ end }}" data-page-title="{{ .Title }}" data-page-author="{{ site.Params.author | default "Emrecan Koç" }}" data-page-date="{{ .Date.Format "2 January 2006" }}">
 
   <header class="lc-article-header">
     <div class="lc-article-badge">
-      <span class="lc-section-pill lc-pill-{{ .Section }}">{{ .Section }}</span>
+      <a class="lc-section-pill lc-pill-{{ .Section }}" href="{{ (printf "/%s/" .Section) | relLangURL }}">{{ $sectionLabel }}</a>
     </div>
 
     <h1 class="lc-article-title">{{ .Title }}</h1>
@@ -16,21 +18,34 @@
     {{- end }}
 
     <div class="lc-article-meta">
-      <time class="lc-meta-date">{{ .Date.Format "2 January 2006" }}</time>
-      <span class="lc-meta-bullet">&bull;</span>
+      <time class="lc-meta-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+      <span class="lc-meta-bullet" aria-hidden="true">&bull;</span>
       <span class="lc-meta-readtime">{{ .ReadingTime }} min read</span>
-      <span class="lc-meta-bullet">&bull;</span>
+      <span class="lc-meta-bullet" aria-hidden="true">&bull;</span>
       <span class="lc-meta-words">{{ .WordCount }} words</span>
     </div>
 
-    <div class="lc-header-separator">
+    <div class="lc-reader-toolbar" role="toolbar" aria-label="Reading Controls">
+      <button class="lc-reader-btn" type="button" data-reader-action="font-down" aria-label="Decrease text size" title="Smaller type">A&minus;</button>
+      <button class="lc-reader-btn" type="button" data-reader-action="font-reset" aria-label="Reset text size" title="Default type size">Aa</button>
+      <button class="lc-reader-btn" type="button" data-reader-action="font-up" aria-label="Increase text size" title="Larger type">A+</button>
+      <span class="lc-reader-sep" aria-hidden="true"></span>
+      <button class="lc-reader-btn" type="button" data-reader-action="zen" aria-pressed="false" title="Toggle distraction-free reading">
+        <span aria-hidden="true">✧</span> Focus
+      </button>
+      <button class="lc-reader-btn" type="button" data-reader-action="cite" title="Copy scholarly citation">
+        <span aria-hidden="true">❦</span> Cite
+      </button>
+    </div>
+
+    <div class="lc-header-separator" aria-hidden="true">
       <span>✦</span>
     </div>
   </header>
 
-  {{- if (.Param "ShowToc") }}
+  {{- if and (.Param "ShowToc") (in .TableOfContents "<li") }}
   <details class="lc-toc-box" {{ if (.Param "TocOpen") }}open{{ end }}>
-    <summary><span class="lc-toc-title">✦ Table of Contents</span></summary>
+    <summary><span class="lc-toc-title"><span aria-hidden="true">✦</span> Table of Contents</span></summary>
     <div class="lc-toc-content">
       {{- .TableOfContents }}
     </div>
@@ -38,35 +53,50 @@
   {{- end }}
 
   {{- if .Content }}
-  <div class="lc-prose {{ if eq .Section "poetry" }}lc-verse-mode{{ end }}">
+  <div class="lc-prose {{ if and (eq .Section "poetry") (not $hasVerseBlock) }}lc-verse-mode{{ end }} {{ if eq .Section "review" }}lc-essay-mode{{ end }}">
     {{ .Content }}
   </div>
   {{- end }}
 
-  <div class="lc-post-fleuron">
+  <div class="lc-post-fleuron" aria-hidden="true">
     <span>☩ &nbsp; ❦ &nbsp; ☩</span>
   </div>
 
   <footer class="lc-article-footer">
     {{- with .Params.tags }}
-    <div class="lc-tag-cloud">
+    <div class="lc-tag-cloud" aria-label="Article Motifs">
       {{- range . }}
       <a class="lc-tag-chip" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}/">#{{ . }}</a>
       {{- end }}
     </div>
     {{- end }}
 
+    {{- $related := where (site.RegularPages.Related .) "Section" "in" (slice "poetry" "review") | first 3 -}}
+    {{- if gt (len $related) 0 }}
+    <section class="lc-related-section" aria-label="Related Inscriptions">
+      <h2 class="lc-related-heading"><span>✦</span> Kindred Inscriptions</h2>
+      <div class="lc-related-grid">
+        {{- range $related }}
+        <a class="lc-related-card" href="{{ .RelPermalink }}">
+          <span class="lc-related-kind">{{ if eq .Section "review" }}Criticism{{ else }}Poetry{{ end }} &bull; {{ .ReadingTime }} min</span>
+          <strong class="lc-related-title">{{ .Title }}</strong>
+        </a>
+        {{- end }}
+      </div>
+    </section>
+    {{- end }}
+
     {{- if (.Param "ShowPostNavLinks") }}
-    <nav class="lc-pagination">
+    <nav class="lc-pagination" aria-label="Adjacent Inscriptions">
       {{- with .PrevInSection }}
       <a class="lc-pag-link lc-pag-prev" href="{{ .RelPermalink }}">
-        <span class="lc-pag-label">&laquo; Previous Inscription</span>
+        <span class="lc-pag-label">&larr; Previous Inscription</span>
         <span class="lc-pag-title">{{ .Title }}</span>
       </a>
       {{- end }}
       {{- with .NextInSection }}
       <a class="lc-pag-link lc-pag-next" href="{{ .RelPermalink }}">
-        <span class="lc-pag-label">Next Inscription &raquo;</span>
+        <span class="lc-pag-label">Next Inscription &rarr;</span>
         <span class="lc-pag-title">{{ .Title }}</span>
       </a>
       {{- end }}

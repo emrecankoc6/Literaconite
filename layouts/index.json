@@ -1,11 +1,12 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- range site.RegularPages -}}
     {{- if and (not .Params.searchHidden) (ne .Layout `archives`) (ne .Layout `search`) (ne .Layout `sanctuary`) }}
+    {{- $summary := .Description | default (.Summary | plainify | truncate 180) -}}
     {{- $.Scratch.Add "index" (dict 
         "title" .Title 
         "permalink" .RelPermalink 
-        "summary" (.Summary | plainify | truncate 180)
-        "content" (.Plain | truncate 600)
+        "summary" $summary
+        "content" (.Plain | truncate 800)
         "section" .Section 
         "tags" (.Params.tags | default slice)
         "categories" (.Params.categories | default slice)

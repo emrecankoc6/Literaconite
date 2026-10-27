@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div class="lc-list-page lc-search-page" id="lc-search-page">
+
+  <header class="lc-list-header">
+    <div class="lc-list-badge">
+      <span class="lc-section-pill">Full-Text Index</span>
+    </div>
+    <h1 class="lc-list-title">The Concordance</h1>
+    <p class="lc-list-desc">
+      Search across every poem, dramatic close reading, critical essay, motif, and interactive Sanctum curiosity.
+    </p>
+    <div class="lc-header-separator" aria-hidden="true">
+      <span>✦</span>
+    </div>
+  </header>
+
+  <section class="lc-search-controls" aria-label="Search Canon">
+    <div class="lc-search-box-wrap">
+      <svg class="lc-search-box-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        id="lc-search-page-input"
+        class="lc-search-page-input"
+        type="search"
+        placeholder="{{ .Params.placeholder | default "Search poetry, close readings, authors, or motifs..." }}"
+        aria-label="Search canon inscriptions"
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <button id="lc-search-clear" class="lc-search-clear-btn" type="button" aria-label="Clear search query" hidden>&times;</button>
+    </div>
+
+    <div class="lc-search-toolbar">
+      <div class="lc-filter-pills lc-search-filters" role="tablist" aria-label="Filter results by section">
+        <button class="lc-filter-pill is-active" type="button" data-search-section="all" role="tab" aria-selected="true">All</button>
+        <button class="lc-filter-pill" type="button" data-search-section="poetry" role="tab" aria-selected="false">Poetry</button>
+        <button class="lc-filter-pill" type="button" data-search-section="review" role="tab" aria-selected="false">Criticism</button>
+        <button class="lc-filter-pill" type="button" data-search-section="sanctum" role="tab" aria-selected="false">Sanctum</button>
+      </div>
+      <p id="lc-search-status" class="lc-search-status" aria-live="polite">Loading index&hellip;</p>
+    </div>
+  </section>
+
+  <div id="lc-search-results" class="lc-grid lc-search-results-grid" aria-live="polite"></div>
+
+</div>
+{{ end }}

@@ -2,13 +2,13 @@
 <article class="lc-article-page lc-sanctum-app-page">
   <header class="lc-article-header">
     <div class="lc-article-badge">
-      <span class="lc-section-pill lc-pill-sanctum">The Sanctum</span>
+      <a class="lc-section-pill lc-pill-sanctum" href="{{ "/sanctum/" | relLangURL }}">&larr; The Sanctum</a>
     </div>
     <h1 class="lc-article-title">{{ .Title }}</h1>
     {{ with .Description }}
     <p class="lc-article-description">{{ . }}</p>
     {{ end }}
-    <div class="lc-header-separator">
+    <div class="lc-header-separator" aria-hidden="true">
       <span>✦</span>
     </div>
   </header>
@@ -17,16 +17,35 @@
     {{ .Content }}
   </div>
 
-  <div class="lc-post-fleuron">
+  <div class="lc-post-fleuron" aria-hidden="true">
     <span>☩ &nbsp; ❦ &nbsp; ☩</span>
   </div>
-  
+
   <footer class="lc-article-footer">
-    <nav class="lc-pagination">
-      <a class="lc-pag-link lc-pag-prev" href="/sanctum/">
-        <span class="lc-pag-label">&laquo; Return to The Sanctum</span>
-        <span class="lc-pag-title">Curiosities Hub</span>
+    <nav class="lc-pagination lc-sanctum-pagination" aria-label="Sanctum Ritual Navigation">
+      {{- with .PrevInSection }}
+      <a class="lc-pag-link lc-pag-prev" href="{{ .RelPermalink }}">
+        <span class="lc-pag-label">&larr; Previous Ritual</span>
+        <span class="lc-pag-title">{{ .Title }}</span>
       </a>
+      {{- else }}
+      <a class="lc-pag-link lc-pag-prev" href="{{ "/sanctum/" | relLangURL }}">
+        <span class="lc-pag-label">&larr; Return to Hub</span>
+        <span class="lc-pag-title">All Sanctum Curiosities</span>
+      </a>
+      {{- end }}
+
+      {{- with .NextInSection }}
+      <a class="lc-pag-link lc-pag-next" href="{{ .RelPermalink }}">
+        <span class="lc-pag-label">Next Ritual &rarr;</span>
+        <span class="lc-pag-title">{{ .Title }}</span>
+      </a>
+      {{- else }}
+      <a class="lc-pag-link lc-pag-next" href="{{ "/sanctum/" | relLangURL }}">
+        <span class="lc-pag-label">Return to Hub &rarr;</span>
+        <span class="lc-pag-title">All Sanctum Curiosities</span>
+      </a>
+      {{- end }}
     </nav>
   </footer>
 </article>

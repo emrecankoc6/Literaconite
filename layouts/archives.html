@@ -1,52 +1,65 @@
 {{ define "main" }}
+{{- $pages := where site.RegularPages "Type" "in" (slice "poetry" "review" "miscellaneous") -}}
+{{- $groups := $pages.GroupByPublishDate "2006" -}}
 <div class="lc-archive-page">
 
-  <!-- Header -->
   <header class="lc-list-header">
     <div class="lc-list-badge">
-      <span class="lc-badge-ornament">✦</span>
-      <span class="lc-badge-text">CHRONOLOGICAL CANON</span>
-      <span class="lc-badge-ornament">✦</span>
+      <span class="lc-section-pill">Chronological Canon &bull; {{ len $pages }} Inscriptions</span>
     </div>
     <h1 class="lc-list-title">Archives</h1>
     <p class="lc-list-desc">
-      A chronological index of original Gothic poetry, dramatic analysis, and close literary criticism.
+      A complete chronological ledger of original Gothic poetry, translations, dramatic analysis, and close literary criticism.
     </p>
+
+    <nav class="lc-archive-years-nav" aria-label="Jump to year">
+      {{- range $groups }}
+        {{- if ne .Key "0001" }}
+        <a class="lc-filter-pill" href="#year-{{ .Key }}">{{ .Key }} <span>({{ len .Pages }})</span></a>
+        {{- end }}
+      {{- end }}
+    </nav>
+
+    <div class="lc-header-separator" aria-hidden="true">
+      <span>✦</span>
+    </div>
   </header>
 
-  <!-- Chronological Archive Ledger -->
   <section class="lc-archive-ledger" aria-label="Chronological Ledger">
-    {{ $pages := where site.RegularPages "Type" "in" (slice "poetry" "review" "miscellaneous") }}
-    {{ range $pages.GroupByPublishDate "2006" }}
-      {{ if ne .Key "0001" }}
-      <div class="lc-archive-year-group">
+    {{- range $groups }}
+      {{- if ne .Key "0001" }}
+      <div class="lc-archive-year-group" id="year-{{ .Key }}">
         <div class="lc-archive-year-header">
           <h2 class="lc-archive-year-title">{{ .Key }}</h2>
-          <span class="lc-archive-year-count">{{ len .Pages }} inscriptions</span>
+          <span class="lc-archive-year-count">{{ len .Pages }} {{ if eq (len .Pages) 1 }}inscription{{ else }}inscriptions{{ end }}</span>
         </div>
 
         <div class="lc-archive-entry-list">
-          {{ range .Pages }}
+          {{- range .Pages }}
           <article class="lc-archive-entry">
-            <time class="lc-archive-entry-date">{{ .Date.Format "Jan 02" }}</time>
+            <time class="lc-archive-entry-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
             <div class="lc-archive-entry-main">
               <div class="lc-archive-entry-top">
-                <span class="lc-section-pill lc-pill-{{ .Section }}">{{ if eq .Section "poetry" }}Poem{{ else if eq .Section "review" }}Criticism{{ else }}Fragment{{ end }}</span>
+                <span class="lc-section-pill lc-pill-{{ .Section }}">{{ if eq .Section "poetry" }}Poetry{{ else if eq .Section "review" }}Criticism{{ else }}Fragment{{ end }}</span>
                 <span class="lc-archive-entry-readtime">{{ .ReadingTime }} min read</span>
               </div>
               <h3 class="lc-archive-entry-title">
                 <a href="{{ .RelPermalink }}">{{ .Title }}</a>
               </h3>
-              {{ with .Summary }}
-              <p class="lc-archive-entry-desc">{{ . | plainify | truncate 140 }}</p>
-              {{ end }}
+              <p class="lc-archive-entry-desc">
+                {{- with .Description }}
+                  {{ . | truncate 150 }}
+                {{- else }}
+                  {{ .Summary | plainify | truncate 150 }}
+                {{- end }}
+              </p>
             </div>
           </article>
-          {{ end }}
+          {{- end }}
         </div>
       </div>
-      {{ end }}
-    {{ end }}
+      {{- end }}
+    {{- end }}
   </section>
 
 </div>

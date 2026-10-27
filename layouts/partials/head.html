@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
 <meta name="robots" content="index, follow">
 
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ with .Title }}{{ . }} | {{ end }}{{ site.Title }}{{ end }}</title>
@@ -11,32 +12,33 @@
 <!-- Google Fonts Preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
-<!-- Instant Theme Preloader (Prevents FOUC) -->
+<!-- Instant Theme & Typography Preloader (Prevents FOUC) -->
 <script>
   (function() {
     try {
       var t = localStorage.getItem('lc-theme') || 'midnight';
       document.documentElement.setAttribute('data-theme', t);
+      var fs = localStorage.getItem('lc-font-scale');
+      if (fs) document.documentElement.style.setProperty('--lc-prose-scale', fs);
     } catch(e) {}
   })();
 </script>
 
-<!-- Master Stylesheet -->
+<!-- Master Stylesheet & Sanctum Stylesheet (Global for seamless PJAX transitions) -->
 {{ with resources.Get "css/literaconite-home.css" }}
   {{ $css := . | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ end }}
 
-{{ if or (eq .Section "sanctum") (eq .Type "sanctum") }}
-  {{ with resources.Get "css/extended/sanctum.css" }}
-    {{ $css := . | resources.Minify | resources.Fingerprint }}
-    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
-  {{ end }}
+{{ with resources.Get "css/extended/sanctum.css" }}
+  {{ $css := . | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ end }}
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="alternate" type="application/rss+xml" href="{{ "/index.xml" | absURL }}" title="{{ site.Title }}">
 <link rel="alternate" type="application/json" href="{{ "/index.json" | absURL }}" title="{{ site.Title }}">
 

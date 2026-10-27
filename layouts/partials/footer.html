@@ -1,23 +1,38 @@
 <footer class="lc-site-footer">
   <div class="lc-footer-inner">
-    <div class="lc-footer-mark">❦</div>
+    <div class="lc-footer-mark" aria-hidden="true">❦</div>
     <p class="lc-footer-copy">
-      &copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">Literaconite</a> &bull; Emrecan Koç
+      &copy; {{ now.Year }} <a href="{{ "/" | relLangURL }}">Literaconite</a> &bull; Emrecan Koç
     </p>
+    <nav class="lc-footer-links" aria-label="Footer">
+      <a href="{{ "/poetry/" | relLangURL }}">Poetry</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="{{ "/review/" | relLangURL }}">Criticism</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="{{ "/sanctum/" | relLangURL }}">The Sanctum</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="{{ "/search/" | relLangURL }}">Concordance</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="{{ "/tags/" | relLangURL }}">Motifs</a>
+      <span aria-hidden="true">&middot;</span>
+      <a href="{{ "/sanctuary/" | relLangURL }}" data-no-pjax="true">Sound Mixer</a>
+    </nav>
     <p class="lc-footer-sub">
       Gothic Poetry &amp; Literary Criticism &bull; Haunted by the Canon
     </p>
   </div>
 </footer>
 
+<button class="lc-back-to-top" id="lc-back-to-top" type="button" aria-label="Return to top" title="Return to top">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
 {{ with resources.Get "js/literaconite-core.js" }}
   {{ $js := . | resources.Minify | resources.Fingerprint }}
   <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}
 
-{{ if or (eq .Section "sanctum") (eq .Type "sanctum") }}
-  {{ with resources.Get "js/literaconite-sanctum.js" }}
-    {{ $js := . | resources.Minify | resources.Fingerprint }}
-    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
-  {{ end }}
+{{ with resources.Get "js/literaconite-sanctum.js" }}
+  {{ $js := . | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 {{ end }}

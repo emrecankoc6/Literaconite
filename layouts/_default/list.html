@@ -1,48 +1,74 @@
 {{ define "main" }}
+{{- $pages := .Pages -}}
+{{- if .IsHome -}}
+  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- end -}}
+{{- $isTerm := eq .Kind "term" -}}
+
 <div class="lc-list-page">
 
   <header class="lc-list-header">
     <div class="lc-list-badge">
-      <span class="lc-section-pill">{{ .Title }}</span>
+      {{- if $isTerm }}
+      <a class="lc-section-pill" href="{{ (printf "/%s/" .Data.Plural) | relLangURL }}">&larr; All {{ if eq .Data.Plural "tags" }}Motifs{{ else }}{{ .Data.Plural | title }}{{ end }}</a>
+      {{- else }}
+      <span class="lc-section-pill">{{ if eq .Section "review" }}Literary Criticism{{ else if eq .Section "poetry" }}Original &amp; Translated Verse{{ else if eq .Section "miscellaneous" }}Commonplace Notebook{{ else }}{{ .Title }}{{ end }}</span>
+      {{- end }}
     </div>
-    <h1 class="lc-list-title">{{ .Title }}</h1>
-    {{ with .Description }}
+
+    <h1 class="lc-list-title">{{ if eq .Data.Singular "tag" }}#{{ .Title }}{{ else }}{{ .Title }}{{ end }}</h1>
+
+    {{- with .Description }}
     <p class="lc-list-desc">{{ . }}</p>
-    {{ end }}
-    <div class="lc-header-separator">
+    {{- else }}
+      {{- if $isTerm }}
+      <p class="lc-list-desc">{{ len $pages }} {{ if eq (len $pages) 1 }}inscription{{ else }}inscriptions{{ end }} indexed under this motif in the Literaconite canon.</p>
+      {{- end }}
+    {{- end }}
+
+    <div class="lc-header-separator" aria-hidden="true">
       <span>✦</span>
     </div>
   </header>
 
-  {{- $pages := .Pages }}
-  {{- if .IsHome }}
-    {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+  {{- with .Content }}
+  <div class="lc-prose lc-list-prose">
+    {{ . }}
+  </div>
   {{- end }}
 
+  {{- if gt (len $pages) 0 }}
   <div class="lc-grid">
-    {{ range $pages }}
+    {{- range $pages }}
     <article class="lc-grid-card lc-card-{{ .Section }}">
-      <div class="lc-card-top">
-        <span class="lc-dot lc-dot-{{ .Section }}"></span>
-        <span class="lc-card-section">{{ .Section }}</span>
-        <span class="lc-meta-dot">&bull;</span>
-        <time class="lc-card-time">{{ .Date.Format "2 Jan 2006" }}</time>
+      <div>
+        <div class="lc-card-top">
+          <span class="lc-dot lc-dot-{{ .Section }}" aria-hidden="true"></span>
+          <span class="lc-card-section">{{ if eq .Section "review" }}Criticism{{ else if eq .Section "miscellaneous" }}Fragments{{ else }}{{ .Section }}{{ end }}</span>
+          {{- if not .Date.IsZero }}
+          <span class="lc-meta-dot" aria-hidden="true">&bull;</span>
+          <time class="lc-card-time" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
+          {{- end }}
+        </div>
+        <h2 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        <p class="lc-grid-desc">
+          {{- with .Description }}
+            {{ . | truncate 145 }}
+          {{- else }}
+            {{ .Summary | plainify | truncate 145 }}
+          {{- end }}
+        </p>
       </div>
-      <h3 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      <p class="lc-grid-desc">
-        {{ with .Description }}
-          {{ . | truncate 140 }}
-        {{ else }}
-          {{ .Summary | plainify | truncate 140 }}
-        {{ end }}
-      </p>
       <div class="lc-grid-bottom">
-        <a class="lc-grid-link" href="{{ .RelPermalink }}">Read inscription &rarr;</a>
+        <a class="lc-grid-link" href="{{ .RelPermalink }}">Read Inscription &rarr;</a>
+        {{- if gt .ReadingTime 0 }}
         <span class="lc-grid-readtime">{{ .ReadingTime }} min</span>
+        {{- end }}
       </div>
     </article>
-    {{ end }}
+    {{- end }}
   </div>
+  {{- end }}
 
 </div>
 {{ end }}

@@ -26,7 +26,7 @@ From a Russian Formalist perspective, the author should defamiliarize the reader
 
 Psychoanalytically, in the first line, it’s Willy’s ego speaking. It tries to make sense of his failure as a family and as an individual in order not to succumb to his id. However, from the third line on, his id starts to take control pouring out his subconsciously comparisons between his son and others. His superego quickly takes the control of his mental state and he inquiries if Biff said something after he left or he apologized because it is the reasonable thing to ask with the superego in control. But, in the ninth line he again loses his temper, and his repressed emotions and ideas start to pour our as his id takes control again when he says “How can he find himself on a farm? Is that a life? A farmhand? In the beginning, when he was young, I thought, well, a young man, it’s good for him to tramp around, take a lot of different jobs. But it’s more than ten years now and he has yet to make thirty-five dollars a week!”
 
-**Works Cited**
+## Works Cited
 * Miller, Arthur. *Death of a Salesman*. Bloomsbury, 2017.
 * Liu, Fuhua. “On Literary Criticism and Literary Critics.” Lecture Notes on Language and Literature, vol. 3, no. 1, 2020.
 * Miller, Michael J. “Psychoanalysis and Its Teaching.” Reading Lacan’s Écrits, 2019.

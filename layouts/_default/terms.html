@@ -1,0 +1,48 @@
+{{ define "main" }}
+<div class="lc-list-page lc-terms-page" id="lc-terms-page">
+
+  <header class="lc-list-header">
+    <div class="lc-list-badge">
+      <span class="lc-section-pill">Thematic Lexicon</span>
+    </div>
+    <h1 class="lc-list-title">{{ if eq .Data.Plural "tags" }}Motifs &amp; Subjects{{ else }}{{ .Title }}{{ end }}</h1>
+    <p class="lc-list-desc">
+      {{ len .Data.Terms }} recurring literary motifs, critical frameworks, and canonical figures across Literaconite.
+    </p>
+    <div class="lc-header-separator" aria-hidden="true">
+      <span>✦</span>
+    </div>
+  </header>
+
+  <div class="lc-terms-controls">
+    <div class="lc-search-box-wrap lc-terms-search-wrap">
+      <svg class="lc-search-box-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        id="lc-terms-filter-input"
+        class="lc-search-page-input"
+        type="search"
+        placeholder="Filter motifs or subjects..."
+        aria-label="Filter motifs"
+        autocomplete="off"
+      >
+    </div>
+    <div class="lc-terms-nav-switch">
+      <a class="lc-filter-pill {{ if eq .Data.Plural "tags" }}is-active{{ end }}" href="{{ "/tags/" | relLangURL }}">Motifs ({{ len site.Taxonomies.tags }})</a>
+      <a class="lc-filter-pill {{ if eq .Data.Plural "categories" }}is-active{{ end }}" href="{{ "/categories/" | relLangURL }}">Categories ({{ len site.Taxonomies.categories }})</a>
+    </div>
+  </div>
+
+  <div class="lc-terms-grid" id="lc-terms-grid">
+    {{- range .Data.Terms.ByCount }}
+    <a class="lc-term-card" href="{{ .Page.RelPermalink }}" data-term-name="{{ .Page.Title | lower }}">
+      <span class="lc-term-name">{{ if eq $.Data.Plural "tags" }}<span class="lc-term-hash" aria-hidden="true">#</span>{{ end }}{{ .Page.Title }}</span>
+      <span class="lc-term-count">{{ .Count }}</span>
+    </a>
+    {{- end }}
+  </div>
+
+</div>
+{{ end }}

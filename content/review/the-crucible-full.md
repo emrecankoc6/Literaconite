@@ -16,6 +16,6 @@ Then, it is revealed that the doctor could not find any treatment or cure for Be
 
 From this close reading, it is apparent that in those times, people sometimes had to lie about what they do even if it may cost the lives of others. This witchcraft allegory is a good example for the extrajudicial executions happened back in 17th century. The reader can deduct many more meanings behind this particular text that can be applied into today’s law systems and societies. Another example for a similar theme would be Shirley Jackson’s “The Lottery” in the sense of superstitions and their horrible outcomes along with the darkness in man’s heart.
 
-**References**
+## References
 * “Arthur Miller’s The Crucible: Witchcraft and Mob Hysteria in America.” Mobs, 2012, pp. 363–382.
 * Van Engen, Abram C. “The Salem Witch Trials.” Oxford Research Encyclopedia of Literature, 2016.

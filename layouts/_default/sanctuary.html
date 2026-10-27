@@ -1,320 +1,652 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="midnight">
+<html lang="en" dir="ltr" data-theme="midnight">
 <head>
   <meta charset="utf-8">
-  <title>Gothic Sound Sanctuary &amp; Multi-Layer Mixer | Literaconite</title>
+  <title>Gothic Sound Sanctuary &amp; 4-Channel Acoustic Studio | Literaconite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Procedural 4-channel Gothic acoustic studio with continuous rainfall, crackling hearth fire, cathedral wind, and periodic abbey bells.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('lc-theme') || 'midnight';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
   <style>
+    :root, [data-theme="midnight"] {
+      color-scheme: dark;
+      --s-bg: #07050c;
+      --s-surface: rgba(18, 13, 29, 0.84);
+      --s-border: rgba(192, 132, 252, 0.24);
+      --s-border-strong: rgba(192, 132, 252, 0.55);
+      --s-text: #f3edf9;
+      --s-muted: #a899c2;
+      --s-accent: #c084fc;
+      --s-accent-soft: rgba(192, 132, 252, 0.16);
+      --s-glow: rgba(168, 85, 247, 0.35);
+      --s-grad-top: rgba(126, 62, 242, 0.28);
+      --s-grad-bot: rgba(180, 24, 78, 0.16);
+    }
+    [data-theme="candlelight"] {
+      color-scheme: dark;
+      --s-bg: #0e0a07;
+      --s-surface: rgba(27, 20, 14, 0.88);
+      --s-border: rgba(232, 176, 89, 0.26);
+      --s-border-strong: rgba(232, 176, 89, 0.6);
+      --s-text: #f7efe2;
+      --s-muted: #baa68a;
+      --s-accent: #e8b059;
+      --s-accent-soft: rgba(232, 176, 89, 0.16);
+      --s-glow: rgba(232, 176, 89, 0.32);
+      --s-grad-top: rgba(196, 125, 36, 0.24);
+      --s-grad-bot: rgba(145, 58, 22, 0.18);
+    }
+    [data-theme="crimson"] {
+      color-scheme: dark;
+      --s-bg: #0a0406;
+      --s-surface: rgba(26, 10, 15, 0.88);
+      --s-border: rgba(244, 63, 94, 0.28);
+      --s-border-strong: rgba(244, 63, 94, 0.62);
+      --s-text: #f9ebee;
+      --s-muted: #c29aa4;
+      --s-accent: #f43f5e;
+      --s-accent-soft: rgba(244, 63, 94, 0.18);
+      --s-glow: rgba(244, 63, 94, 0.34);
+      --s-grad-top: rgba(190, 18, 60, 0.28);
+      --s-grad-bot: rgba(95, 12, 34, 0.22);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: #040207;
-      color: #eee6fa;
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
+      background-color: var(--s-bg);
+      color: var(--s-text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        radial-gradient(ellipse 90% 55% at 50% -8%, var(--s-grad-top), transparent 72%),
+        radial-gradient(ellipse 75% 55% at 95% 95%, var(--s-grad-bot), transparent 65%);
+      overflow-x: hidden;
+    }
+
+    .studio-topbar {
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .studio-back {
+      color: var(--s-muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--s-border);
+      background: rgba(255, 255, 255, 0.03);
+      transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .studio-back:hover { color: var(--s-text); border-color: var(--s-border-strong); background: var(--s-accent-soft); }
+
+    .studio-theme-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--s-border);
+      color: var(--s-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .studio-theme-btn:hover { color: var(--s-text); border-color: var(--s-border-strong); background: var(--s-accent-soft); }
+
+    main {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
-      user-select: none;
-      background-image: radial-gradient(ellipse 100% 70% at 50% -5%, rgba(130, 70, 245, 0.45), transparent 75%),
-                        radial-gradient(ellipse 80% 60% at 100% 90%, rgba(180, 20, 80, 0.25), transparent 60%);
+      padding: 2rem 1.25rem 3rem;
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
     }
-    .glyph { font-size: 2.4rem; margin-bottom: 0.4rem; color: #c084fc; animation: pulse 2.5s infinite ease-in-out; }
-    @keyframes pulse { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
-    h1 { font-family: 'Cinzel', serif; font-size: 1.15rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.2rem; color: #fff; text-align: center; }
-    .sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.82rem; color: #b5a2cf; margin-bottom: 1.4rem; text-align: center; }
-    
-    .master-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--s-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.45rem, 4vw, 2.05rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--s-text);
+      text-align: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .sub {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 0.98rem;
+      color: var(--s-muted);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .visualizer-frame {
+      width: 100%;
+      height: 110px;
+      border-radius: 16px;
+      border: 1px solid var(--s-border);
+      background: rgba(6, 4, 11, 0.65);
+      margin-bottom: 1.35rem;
+      overflow: hidden;
+      position: relative;
+    }
+    canvas { width: 100%; height: 100%; display: block; }
+    .viz-status {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--s-muted);
+      pointer-events: none;
+    }
+
+    .master-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
     .btn {
-      background: rgba(168, 105, 255, 0.14);
-      border: 1px solid rgba(168, 105, 255, 0.4);
-      color: #fff;
-      padding: 0.6rem 1.6rem;
+      background: var(--s-accent-soft);
+      border: 1px solid var(--s-border-strong);
+      color: var(--s-text);
+      padding: 0.75rem 1.8rem;
       border-radius: 999px;
-      font-size: 0.75rem;
+      font-family: inherit;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 160ms ease;
+      transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
     }
-    .btn:hover { background: rgba(168, 105, 255, 0.3); border-color: #c084fc; box-shadow: 0 0 16px rgba(192, 132, 252, 0.4); }
-    .btn.is-active { background: #a855f7; border-color: #c084fc; color: #fff; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--s-glow); }
+    .btn.is-active { background: var(--s-accent); color: #09050f; border-color: var(--s-accent); box-shadow: 0 0 24px var(--s-glow); }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--s-border);
+      color: var(--s-text);
+      padding: 0.75rem 1.25rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 150ms ease, background 150ms ease;
+    }
+    .btn-secondary:hover { border-color: var(--s-border-strong); background: var(--s-accent-soft); }
 
     .mixer-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 0.9rem 1.2rem;
+      gap: 1.15rem 1.5rem;
       width: 100%;
-      max-width: 380px;
-      background: rgba(14, 9, 24, 0.85);
-      border: 1px solid rgba(168, 105, 255, 0.25);
-      border-radius: 14px;
-      padding: 1.2rem;
-      backdrop-filter: blur(16px);
-      margin-bottom: 1.2rem;
+      background: var(--s-surface);
+      border: 1px solid var(--s-border);
+      border-radius: 18px;
+      padding: 1.5rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-bottom: 1.35rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
     }
-    .track { display: flex; flex-direction: column; gap: 0.35rem; }
-    .track-head { display: flex; justify-content: space-between; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: #b5a2cf; }
-    .track-val { font-weight: 600; color: #c084fc; }
-    input[type=range] { accent-color: #c084fc; width: 100%; height: 4px; cursor: pointer; }
 
-    .presets { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; max-width: 380px; }
-    .preset-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(168, 105, 255, 0.2);
-      color: #b5a2cf;
-      padding: 0.28rem 0.65rem;
-      border-radius: 999px;
-      font-size: 0.64rem;
+    @media (max-width: 520px) {
+      .mixer-grid { grid-template-columns: 1fr; padding: 1.2rem; }
+    }
+
+    .track { display: flex; flex-direction: column; gap: 0.5rem; }
+    .track-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      cursor: pointer;
-      transition: all 140ms ease;
+      color: var(--s-text);
     }
-    .preset-btn:hover { background: rgba(168, 105, 255, 0.2); color: #fff; border-color: #c084fc; }
+    .track-sub { font-size: 0.68rem; color: var(--s-muted); text-transform: none; letter-spacing: 0.01em; }
+    .track-val { font-weight: 600; color: var(--s-accent); font-variant-numeric: tabular-nums; }
+
+    input[type="range"] {
+      accent-color: var(--s-accent);
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+    }
+
+    .presets {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--s-border);
+      color: var(--s-muted);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .preset-btn:hover, .preset-btn.is-active {
+      background: var(--s-accent-soft);
+      color: var(--s-text);
+      border-color: var(--s-border-strong);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--s-accent);
+      outline-offset: 3px;
+    }
   </style>
 </head>
 <body>
-  <div class="glyph">🌧️</div>
-  <h1>Gothic Sound Sanctuary</h1>
-  <p class="sub">Procedural 4-Channel Atmospheric Mixer</p>
+  <header class="studio-topbar">
+    <a class="studio-back" href="{{ "/" | relLangURL }}">&larr; Return to Literaconite</a>
+    <button class="studio-theme-btn" id="theme-cycle" type="button">Mood: Midnight</button>
+  </header>
 
-  <div class="master-row">
-    <button class="btn" id="toggle">Play Sanctuary</button>
-    <button class="preset-btn" id="toll-btn" title="Strike the Abbey Bell">🔔 Toll Bell</button>
-  </div>
+  <main>
+    <span class="eyebrow">✦ Acoustic Chamber ✦</span>
+    <h1>Gothic Sound Sanctuary</h1>
+    <p class="sub">Procedural 4-Channel Web Audio Synthesis &mdash; Zero External Loops</p>
 
-  <div class="mixer-grid">
-    <div class="track">
-      <div class="track-head"><span>🌧️ Rain</span><span class="track-val" id="val-rain">70%</span></div>
-      <input type="range" id="vol-rain" min="0" max="1" step="0.05" value="0.7">
+    <div class="visualizer-frame" aria-hidden="true">
+      <canvas id="sanctuary-canvas"></canvas>
+      <span class="viz-status" id="viz-status">Dormant</span>
     </div>
-    <div class="track">
-      <div class="track-head"><span>🔥 Fireplace</span><span class="track-val" id="val-fire">40%</span></div>
-      <input type="range" id="vol-fire" min="0" max="1" step="0.05" value="0.4">
-    </div>
-    <div class="track">
-      <div class="track-head"><span>🌬️ Wind</span><span class="track-val" id="val-wind">50%</span></div>
-      <input type="range" id="vol-wind" min="0" max="1" step="0.05" value="0.5">
-    </div>
-    <div class="track">
-      <div class="track-head"><span>🔔 Abbey Bells</span><span class="track-val" id="val-bells">60%</span></div>
-      <input type="range" id="vol-bells" min="0" max="1" step="0.05" value="0.6">
-    </div>
-  </div>
 
-  <div class="presets">
-    <button class="preset-btn" data-preset="rain">Rainstorm</button>
-    <button class="preset-btn" data-preset="hearth">Hearthside</button>
-    <button class="preset-btn" data-preset="nocturne">Abbey Nocturne</button>
-    <button class="preset-btn" data-preset="storm">Grand Sanctum</button>
-  </div>
+    <div class="master-row">
+      <button class="btn" id="toggle" type="button" aria-pressed="false">Awaken Sanctuary</button>
+      <button class="btn-secondary" id="toll-btn" type="button" title="Strike the Abbey Bell">Strike Abbey Bell</button>
+    </div>
+
+    <section class="mixer-grid" aria-label="Channel Levels">
+      <div class="track">
+        <div class="track-head">
+          <label for="vol-rain">Rainfall</label>
+          <span class="track-val" id="val-rain">70%</span>
+        </div>
+        <span class="track-sub">Filtered nocturnal downpour</span>
+        <input type="range" id="vol-rain" min="0" max="1" step="0.05" value="0.7">
+      </div>
+      <div class="track">
+        <div class="track-head">
+          <label for="vol-fire">Hearth Fire</label>
+          <span class="track-val" id="val-fire">40%</span>
+        </div>
+        <span class="track-sub">Sub-warmth &amp; timber crackle</span>
+        <input type="range" id="vol-fire" min="0" max="1" step="0.05" value="0.4">
+      </div>
+      <div class="track">
+        <div class="track-head">
+          <label for="vol-wind">Cathedral Wind</label>
+          <span class="track-val" id="val-wind">50%</span>
+        </div>
+        <span class="track-sub">Swept clerestory draft &amp; 55Hz drone</span>
+        <input type="range" id="vol-wind" min="0" max="1" step="0.05" value="0.5">
+      </div>
+      <div class="track">
+        <div class="track-head">
+          <label for="vol-bells">Abbey Bells</label>
+          <span class="track-val" id="val-bells">60%</span>
+        </div>
+        <span class="track-sub">Harmonic bronze chimes</span>
+        <input type="range" id="vol-bells" min="0" max="1" step="0.05" value="0.6">
+      </div>
+    </section>
+
+    <div class="presets" role="group" aria-label="Soundscape Presets">
+      <button class="preset-btn" type="button" data-preset="rain">Midnight Downpour</button>
+      <button class="preset-btn" type="button" data-preset="hearth">Library Hearth</button>
+      <button class="preset-btn" type="button" data-preset="nocturne">Abbey Nocturne</button>
+      <button class="preset-btn" type="button" data-preset="storm">Tempest &amp; Belfry</button>
+    </div>
+  </main>
 
   <script>
-    let ctx = null, masterGain = null, isPlaying = false;
-    let rainGain = null, fireGain = null, windGain = null, bellsGain = null;
-    let bellTimer = null;
+    (function () {
+      const THEMES = ['midnight', 'candlelight', 'crimson'];
+      const THEME_LABELS = { midnight: 'Midnight', candlelight: 'Candlelight', crimson: 'Crimson' };
+      const themeBtn = document.getElementById('theme-cycle');
 
-    function initAudio() {
-      if (ctx) return;
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-      masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
-      masterGain.connect(ctx.destination);
-
-      // 1. Rain Channel
-      const rainBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
-      const rainData = rainBuffer.getChannelData(0);
-      let lastOut = 0.0;
-      for (let i = 0; i < rainBuffer.length; i++) {
-        const white = Math.random() * 2 - 1;
-        rainData[i] = (lastOut + 0.02 * white) / 1.02;
-        lastOut = rainData[i];
-        rainData[i] *= 3.5;
+      function syncThemeBtn() {
+        const cur = document.documentElement.getAttribute('data-theme') || 'midnight';
+        themeBtn.textContent = 'Mood: ' + (THEME_LABELS[cur] || 'Midnight');
       }
-      const rainSrc = ctx.createBufferSource();
-      rainSrc.buffer = rainBuffer;
-      rainSrc.loop = true;
-      const rainFilter = ctx.createBiquadFilter();
-      rainFilter.type = 'lowpass';
-      rainFilter.frequency.value = 850;
-      rainGain = ctx.createGain();
-      rainGain.gain.value = 0.7 * 0.22;
-      rainSrc.connect(rainFilter);
-      rainFilter.connect(rainGain);
-      rainGain.connect(masterGain);
-      rainSrc.start(0);
+      syncThemeBtn();
 
-      // 2. Fireplace Channel (Brown noise + crackle spikes)
-      const fireBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
-      const fireData = fireBuffer.getChannelData(0);
-      let fireLast = 0.0;
-      for (let i = 0; i < fireBuffer.length; i++) {
-        const white = Math.random() * 2 - 1;
-        fireLast = (fireLast + (0.015 * white)) / 1.015;
-        // Random crackle pop
-        const pop = (Math.random() < 0.0008) ? (Math.random() * 2 - 1) * 3 : 0;
-        fireData[i] = (fireLast * 2.8) + pop;
-      }
-      const fireSrc = ctx.createBufferSource();
-      fireSrc.buffer = fireBuffer;
-      fireSrc.loop = true;
-      const fireFilter = ctx.createBiquadFilter();
-      fireFilter.type = 'bandpass';
-      fireFilter.frequency.value = 450;
-      fireFilter.Q.value = 1.2;
-      fireGain = ctx.createGain();
-      fireGain.gain.value = 0.4 * 0.18;
-      fireSrc.connect(fireFilter);
-      fireFilter.connect(fireGain);
-      fireGain.connect(masterGain);
-      fireSrc.start(0);
-
-      // 3. Wind Channel (LFO swept filter + sub drone)
-      const windBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
-      const windData = windBuffer.getChannelData(0);
-      for (let i = 0; i < windBuffer.length; i++) {
-        windData[i] = (Math.random() * 2 - 1) * 0.9;
-      }
-      const windSrc = ctx.createBufferSource();
-      windSrc.buffer = windBuffer;
-      windSrc.loop = true;
-      const windFilter = ctx.createBiquadFilter();
-      windFilter.type = 'lowpass';
-      windFilter.frequency.value = 350;
-      windFilter.Q.value = 3.0;
-
-      // LFO for wind howling gusts
-      const windLfo = ctx.createOscillator();
-      windLfo.frequency.value = 0.12;
-      const windLfoGain = ctx.createGain();
-      windLfoGain.gain.value = 240;
-      windLfo.connect(windLfoGain);
-      windLfoGain.connect(windFilter.frequency);
-      windLfo.start(0);
-
-      const drone = ctx.createOscillator();
-      drone.frequency.value = 55;
-      const droneGain = ctx.createGain();
-      droneGain.gain.value = 0.03;
-      drone.connect(droneGain);
-      drone.start(0);
-
-      windGain = ctx.createGain();
-      windGain.gain.value = 0.5 * 0.20;
-      windSrc.connect(windFilter);
-      windFilter.connect(windGain);
-      droneGain.connect(windGain);
-      windGain.connect(masterGain);
-      windSrc.start(0);
-
-      // 4. Abbey Bell Channel (FM Additive Synthesis)
-      bellsGain = ctx.createGain();
-      bellsGain.gain.value = 0.6;
-      bellsGain.connect(masterGain);
-
-      // Auto bell tolling every 50 seconds
-      scheduleBellToll();
-    }
-
-    function tollBell() {
-      if (!ctx || !bellsGain) return;
-      const now = ctx.currentTime;
-      const freqs = [220, 442, 665, 1120];
-      const gains = [0.25, 0.14, 0.08, 0.04];
-
-      freqs.forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
-        const g = ctx.createGain();
-        osc.type = idx === 0 ? 'sine' : 'triangle';
-        osc.frequency.setValueAtTime(freq, now);
-        g.gain.setValueAtTime(gains[idx], now);
-        g.gain.exponentialRampToValueAtTime(0.0001, now + 4.5);
-        osc.connect(g);
-        g.connect(bellsGain);
-        osc.start(now);
-        osc.stop(now + 4.6);
+      themeBtn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'midnight';
+        const next = THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length];
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('lc-theme', next); } catch (e) {}
+        syncThemeBtn();
       });
-    }
 
-    function scheduleBellToll() {
-      clearTimeout(bellTimer);
-      bellTimer = setTimeout(() => {
-        if (isPlaying) tollBell();
-        scheduleBellToll();
-      }, 45000 + Math.random() * 20000);
-    }
+      let ctx = null, masterGain = null, analyser = null, isPlaying = false;
+      let gains = { rain: null, fire: null, wind: null, bells: null };
+      const SCALES = { rain: 0.28, fire: 0.36, wind: 0.26, bells: 0.85 };
+      let bellTimer = null;
 
-    const btn = document.getElementById('toggle');
-    btn.onclick = () => {
-      initAudio();
-      if (ctx.state === 'suspended') ctx.resume();
-      if (!isPlaying) {
-        masterGain.gain.linearRampToValueAtTime(1.0, ctx.currentTime + 0.6);
-        isPlaying = true;
-        btn.textContent = 'Pause Sanctuary';
-        btn.classList.add('is-active');
-      } else {
-        masterGain.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
-        isPlaying = false;
-        btn.textContent = 'Play Sanctuary';
-        btn.classList.remove('is-active');
+      function getSliderVal(key) {
+        const el = document.getElementById('vol-' + key);
+        return el ? parseFloat(el.value) : 0.5;
       }
-    };
 
-    document.getElementById('toll-btn').onclick = () => {
-      if (!isPlaying) btn.click();
-      tollBell();
-    };
+      function initAudio() {
+        if (ctx) return;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        ctx = new AudioCtx();
 
-    // Sliders
-    function bindSlider(id, valId, gainNode, scale) {
-      const el = document.getElementById(id);
-      const valEl = document.getElementById(valId);
-      el.oninput = () => {
-        const v = parseFloat(el.value);
-        valEl.textContent = Math.round(v * 100) + '%';
-        if (gainNode && ctx) {
-          gainNode.gain.setValueAtTime(v * scale, ctx.currentTime);
+        masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+
+        analyser = ctx.createAnalyser();
+        analyser.fftSize = 128;
+        masterGain.connect(analyser);
+        analyser.connect(ctx.destination);
+
+        // 1. Rain Channel
+        const rainBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+        const rainData = rainBuffer.getChannelData(0);
+        let lastOut = 0.0;
+        for (let i = 0; i < rainBuffer.length; i++) {
+          const white = Math.random() * 2 - 1;
+          lastOut = (lastOut + 0.02 * white) / 1.02;
+          rainData[i] = lastOut * 3.6;
         }
-      };
-    }
+        const rainSrc = ctx.createBufferSource();
+        rainSrc.buffer = rainBuffer;
+        rainSrc.loop = true;
+        const rainFilter = ctx.createBiquadFilter();
+        rainFilter.type = 'lowpass';
+        rainFilter.frequency.value = 880;
+        gains.rain = ctx.createGain();
+        gains.rain.gain.value = getSliderVal('rain') * SCALES.rain;
+        rainSrc.connect(rainFilter);
+        rainFilter.connect(gains.rain);
+        gains.rain.connect(masterGain);
+        rainSrc.start(0);
 
-    bindSlider('vol-rain', 'val-rain', rainGain, 0.22);
-    bindSlider('vol-fire', 'val-fire', fireGain, 0.18);
-    bindSlider('vol-wind', 'val-wind', windGain, 0.20);
-    bindSlider('vol-bells', 'val-bells', bellsGain, 0.8);
+        // 2. Hearth Fire Channel
+        const fireBuffer = ctx.createBuffer(1, ctx.sampleRate * 5, ctx.sampleRate);
+        const fireData = fireBuffer.getChannelData(0);
+        let fireLast = 0.0;
+        for (let i = 0; i < fireBuffer.length; i++) {
+          const white = Math.random() * 2 - 1;
+          fireLast = (fireLast + 0.015 * white) / 1.015;
+          let sample = fireLast * 2.4;
+          if (Math.random() < 0.004) sample += (Math.random() * 2 - 1) * 3.2;
+          if (Math.random() < 0.0005) sample += (Math.random() > 0.5 ? 1 : -1) * 6.0;
+          fireData[i] = sample;
+        }
+        const fireSrc = ctx.createBufferSource();
+        fireSrc.buffer = fireBuffer;
+        fireSrc.loop = true;
+        const fireFilter = ctx.createBiquadFilter();
+        fireFilter.type = 'bandpass';
+        fireFilter.frequency.value = 1250;
+        fireFilter.Q.value = 0.8;
+        gains.fire = ctx.createGain();
+        gains.fire.gain.value = getSliderVal('fire') * SCALES.fire;
+        fireSrc.connect(fireFilter);
+        fireFilter.connect(gains.fire);
+        gains.fire.connect(masterGain);
+        fireSrc.start(0);
 
-    // Presets
-    const PRESETS = {
-      rain: { rain: 0.9, fire: 0.1, wind: 0.4, bells: 0.2 },
-      hearth: { rain: 0.3, fire: 0.9, wind: 0.2, bells: 0.1 },
-      nocturne: { rain: 0.2, fire: 0.2, wind: 0.7, bells: 0.85 },
-      storm: { rain: 0.85, fire: 0.6, wind: 0.75, bells: 0.7 }
-    };
+        // 3. Cathedral Wind Channel
+        const windBuffer = ctx.createBuffer(1, ctx.sampleRate * 4, ctx.sampleRate);
+        const windData = windBuffer.getChannelData(0);
+        for (let i = 0; i < windBuffer.length; i++) {
+          windData[i] = (Math.random() * 2 - 1) * 1.05;
+        }
+        const windSrc = ctx.createBufferSource();
+        windSrc.buffer = windBuffer;
+        windSrc.loop = true;
+        const windFilter = ctx.createBiquadFilter();
+        windFilter.type = 'lowpass';
+        windFilter.frequency.value = 350;
+        windFilter.Q.value = 3.2;
 
-    document.querySelectorAll('[data-preset]').forEach(b => {
-      b.onclick = () => {
-        const p = PRESETS[b.getAttribute('data-preset')];
-        if (!p) return;
-        ['rain', 'fire', 'wind', 'bells'].forEach(k => {
-          const s = document.getElementById(`vol-${k}`);
-          s.value = p[k];
-          s.dispatchEvent(new Event('input'));
+        const windLfo = ctx.createOscillator();
+        windLfo.frequency.value = 0.1;
+        const windLfoGain = ctx.createGain();
+        windLfoGain.gain.value = 250;
+        windLfo.connect(windLfoGain);
+        windLfoGain.connect(windFilter.frequency);
+        windLfo.start(0);
+
+        const drone = ctx.createOscillator();
+        drone.frequency.value = 55;
+        const droneGain = ctx.createGain();
+        droneGain.gain.value = 0.038;
+        drone.connect(droneGain);
+        drone.start(0);
+
+        gains.wind = ctx.createGain();
+        gains.wind.gain.value = getSliderVal('wind') * SCALES.wind;
+        windSrc.connect(windFilter);
+        windFilter.connect(gains.wind);
+        droneGain.connect(gains.wind);
+        gains.wind.connect(masterGain);
+        windSrc.start(0);
+
+        // 4. Abbey Bells Channel
+        gains.bells = ctx.createGain();
+        gains.bells.gain.value = getSliderVal('bells') * SCALES.bells;
+        gains.bells.connect(masterGain);
+
+        scheduleBellToll();
+      }
+
+      function tollBell() {
+        if (!ctx || !gains.bells) return;
+        const now = ctx.currentTime;
+        const freqs = [220, 442, 665, 1120];
+        const levels = [0.28, 0.16, 0.09, 0.045];
+        freqs.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          osc.type = idx === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(freq, now);
+          g.gain.setValueAtTime(levels[idx], now);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 4.8);
+          osc.connect(g);
+          g.connect(gains.bells);
+          osc.start(now);
+          osc.stop(now + 4.9);
         });
-        if (!isPlaying) btn.click();
-      };
-    });
+      }
 
-    window.addEventListener('click', () => {
-      if (!isPlaying) btn.click();
-    }, { once: true });
+      function scheduleBellToll() {
+        clearTimeout(bellTimer);
+        bellTimer = setTimeout(() => {
+          if (isPlaying && getSliderVal('bells') > 0.02) tollBell();
+          scheduleBellToll();
+        }, 28000 + Math.random() * 18000);
+      }
+
+      const btn = document.getElementById('toggle');
+      const vizStatus = document.getElementById('viz-status');
+
+      function setPlaying(state) {
+        initAudio();
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
+        const now = ctx.currentTime;
+        masterGain.gain.cancelScheduledValues(now);
+        masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+
+        if (state) {
+          masterGain.gain.linearRampToValueAtTime(1.0, now + 0.6);
+          isPlaying = true;
+          btn.textContent = 'Pause Sanctuary';
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-pressed', 'true');
+          vizStatus.textContent = 'Resonating';
+        } else {
+          masterGain.gain.linearRampToValueAtTime(0.0001, now + 0.5);
+          isPlaying = false;
+          btn.textContent = 'Awaken Sanctuary';
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-pressed', 'false');
+          vizStatus.textContent = 'Paused';
+        }
+      }
+
+      btn.addEventListener('click', () => setPlaying(!isPlaying));
+
+      document.getElementById('toll-btn').addEventListener('click', () => {
+        if (!isPlaying) setPlaying(true);
+        tollBell();
+      });
+
+      ['rain', 'fire', 'wind', 'bells'].forEach(key => {
+        const el = document.getElementById('vol-' + key);
+        const valEl = document.getElementById('val-' + key);
+        el.addEventListener('input', () => {
+          const v = parseFloat(el.value);
+          valEl.textContent = Math.round(v * 100) + '%';
+          if (gains[key] && ctx) {
+            const now = ctx.currentTime;
+            gains[key].gain.cancelScheduledValues(now);
+            gains[key].gain.setTargetAtTime(v * SCALES[key], now, 0.06);
+          }
+        });
+      });
+
+      const PRESETS = {
+        rain: { rain: 0.9, fire: 0.15, wind: 0.35, bells: 0.25 },
+        hearth: { rain: 0.25, fire: 0.9, wind: 0.15, bells: 0.15 },
+        nocturne: { rain: 0.2, fire: 0.25, wind: 0.65, bells: 0.85 },
+        storm: { rain: 0.85, fire: 0.55, wind: 0.8, bells: 0.7 }
+      };
+
+      document.querySelectorAll('[data-preset]').forEach(presetBtn => {
+        presetBtn.addEventListener('click', () => {
+          const p = PRESETS[presetBtn.getAttribute('data-preset')];
+          if (!p) return;
+          document.querySelectorAll('[data-preset]').forEach(b => b.classList.remove('is-active'));
+          presetBtn.classList.add('is-active');
+          ['rain', 'fire', 'wind', 'bells'].forEach(k => {
+            const s = document.getElementById('vol-' + k);
+            s.value = p[k];
+            s.dispatchEvent(new Event('input'));
+          });
+          if (!isPlaying) setPlaying(true);
+        });
+      });
+
+      // Procedural Acoustic Spectrum & Rain Visualizer
+      const canvas = document.getElementById('sanctuary-canvas');
+      const c2d = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let freqData = null;
+
+      function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = canvas.clientWidth * dpr;
+        canvas.height = canvas.clientHeight * dpr;
+        c2d.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      function renderVisualizer() {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        c2d.clearRect(0, 0, w, h);
+
+        const accent = getComputedStyle(document.documentElement).getPropertyValue('--s-accent').trim() || '#c084fc';
+        const bars = 40;
+        const gap = 4;
+        const barW = (w - (bars + 1) * gap) / bars;
+
+        if (analyser && isPlaying && !reduceMotion.matches) {
+          if (!freqData) freqData = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(freqData);
+        }
+
+        for (let i = 0; i < bars; i++) {
+          let amp = 0.08;
+          if (isPlaying && freqData && !reduceMotion.matches) {
+            const bin = Math.min(freqData.length - 1, Math.floor((i / bars) * (freqData.length * 0.72)));
+            amp = Math.max(0.06, freqData[bin] / 255);
+          } else if (isPlaying) {
+            amp = 0.28 + 0.12 * Math.sin(i * 0.45);
+          }
+          const barH = Math.max(4, amp * (h - 28));
+          const x = gap + i * (barW + gap);
+          const y = (h - barH) / 2;
+
+          c2d.fillStyle = accent;
+          c2d.globalAlpha = isPlaying ? (0.3 + amp * 0.65) : 0.18;
+          c2d.beginPath();
+          c2d.roundRect(x, y, Math.max(2, barW), barH, 3);
+          c2d.fill();
+        }
+        c2d.globalAlpha = 1;
+        requestAnimationFrame(renderVisualizer);
+      }
+      requestAnimationFrame(renderVisualizer);
+    })();
   </script>
 </body>
 </html>

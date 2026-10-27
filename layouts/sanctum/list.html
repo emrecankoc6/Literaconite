@@ -1,38 +1,84 @@
 {{ define "main" }}
+{{- $glyphs := dict
+  "alembic" "⚗"
+  "blackout-altar" "▓"
+  "crypt" "☩"
+  "cursed-typewriter" "⌨"
+  "ephemeris" "☽"
+  "reliquary" "◈"
+  "scrying-mirror" "✧"
+  "spirit-board" "☉"
+  "wax-seal" "⚜"
+-}}
+{{- $disciplines := dict
+  "alembic" "Alchemy & Grimoire"
+  "blackout-altar" "Erasure & Redaction"
+  "crypt" "Catacomb Exploration"
+  "cursed-typewriter" "Automatic Writing"
+  "ephemeris" "Nocturnal Astrology"
+  "reliquary" "Curated Relics"
+  "scrying-mirror" "Prosody & Cadence"
+  "spirit-board" "Canonical Divination"
+  "wax-seal" "Ex-Libris Heraldry"
+-}}
+{{- $romans := slice "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX" "X" "XI" "XII" -}}
+
 <div class="lc-list-page lc-sanctum-hub">
 
   <header class="lc-list-header">
     <div class="lc-list-badge">
-      <span class="lc-section-pill">The Sanctum</span>
+      <span class="lc-section-pill lc-pill-sanctum">Interactive Cabinet &bull; {{ len .Pages }} Curiosities</span>
     </div>
     <h1 class="lc-list-title">{{ .Title }}</h1>
     {{ with .Content }}
-    <div class="lc-list-desc">{{ . }}</div>
+    <div class="lc-list-desc lc-sanctum-intro">{{ . }}</div>
     {{ end }}
-    <div class="lc-header-separator">
-      <span>🔮</span>
+    <div class="lc-header-separator" aria-hidden="true">
+      <span>✦ &nbsp; ⚗ &nbsp; ✦</span>
     </div>
   </header>
 
+  <section class="lc-sanctuary-banner" aria-label="Gothic Sound Sanctuary Studio">
+    <div class="lc-sanctuary-banner-body">
+      <span class="lc-eyebrow">Companion Acoustic Chamber</span>
+      <h2 class="lc-sanctuary-banner-title">The 4-Channel Gothic Sound Sanctuary</h2>
+      <p class="lc-sanctuary-banner-desc">Blend procedural rainfall, crackling hearth embers, cathedral wind drafts, and periodic abbey bells in the dedicated acoustic studio.</p>
+    </div>
+    <div class="lc-sanctuary-banner-actions">
+      <button class="lc-hero-pill lc-hero-pill-ghost" type="button" data-lc-action="audio">Quick Rain Toggle</button>
+      <a class="lc-hero-pill" href="{{ "/sanctuary/" | relLangURL }}" data-no-pjax="true">Open Sound Studio &rarr;</a>
+    </div>
+  </section>
+
   <div class="lc-grid lc-sanctum-grid">
-    {{ range .Pages }}
+    {{ range $idx, $page := .Pages }}
+    {{- $slug := path.Base $page.RelPermalink -}}
+    {{- $glyph := index $glyphs $slug | default "✦" -}}
+    {{- $discipline := index $disciplines $slug | default "Interactive Ritual" -}}
+    {{- $roman := index $romans $idx | default (printf "%d" (add $idx 1)) -}}
     <article class="lc-grid-card lc-card-sanctum">
-      <div class="lc-card-top">
-        <span class="lc-dot lc-dot-sanctum"></span>
-        <span class="lc-card-section">Curiosity</span>
-        <span class="lc-meta-dot">&bull;</span>
-        <span class="lc-card-time">Interactive</span>
+      <div>
+        <div class="lc-sanctum-card-head">
+          <div class="lc-card-top">
+            <span class="lc-dot lc-dot-sanctum" aria-hidden="true"></span>
+            <span class="lc-card-section">Ritual {{ $roman }}</span>
+            <span class="lc-meta-dot" aria-hidden="true">&bull;</span>
+            <span class="lc-card-time">{{ $discipline }}</span>
+          </div>
+          <span class="lc-sanctum-card-glyph" aria-hidden="true">{{ $glyph }}</span>
+        </div>
+        <h2 class="lc-grid-title"><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></h2>
+        <p class="lc-grid-desc">
+          {{ with $page.Description }}
+            {{ . | truncate 150 }}
+          {{ else }}
+            {{ $page.Summary | plainify | truncate 150 }}
+          {{ end }}
+        </p>
       </div>
-      <h3 class="lc-grid-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-      <p class="lc-grid-desc">
-        {{ with .Description }}
-          {{ . | truncate 140 }}
-        {{ else }}
-          {{ .Summary | plainify | truncate 140 }}
-        {{ end }}
-      </p>
       <div class="lc-grid-bottom">
-        <a class="lc-grid-link" href="{{ .RelPermalink }}">Enter Ritual &rarr;</a>
+        <a class="lc-grid-link" href="{{ $page.RelPermalink }}">Enter Ritual &rarr;</a>
+        <span class="lc-grid-readtime">Interactive</span>
       </div>
     </article>
     {{ end }}
